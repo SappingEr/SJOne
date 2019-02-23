@@ -30,5 +30,6 @@ namespace SJOne.Models
         public virtual DateTime RegistrationDate { get; set; }
 
         public virtual IList<Race> Races { get; set; }
+        
     }
 }

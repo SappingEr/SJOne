@@ -18,6 +18,10 @@ namespace SJOne.Models
 
         public virtual DateTime TotalTime { get; set; }
 
+        public virtual RunningEvent RunningEvent { get; set; }
+
         public virtual IList<Judge> Judges { get; set; }
+
+        public virtual IList<Protocol> Protocols { get; set; } 
     }
 }

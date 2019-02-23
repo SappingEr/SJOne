@@ -14,7 +14,7 @@ namespace SJOne.Models.Mapping
             Map(a => a.City).Length(50);
             Map(a => a.Club).Length(50);
             Map(a => a.DOB);
-            Map(a => a.RegistrationDate);
+            Map(a => a.RegistrationDate);            
             HasManyToMany(a =>a.Races).Table("Race_Athlete")
                 .ParentKeyColumn("Race_Id")
                 .ChildKeyColumn("Athlete_Id");

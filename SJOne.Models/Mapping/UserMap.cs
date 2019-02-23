@@ -11,6 +11,7 @@ namespace SJOne.Models.Mapping
             Map(u => u.Email).Length(50);
             Map(u => u.Password).Length(350);
             Map(u => u.Status);
+            References(a => a.Judge);
             HasManyToMany(u => u.Roles).Table("User_Role")
                 .ParentKeyColumn("User_id")
                 .ChildKeyColumn("Role_id");

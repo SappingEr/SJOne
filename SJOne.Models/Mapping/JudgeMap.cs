@@ -10,6 +10,7 @@ namespace SJOne.Models.Mapping
             Map(j => j.Name).Length(50);
             Map(j => j.Surname).Length(50);
             References(j => j.Race);
+            HasMany(j => j.Users);
 
         }
     }

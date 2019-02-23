@@ -1,4 +1,6 @@
-﻿namespace SJOne.Models
+﻿using System.Collections.Generic;
+
+namespace SJOne.Models
 {
     public class Judge
     {
@@ -8,6 +10,9 @@
 
         public virtual string Surname { get; set; }
 
+        public virtual IList<User> Users { get; set; }
+
         public virtual Race Race { get; set; }
+
     }
 }

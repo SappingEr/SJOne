@@ -38,7 +38,7 @@ namespace SJOne.App_Start
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var connectionString = ConfigurationManager.ConnectionStrings["SJ_DB"];
+            var connectionString = ConfigurationManager.ConnectionStrings["SJ_Base"];
             if (connectionString == null)
             {
                 throw new Exception("Проверьте стоку соединения с базой данных");

@@ -33,3 +33,38 @@ C:\Users\Sap\Desktop\Новая папка (4)\SJOne\SJOne.Models\bin\Debug\Remo
 C:\Users\Sap\Desktop\Новая папка (4)\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csproj.CopyComplete
 C:\Users\Sap\Desktop\Новая папка (4)\SJOne\SJOne.Models\obj\Debug\SJOne.Models.dll
 C:\Users\Sap\Desktop\Новая папка (4)\SJOne\SJOne.Models\obj\Debug\SJOne.Models.pdb
+E:\Repos\SJOne\SJOne.Models\bin\Debug\SJOne.Models.dll.config
+E:\Repos\SJOne\SJOne.Models\bin\Debug\SJOne.Models.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\SJOne.Models.pdb
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Antlr3.Runtime.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\FluentNHibernate.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Iesi.Collections.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.Owin.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.Owin.Security.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Newtonsoft.Json.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\NHibernate.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Owin.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Remotion.Linq.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Remotion.Linq.EagerFetching.dll
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Antlr3.Runtime.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\FluentNHibernate.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Iesi.Collections.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.Owin.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.Owin.Security.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Newtonsoft.Json.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\NHibernate.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Remotion.Linq.xml
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Remotion.Linq.EagerFetching.xml
+E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csprojAssemblyReference.cache
+E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csproj.CoreCompileInputs.cache
+E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csproj.CopyComplete
+E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.dll
+E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.pdb

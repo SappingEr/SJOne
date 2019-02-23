@@ -14,6 +14,8 @@ namespace SJOne.Models
 
         public virtual string Description { get; set; }
 
+        public virtual DateTime EventDate { get; set; }
+
         public virtual IList<EventFile> EventFiles { get; set; }
 
         public virtual IList<Race> Races { get; set; }
