@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Athlete.cs" />
+    <Compile Include="AutoTiming.cs" />
     <Compile Include="EventFile.cs" />
     <Compile Include="FetchOptions.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
@@ -99,11 +100,13 @@
     <Compile Include="Judge.cs" />
     <Compile Include="Mapping\AthleteMap.cs" />
     <Compile Include="Mapping\EventFileMap.cs" />
+    <Compile Include="Mapping\AutoTimingMap.cs" />
+    <Compile Include="Mapping\HandTimingMap.cs" />
     <Compile Include="Mapping\JudgeMap.cs" />
     <Compile Include="Mapping\ProtocolMap.cs" />
     <Compile Include="Mapping\RaceMap.cs" />
     <Compile Include="Mapping\RoleMap.cs" />
-    <Compile Include="Mapping\RunningEventMap.cs" />
+    <Compile Include="Mapping\EventMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol.cs" />
@@ -115,8 +118,9 @@
     <Compile Include="Repositories\RepositoryAttribute.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Role.cs" />
-    <Compile Include="RunningEvent.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="HandTiming.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

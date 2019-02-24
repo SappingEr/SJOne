@@ -7,16 +7,12 @@ namespace SJOne.Models.Mapping
         public RaceMap()
         {
             Id(r => r.Id).GeneratedBy.Identity();
-            Map(r => r.LapCount);
-            Map(r => r.LapTime);
-            Map(r => r.TotalTime);
-            References(r => r.RunningEvent);
+            Map(r => r.Distance).Length(10);
+            Map(r => r.LapCount).Length(5);           
+            References(r => r.Event);
+            HasMany(r => r.Athletes);
             HasMany(r => r.Judges);
             HasMany(r => r.Protocols);
-            HasManyToMany(a => a.Athletes).Table("Race_Athlete")
-               .ParentKeyColumn("Athlete_Id")
-               .ChildKeyColumn("Race_Id");
-
         }
     }
 }

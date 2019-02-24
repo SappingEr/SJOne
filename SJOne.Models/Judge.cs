@@ -6,13 +6,14 @@ namespace SJOne.Models
     {
         public virtual long Id { get; set; }
 
-        public virtual string Name { get; set; }
+        public virtual string JudgeName { get; set; }
 
-        public virtual string Surname { get; set; }
+        public virtual string JudgeSurname { get; set; }
 
-        public virtual IList<User> Users { get; set; }
+        public virtual IList<Athlete> Athletes { get; set; }
 
-        public virtual Race Race { get; set; }
+        public virtual IList<HandTiming> HandTimings { get; set; }
 
+        public virtual IList<AutoTiming> AutoTimings { get; set; }
     }
 }

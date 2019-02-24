@@ -21,7 +21,6 @@ namespace SJOne.Models
         public virtual Status Status { get; set; }        
 
         public virtual IList<Role> Roles { get; set; }
-
-        public virtual Judge Judge { get; set; }
+        
     }
 }

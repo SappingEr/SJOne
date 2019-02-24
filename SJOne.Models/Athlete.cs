@@ -28,8 +28,10 @@ namespace SJOne.Models
 
         [DataType(DataType.Date)]
         public virtual DateTime RegistrationDate { get; set; }
-
-        public virtual IList<Race> Races { get; set; }
+        
+        public virtual Race Race { get; set; } 
+        
+        public virtual Judge Judge { get; set; }
         
     }
 }

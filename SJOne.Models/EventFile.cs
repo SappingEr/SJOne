@@ -8,6 +8,6 @@
 
         public virtual string FilePath { get; set; }
 
-        public virtual RunningEvent RunningEvent { get; set; }
+        public virtual Event RunningEvent { get; set; }
     }
 }

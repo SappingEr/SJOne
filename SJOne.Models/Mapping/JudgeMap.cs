@@ -1,4 +1,9 @@
 ﻿using FluentNHibernate.Mapping;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SJOne.Models.Mapping
 {
@@ -7,10 +12,11 @@ namespace SJOne.Models.Mapping
         public JudgeMap()
         {
             Id(j => j.Id).GeneratedBy.Identity();
-            Map(j => j.Name).Length(50);
-            Map(j => j.Surname).Length(50);
-            References(j => j.Race);
-            HasMany(j => j.Users);
+            Map(j => j.JudgeName).Length(50);
+            Map(j => j.JudgeSurname).Length(50);
+            HasMany(j => j.Athletes);
+            HasMany(j => j.HandTimings);
+            HasMany(j => j.AutoTimings);
 
         }
     }
