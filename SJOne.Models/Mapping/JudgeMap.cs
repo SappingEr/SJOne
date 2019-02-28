@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace SJOne.Models.Mapping
 {
-    public class JudgeMap: ClassMap<Judge>
+    public class JudgeMap: SubclassMap<Judge>
     {
         public JudgeMap()
-        {
-            Id(j => j.Id).GeneratedBy.Identity();
-            Map(j => j.JudgeName).Length(50);
-            Map(j => j.JudgeSurname).Length(50);
-            HasMany(j => j.Athletes);
+        {            
+            Map(j => j.CountAthlete).Length(3);            
+            HasMany(j => j.Users);
             HasMany(j => j.HandTimings);
             HasMany(j => j.AutoTimings);
+            HasMany(r => r.Protocols);
 
         }
     }

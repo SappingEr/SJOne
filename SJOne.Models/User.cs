@@ -20,7 +20,31 @@ namespace SJOne.Models
 
         public virtual Status Status { get; set; }        
 
-        public virtual IList<Role> Roles { get; set; }
+        public virtual byte[] Avatar { get; set; }
+
+        public virtual int StartNumber { get; set; }
+
+        public virtual Gender Gender { get; set; }
+
+        public virtual string Name { get; set; }
+
+        public virtual string Surname { get; set; }
+
+        public virtual string City { get; set; }
+
+        public virtual string Club { get; set; }
+
+        public virtual Race Race { get; set; }
+
+        public virtual Judge Judge { get; set; }
+
+        [DataType(DataType.Date)]
+        public virtual DateTime DOB { get; set; }
+
+        [DataType(DataType.Date)]
+        public virtual DateTime RegistrationDate { get; set; }
+
+        public virtual IList<Role> Roles { get; set; } = new List<Role>();
         
     }
 }

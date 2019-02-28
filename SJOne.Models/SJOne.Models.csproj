@@ -88,7 +88,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Athlete.cs" />
     <Compile Include="AutoTiming.cs" />
     <Compile Include="EventFile.cs" />
     <Compile Include="FetchOptions.cs" />
@@ -98,7 +97,6 @@
     <Compile Include="Filters\UserFilter.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Judge.cs" />
-    <Compile Include="Mapping\AthleteMap.cs" />
     <Compile Include="Mapping\EventFileMap.cs" />
     <Compile Include="Mapping\AutoTimingMap.cs" />
     <Compile Include="Mapping\HandTimingMap.cs" />

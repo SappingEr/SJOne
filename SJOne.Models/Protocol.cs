@@ -8,6 +8,6 @@
 
         public virtual string FilePath { get; set; }
 
-        public virtual Race Race { get; set; }
+        public virtual Judge Judge { get; set; }
     }
 }

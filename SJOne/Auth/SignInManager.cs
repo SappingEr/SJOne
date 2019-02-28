@@ -17,5 +17,7 @@ namespace SJOne.Auth
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
         }
+
+
     }
 }

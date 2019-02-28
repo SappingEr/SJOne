@@ -107,7 +107,10 @@ namespace SJOne.App_Start
                 var userManager = new UserManager(new IdentityStore(session));
 
                 var adminRole = new Role { Name = "Administrator" };
-                roleManager.Create(adminRole);                
+                roleManager.Create(adminRole);
+
+                var userRole = new Role { Name = "User" };
+                roleManager.Create(userRole);
 
                 var user = new User { UserName = "admin" };
 

@@ -8,7 +8,6 @@ namespace SJOne.Models.Mapping
         {
             Id(r => r.Id).GeneratedBy.Identity();
             Map(r => r.Name).Length(50);
-
             HasManyToMany(r => r.Users).Table("User_Role")
                .ParentKeyColumn("Role_id")
                .ChildKeyColumn("User_id");

@@ -10,9 +10,8 @@ namespace SJOne.Models.Mapping
             Map(r => r.Distance).Length(10);
             Map(r => r.LapCount).Length(5);           
             References(r => r.Event);
-            HasMany(r => r.Athletes);
-            HasMany(r => r.Judges);
-            HasMany(r => r.Protocols);
+            HasMany(r => r.Users);
+            HasMany(r => r.Judges);            
         }
     }
 }

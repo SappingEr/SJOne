@@ -12,14 +12,12 @@ namespace SJOne.Models
         
         public virtual double Distance { get; set; }       
 
-        public virtual int LapCount { get; set; }
+        public virtual int LapCount { get; set; }        
 
-        public virtual Event Event { get; set; }
-
-        public virtual IList<Athlete> Athletes { get; set; }          
+        public virtual IList<User> Users { get; set; }          
         
         public virtual IList<Judge> Judges { get; set; }
 
-        public virtual IList<Protocol> Protocols { get; set; } 
+        public virtual Event Event { get; set; }
     }
 }

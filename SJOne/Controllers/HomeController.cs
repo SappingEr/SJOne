@@ -8,7 +8,7 @@ namespace SJOne.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Start()
         {
             return View();
         }
