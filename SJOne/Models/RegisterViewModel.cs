@@ -11,7 +11,7 @@ namespace SJOne.Models
         [StringLength(50)]
         [Display(Name = "Логин")]
         [Required(ErrorMessage = "Введите Логин")]
-        public string Login { get; set; }        
+        public string Login { get; set; } 
 
         [StringLength(20)]
         [Display(Name = "Пароль")]

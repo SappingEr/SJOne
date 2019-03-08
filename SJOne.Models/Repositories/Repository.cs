@@ -20,9 +20,9 @@ namespace SJOne.Models.Repositories
             this.session = session;
         }
 
-        public virtual T Load(long id)
+        public virtual T Get(long id)
         {
-            return session.Load<T>(id);
+            return session.Get<T>(id);
         }
 
         public virtual void Save(T entity)

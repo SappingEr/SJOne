@@ -39,7 +39,7 @@ namespace SJOne.Models
         public virtual Judge Judge { get; set; }
 
         [DataType(DataType.Date)]
-        public virtual DateTime DOB { get; set; }
+        public virtual DateTime? DOB { get; set; }
 
         [DataType(DataType.Date)]
         public virtual DateTime RegistrationDate { get; set; }

@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.Owin;
 using SJOne.Models;
 using SJOne.Models.Repositories;
 using System;
+using Microsoft.AspNet.Identity;
 
 namespace SJOne.Controllers
 {
@@ -34,12 +35,13 @@ namespace SJOne.Controllers
         {
             if (ModelState.IsValid && !User.Identity.IsAuthenticated)
             {
-                var user = new User { UserName = registerModel.Login, RegistrationDate = DateTime.Now };
+                var user = new User { UserName = registerModel.Login };
                 var result = UserManager.CreateAsync(user, registerModel.Password);
 
                 if (result.Result.Succeeded)
                 {
                     UserManager.AddToRoleAsync(user.Id, "User");
+                    user.RegistrationDate = DateTime.Now;                    
                     user.Status = Status.Active;
                     SignInManager.SignIn(user, false, false);
                     return RedirectToAction("Start", "Home");
@@ -48,11 +50,10 @@ namespace SJOne.Controllers
                 {
                     foreach (var error in result.Result.Errors)
                     {
-                        ModelState.AddModelError("", "Возникла ошибка, введите данные заново");
+                        ModelState.AddModelError("", "Логин занят, введите данные заново");
                     }
                 }
             }
-
             return View(registerModel);
         }
 
@@ -95,6 +96,6 @@ namespace SJOne.Controllers
         {
             SignInManager.SignOut();
             return RedirectToAction("Start", "Home");
-        }
+        }        
     }
 }

@@ -18,7 +18,7 @@ namespace SJOne.Models.Mapping
             Map(u => u.Surname).Length(50);
             Map(u => u.City).Length(50);
             Map(u => u.Club).Length(50);
-            Map(u => u.DOB);
+            Map(u => u.DOB).Nullable();
             Map(u => u.RegistrationDate);
             References(u => u.Race);
             References(u => u.Judge);

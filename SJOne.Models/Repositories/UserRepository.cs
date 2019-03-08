@@ -72,7 +72,7 @@ namespace SJOne.Models.Repositories
             {
                 return null;
             }
-            return Load(userId);
+            return Get(userId);
         }
 
 
