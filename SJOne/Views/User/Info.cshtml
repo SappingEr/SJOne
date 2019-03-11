@@ -1,0 +1,130 @@
+﻿@model SJOne.Models.InfoUserViewModel
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = User.Identity.GetUserName();
+}
+
+
+
+<div class="col-md-offset-2 col-md-2">
+    <div id="modDialog" class="modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
+    </div>
+    <div>
+        @if (Model.Avatar != null)
+        {
+
+            <a class="uploadView" href="@Url.Action("UploadAvatar", "User", new { id = Model.Id })">
+                @Html.Raw("<img class='img-thumbnail' src=\"data:image/jpeg;base64,"
+            + Convert.ToBase64String(Model.Avatar) + "\" />")
+            </a>
+        }
+        else
+        {
+            <a href="@Url.Action("UploadAvatar", "User", new { id = Model.Id })"><img src="~/Content/Pic/avatar.png" class="img-thumbnail" /></a>
+        }
+    </div>
+
+    <div>
+
+    </div>
+</div>
+
+
+
+@if (Model.EmptyProp)
+{
+    <div class="well col-md-6">
+        <strong class="lead">Ваша личная карточка не заполнена | </strong>
+        <a class="btn btn-info" href="@Url.Action("Edit", "User", new { id = Model.Id })">
+            Заполнить
+            <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+
+    </div>
+    <div class="clearfix"></div>
+}
+else
+{
+    <div class="panel panel-default col-md-6">
+
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Surname)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Surname)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DOB)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DOB)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.City)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Club)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Club)
+            </dd>
+
+        </dl>
+    </div>
+    <div class="clearfix"></div>
+}
+
+
+@section Scripts {
+    <script>
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".uploadView").click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
+
+}

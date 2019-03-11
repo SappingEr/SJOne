@@ -80,23 +80,44 @@ namespace SJOne.Controllers
         [HttpGet]
         public ActionResult EditUserInfo(long id)
         {
-            var user = userRepository.Load(id);
+            var user = userRepository.Get(id);
             if (user != null)
             {
-                return PartialView(new UserViewModel { Entity = user, UserLogin = user.UserName });
+                return View(new EditUserViewModel
+                {
+                    Login = user.UserName,
+                    Email = user.Email,                    
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    City = user.City,
+                    Club = user.Club,
+                    DOB = user.DOB
+                });
             }
             return HttpNotFound();
         }
 
         [HttpPost]
-        public ActionResult EditUserInfo(long id, UserViewModel userView)
+        public ActionResult EditUserInfo(long id, EditUserViewModel userModel)
         {
             userRepository.InvokeInTransaction(() =>
             {
-                var user = userRepository.Load(id);
-                user.UserName = userView.UserLogin;
-                user.FIO = userView.Entity.FIO;
-                user.Email = userView.Entity.Email;
+                var user = userRepository.Get(id);
+                user.UserName = userModel.Login;
+                user.Email = userModel.Email;                
+                if (userModel.Gender == "Мужской")
+                {
+                    user.Gender = Gender.Male;
+                }
+                else if (userModel.Gender == "Женский")
+                {
+                    user.Gender = Gender.Female;
+                }
+                user.Name = userModel.Name;
+                user.Surname = userModel.Surname;
+                user.City = userModel.City;
+                user.Club = userModel.Club;
+                user.DOB = userModel.DOB;
             });
             return RedirectToAction("Info", new { id });
         }

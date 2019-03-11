@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 namespace SJOne.Models
 {
     public enum Gender
-    {
+    {        
         No,
-        Male,
+        Male,        
         Female
     }
 }

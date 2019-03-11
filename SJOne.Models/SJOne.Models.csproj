@@ -93,6 +93,7 @@
     <Compile Include="FetchOptions.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\DateRange.cs" />
+    <Compile Include="Filters\JudgeFilter.cs" />
     <Compile Include="Filters\Range.cs" />
     <Compile Include="Filters\UserFilter.cs" />
     <Compile Include="Gender.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Race.cs" />
     <Compile Include="Repositories\FastSearchAttribute.cs" />
     <Compile Include="Filters\RaceFilter.cs" />
+    <Compile Include="Repositories\JudgeRepository.cs" />
     <Compile Include="Repositories\RaceRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\RepositoryAttribute.cs" />
