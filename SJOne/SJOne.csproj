@@ -189,6 +189,7 @@
     <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\InfoUserViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\ManageJudgeViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -248,9 +249,9 @@
     <Content Include="Views\User\UploadAvatar.cshtml" />
     <Content Include="Views\User\EditUserInfo.cshtml" />
     <Content Include="Views\User\Info.cshtml" />
+    <Content Include="Views\Judge\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Judge\" />
     <Folder Include="Views\Race\" />
   </ItemGroup>
   <ItemGroup>

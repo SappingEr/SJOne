@@ -15,7 +15,7 @@ namespace SJOne.Models
 
         public virtual int Lap { get; set; }
         
-        public virtual DateTime LapTime { get; set; }  
+        public virtual DateTime? LapTime { get; set; }  
         
         public virtual Judge Judge { get; set; } 
     }

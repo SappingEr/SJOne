@@ -20,9 +20,7 @@ namespace SJOne.Models
 
         public virtual Status Status { get; set; }        
 
-        public virtual byte[] Avatar { get; set; }
-
-        public virtual int StartNumber { get; set; }
+        public virtual byte[] Avatar { get; set; }        
 
         public virtual Gender Gender { get; set; }
 
@@ -43,6 +41,8 @@ namespace SJOne.Models
 
         [DataType(DataType.Date)]
         public virtual DateTime RegistrationDate { get; set; }
+
+        public virtual IList<StartNumber> StartNumbers  { get; set; }
 
         public virtual IList<Role> Roles { get; set; } = new List<Role>();
         

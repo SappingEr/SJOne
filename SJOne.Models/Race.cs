@@ -18,6 +18,8 @@ namespace SJOne.Models
 
         public virtual IList<Judge> Judges { get; set; } = new List<Judge>();
 
+        public virtual IList<StartNumber> StartNumbers { get; set; } = new List<StartNumber>();
+
         public virtual Event Event { get; set; }
     }
 }
