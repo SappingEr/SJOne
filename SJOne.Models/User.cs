@@ -8,19 +8,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SJOne.Models
 {
-    public class User: IUser<long>
+    public class User : IUser<long>
     {
         public virtual long Id { get; set; }
-        
+
         public virtual string UserName { get; set; }
 
         public virtual string Email { get; set; }
 
         public virtual string Password { get; set; }
 
-        public virtual Status Status { get; set; }        
+        public virtual Status Status { get; set; }
 
-        public virtual byte[] Avatar { get; set; }        
+        public virtual byte[] Avatar { get; set; }
 
         public virtual Gender Gender { get; set; }
 
@@ -32,6 +32,8 @@ namespace SJOne.Models
 
         public virtual string Club { get; set; }
 
+        public virtual int StartNumber { get; set; }
+
         public virtual Race Race { get; set; }
 
         public virtual Judge Judge { get; set; }
@@ -42,9 +44,9 @@ namespace SJOne.Models
         [DataType(DataType.Date)]
         public virtual DateTime RegistrationDate { get; set; }
 
-        public virtual IList<StartNumber> StartNumbers  { get; set; }
+        public virtual IList<StartNumberHistory> StartNumbersHistory { get; set; }
 
         public virtual IList<Role> Roles { get; set; } = new List<Role>();
-        
+
     }
 }

@@ -21,6 +21,11 @@ namespace SJOne.Models.Repositories
             base.SetupFilter(filter, criteria);
             if (filter != null)
             {
+                if (!string.IsNullOrEmpty(filter.UserName))
+                {
+                    criteria.Add(Restrictions.Like("UserName", filter.Name, MatchMode.Anywhere));
+                }
+
                 if (!string.IsNullOrEmpty(filter.Name))
                 {
                     criteria.Add(Restrictions.Like("Name", filter.Name, MatchMode.Anywhere));

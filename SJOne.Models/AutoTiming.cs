@@ -1,8 +1,9 @@
-﻿using System;
+﻿using SJOne.Models.Interfaces;
+using System;
 
 namespace SJOne.Models
 {
-    public class AutoTiming
+    public class AutoTiming: ITiming
     {
         public virtual long Id { get; set; }
 
@@ -10,8 +11,12 @@ namespace SJOne.Models
 
         public virtual int Lap { get; set; }
 
-        public virtual DateTime LapTime { get; set; }
+        public virtual DateTime? LapTime { get; set; }
 
         public virtual Judge Judge { get; set; }
+
+        public virtual DateTime? Delay { get; set; }
+
+        
     }
 }

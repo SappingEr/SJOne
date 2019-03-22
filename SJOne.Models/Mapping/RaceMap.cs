@@ -11,8 +11,7 @@ namespace SJOne.Models.Mapping
             Map(r => r.LapCount).Length(5);           
             References(r => r.Event);
             HasMany(r => r.Users);
-            HasMany(r => r.Judges);
-            HasMany(r => r.StartNumbers);
+            HasMany(r => r.Judges);           
         }
     }
 }

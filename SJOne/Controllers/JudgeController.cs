@@ -11,24 +11,38 @@ namespace SJOne.Controllers
     public class JudgeController : BaseController
     {
         private JudgeRepository judgeRepository;
+        private RaceRepository raceRepository;
 
-        public JudgeController(JudgeRepository judgeRepository, UserRepository userRepository) : base(userRepository)
+        public JudgeController(JudgeRepository judgeRepository, UserRepository userRepository, RaceRepository raceRepository) : base(userRepository)
         {
             this.judgeRepository = judgeRepository;
+            this.raceRepository = raceRepository;
         }
 
         
         public ActionResult Manage(long id)
         {
-            var judge = judgeRepository.Get(id);
-            return View(judge);
+            var race = raceRepository.Get(id);            
+            return View(race);
         }
 
-        [HttpGet]
-        public ActionResult HTiming(HandTiming timing)
-        {
-            return View(timing);
-        }
+        //public ActionResult AddAthlete()
+        //{
+            
+        //}
+
+        //[HttpGet]
+        //public ActionResult HTiming(long id)
+        //{
+
+        //    return View(timing);
+        //}
+        //[HttpPost]
+        //public ActionResult HTiming()
+        //{
+
+        //}
+
 
         //[HttpPost]
         //public ActionResult HTiming(long id, int startNum)

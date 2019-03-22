@@ -6,6 +6,10 @@ namespace SJOne.Models
     {
         public virtual int CountAthlete { get; set; }
 
+        public virtual bool Online { get; set; }
+
+        public virtual bool CountFree { get; set; }
+
         public virtual IList<User> Users { get; set; } = new List<User>();
 
         public virtual IList<HandTiming> HandTimings { get; set; } = new List<HandTiming>();
