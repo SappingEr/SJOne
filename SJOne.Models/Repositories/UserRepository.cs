@@ -64,6 +64,14 @@ namespace SJOne.Models.Repositories
             return crit.List<User>();
         }
 
+        public IList<User> RaceAthletesList(Race race, UserFilter filter, FetchOptions options = null)
+        {
+            var crit = session.CreateCriteria<User>("c").Add(Restrictions.Eq("Race", race)).Add(Restrictions.In("c.StartNumbers", numbers));
+            SetupFilter(filter, crit);
+            SetupFetchOptions(crit, options);
+            return crit.List<User>();
+        }
+
         public User GetCurrentUser(IPrincipal user = null)
         {
             user = user ?? HttpContext.Current.User;

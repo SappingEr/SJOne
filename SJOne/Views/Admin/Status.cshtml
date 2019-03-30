@@ -1,0 +1,27 @@
+﻿@model Notification.Models.StatusViewModel
+
+<div class="modal-content">
+
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Статус пользователя</h4>
+        </div>
+
+        <div class="modal-body">           
+                @Html.EnumDropDownListFor(model => model.Status, new { @class = "form-control" })            
+        </div>
+        <br />
+        <div class="modal-footer">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-danger" />
+            </div>
+        </div>
+
+
+    }
+
+</div>

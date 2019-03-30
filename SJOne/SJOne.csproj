@@ -177,6 +177,7 @@
     <Compile Include="Auth\SignInManager.cs" />
     <Compile Include="Auth\UserManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JudgeController.cs" />
@@ -187,13 +188,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AvatarViewModel.cs" />
+    <Compile Include="Models\ChangePassViewModel.cs" />
     <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\InfoUserViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ManageJudgeViewModel.cs" />
     <Compile Include="Models\RaceAthleteListViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\SelectRolesViewModel.cs" />
     <Compile Include="Models\SortLinkModel.cs" />
+    <Compile Include="Models\StatusViewModel.cs" />
+    <Compile Include="Models\UserRolesViewModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +265,11 @@
     <Content Include="Views\Race\StartList.cshtml" />
     <Content Include="Views\Shared\SortLink.cshtml" />
     <Content Include="Views\Shared\SearchFilter.cshtml" />
+    <Content Include="Views\Admin\AddRoles.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\SearchFilter.cshtml" />
+    <Content Include="Views\Admin\Status.cshtml" />
+    <Content Include="Views\Admin\UserRoles.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

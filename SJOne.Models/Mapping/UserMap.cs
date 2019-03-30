@@ -22,7 +22,7 @@ namespace SJOne.Models.Mapping
             Map(u => u.RegistrationDate);
             References(u => u.Race);
             References(u => u.Judge);
-            HasMany(u => u.StartNumbersHistory);
+            HasMany(u => u.StartNumbers);
             HasManyToMany(u => u.Roles).Table("User_Role")
                 .ParentKeyColumn("User_id")
                 .ChildKeyColumn("Role_id");

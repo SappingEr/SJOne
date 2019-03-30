@@ -121,7 +121,7 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Event.cs" />
-    <Compile Include="StartNumberHistory.cs" />
+    <Compile Include="StartNumber.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="HandTiming.cs" />
     <Compile Include="User.cs" />

@@ -14,6 +14,8 @@ namespace SJOne.Models
 
         public virtual int LapCount { get; set; }
 
+        public virtual IList<StartNumber> StartNumbers { get; set; } = new List<StartNumber>();
+
         public virtual IList<User> Users { get; set; } = new List<User>();
 
         public virtual IList<Judge> Judges { get; set; } = new List<Judge>();        

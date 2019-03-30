@@ -2,10 +2,28 @@
 @using SJOne.Models.Filters
 @model SJOne.Models.RaceAthleteListViewModel
 
+@{
+    ViewBag.Title = "Стартовый список";
+}
+
+<h2>Стартовый список</h2>
+<hr />
+
+<div class="row">
+    <ul class="list-group col-md-4">
+        <li class="list-group-item">@Html.DisplayNameFor(model => model.AthleteCount) <span class="badge">@Html.DisplayFor(model => model.AthleteCount)</span></li>
+        <li class="list-group-item">@Html.DisplayNameFor(model => model.Distance) <span class="badge">@Html.DisplayFor(model => model.Distance)</span></li>
+        <li class="list-group-item">@Html.DisplayNameFor(model => model.LapCount) <span class="badge">@Html.DisplayFor(model => model.LapCount)</span></li>
+        <li class="list-group-item">@Html.DisplayNameFor(model => model.JudgeCount) <span class="badge">@Html.DisplayFor(model => model.JudgeCount)</span></li>
+    </ul>
+
+    <div class="col-md-offset-6">
+        <p>Поиск по имени и фамилии</p>
+        @Html.Partial("SearchFilter", new UserFilter())
+    </div>
+</div>
 
 
-
-<h2>Index</h2>
 <table class="table">
     <tr>
         <th>
@@ -31,72 +49,33 @@
 
     @foreach (var item in Model.Athletes)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Surname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DOB)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Club)
-        </td>
+        <tr>
+            <td>
+                @foreach (var i in item.StartNumbers)
+                {
+                    @i.Number
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Club)
+            </td>
 
-    </tr>
+        </tr>
     }
 
 </table>
-
-
-
-
-<div>
-    <h4>RaceAthleteListViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AthleteCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AthleteCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Distance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Distance)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LapCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LapCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.JudgeCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.JudgeCount)
-        </dd>
-
-    </dl>
-</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     @Html.ActionLink("Back to List", "Index")

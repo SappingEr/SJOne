@@ -13,6 +13,10 @@ namespace SJOne.Models.Repositories
         public RaceRepository(ISession session) :
             base(session)
         {
+
+
+
+
         }
     }
 }

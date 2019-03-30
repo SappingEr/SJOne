@@ -1,4 +1,5 @@
 ﻿using SJOne.Models;
+using SJOne.Models.Filters;
 using SJOne.Models.Repositories;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,10 @@ namespace SJOne.Controllers
         }
 
 
-        public ActionResult StartList(long id, RaceAthleteListViewModel model)
+        public ActionResult StartList(long id, RaceAthleteListViewModel model, UserFilter userFilter, FetchOptions options)
         {
             var race = raceRepository.Get(id);
-            var athleteList = race.Users.ToList();
+            var athleteList = userRepository.RaceAthletesList(race, userFilter, options);
             model.Athletes = athleteList;
             model.AthleteCount = athleteList.Count;
             model.JudgeCount = Convert.ToInt32(Math.Ceiling(athleteList.Count / 10.0));

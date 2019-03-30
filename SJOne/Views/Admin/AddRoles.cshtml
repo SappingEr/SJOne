@@ -1,0 +1,27 @@
+﻿@model Notification.Models.SelectRolesViewModel
+
+<div class="modal-content">
+
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Добавить роли</h4>
+        </div>
+        <hr />
+        <div class="modal-body">
+            @Html.ListBoxFor(model => model.RoleName, Model.RoleList, new { @class = "form-control" })
+        </div>
+
+        <div class="modal-footer">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Добавить" class="btn btn-success" />
+            </div>
+        </div>
+
+
+    }
+
+</div>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using SJOne.Models.Repositories;
 
 namespace SJOne.Models
 {
@@ -12,6 +13,7 @@ namespace SJOne.Models
     {
         public virtual long Id { get; set; }
 
+        [FastSearch]
         public virtual string UserName { get; set; }
 
         public virtual string Email { get; set; }
@@ -24,8 +26,10 @@ namespace SJOne.Models
 
         public virtual Gender Gender { get; set; }
 
+        [FastSearch]
         public virtual string Name { get; set; }
 
+        [FastSearch]
         public virtual string Surname { get; set; }
 
         public virtual string City { get; set; }
@@ -44,7 +48,7 @@ namespace SJOne.Models
         [DataType(DataType.Date)]
         public virtual DateTime RegistrationDate { get; set; }
 
-        public virtual IList<StartNumberHistory> StartNumbersHistory { get; set; }
+        public virtual IList<StartNumber> StartNumbers { get; set; } = new List<StartNumber>();
 
         public virtual IList<Role> Roles { get; set; } = new List<Role>();
 
