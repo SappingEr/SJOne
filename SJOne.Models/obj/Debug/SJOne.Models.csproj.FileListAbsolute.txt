@@ -68,3 +68,4 @@ E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csproj.CoreCompileInputs.cach
 E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csproj.CopyComplete
 E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.dll
 E:\Repos\SJOne\SJOne.Models\obj\Debug\SJOne.Models.pdb
+E:\Repos\SJOne\SJOne.Models\bin\Debug\Newtonsoft.Json.pdb

@@ -34,9 +34,7 @@ namespace SJOne.Models
 
         public virtual string City { get; set; }
 
-        public virtual string Club { get; set; }
-
-        public virtual int StartNumber { get; set; }
+        public virtual string Club { get; set; }        
 
         public virtual Race Race { get; set; }
 

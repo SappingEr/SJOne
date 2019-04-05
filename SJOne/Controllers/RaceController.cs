@@ -22,7 +22,7 @@ namespace SJOne.Controllers
 
         public ActionResult StartList(long id, RaceAthleteListViewModel model, UserFilter userFilter, FetchOptions options)
         {
-            var race = raceRepository.Get(id);
+            var race = raceRepository.Get(id);            
             var athleteList = userRepository.RaceAthletesList(race, userFilter, options);
             model.Athletes = athleteList;
             model.AthleteCount = athleteList.Count;
