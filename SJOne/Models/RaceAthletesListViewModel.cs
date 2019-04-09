@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SJOne.Models
 {
-    public class RaceAthleteListViewModel
+    public class RaceAthletesListViewModel
     {
         [Display(Name = "Количество участников")]
         public int AthleteCount { get; set; }

@@ -34,9 +34,9 @@ namespace SJOne.Models
 
         public virtual string City { get; set; }
 
-        public virtual string Club { get; set; }        
+        public virtual string Club { get; set; }
 
-        public virtual Race Race { get; set; }
+        public virtual IList<Race> Races { get; set; } = new List<Race>();
 
         public virtual Judge Judge { get; set; }
 

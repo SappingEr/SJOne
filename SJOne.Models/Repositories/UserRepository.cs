@@ -64,11 +64,21 @@ namespace SJOne.Models.Repositories
             return crit.List<User>();
         }
 
+        public IList<User> JudgeAthletesList(Race race, Judge judge)
+        {
+            var crit = session.CreateCriteria<User>()
+                .Add(Restrictions.Eq("Judge", judge))
+                .CreateCriteria("StartNumbers", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
+            .Add(Restrictions.Eq("Race", race));
+            return crit.List<User>();
+        }
+
         public IList<User> RaceAthletesList(Race race, UserFilter filter, FetchOptions options = null)
         {
-            var crit = session.CreateCriteria<User>().Add(Restrictions.Eq("Race", race));
+            var crit = session.CreateCriteria<User>()
+                .Add(Restrictions.Eq("Race", race));
             SetupFilter(filter, crit);
-            SetupFetchOptions(crit, options);
+            SetupFetchOptions(crit, options);            
             return crit.List<User>();
         }
 

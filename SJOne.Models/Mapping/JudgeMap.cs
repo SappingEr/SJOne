@@ -11,9 +11,9 @@ namespace SJOne.Models.Mapping
     {
         public JudgeMap()
         {            
-            Map(j => j.CountAthlete).Length(3);
-            Map(j => j.Online);
-            Map(j => j.CountFree);
+            Map(j => j.CountAthlete).Length(2);
+            Map(j => j.Ready);
+            References(j => j.Race);
             HasMany(j => j.Users);
             HasMany(j => j.HandTimings);
             HasMany(j => j.AutoTimings);

@@ -19,36 +19,22 @@ namespace SJOne.Controllers
             this.raceRepository = raceRepository;
         }
 
-        
-        public ActionResult Manage(long id)
+
+        public ActionResult JudgeList(long id, JudgeAthletesListViewModel model)
         {
-            var race = raceRepository.Get(id);            
-            return View(race);
+            var judge = judgeRepository.Get(id);
+            var race = judge.Race;            
+            model.Athletes = userRepository.JudgeAthletesList(race, judge);
+            model.AthleteCount = judge.Users.Count;
+            return View(model);
         }
 
-        //public ActionResult AddAthlete()
-        //{
-            
-        //}
-
-        //[HttpGet]
-        //public ActionResult HTiming(long id)
-        //{
-
-        //    return View(timing);
-        //}
-        //[HttpPost]
-        //public ActionResult HTiming()
-        //{
-
-        //}
-
-
-        //[HttpPost]
-        //public ActionResult HTiming(long id, int startNum)
-        //{
-        //    var judge = judgeRepository.Get(id);
-        //    judge.Race.
-        //}
+        public ActionResult Num(long id)
+        {
+            var judge = judgeRepository.Get(id);
+            var race = judge.Race;
+            var num = judgeRepository.GetStartNumbers(judge);
+            return View(num);
+        }
     }
 }

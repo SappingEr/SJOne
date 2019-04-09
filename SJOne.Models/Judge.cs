@@ -6,9 +6,9 @@ namespace SJOne.Models
     {
         public virtual int CountAthlete { get; set; }
 
-        public virtual bool Online { get; set; }
-
-        public virtual bool CountFree { get; set; }
+        public virtual bool Ready { get; set; }
+        
+        public override Race Race { get; set; }
 
         public virtual IList<User> Users { get; set; } = new List<User>();
 

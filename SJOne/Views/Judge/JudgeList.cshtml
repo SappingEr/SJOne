@@ -1,0 +1,54 @@
+﻿@model SJOne.Models.JudgeAthletesListViewModel
+
+@{
+    ViewBag.Title = "Стартовый список";
+}
+
+
+<h2>Стартовый список судьи</h2>
+
+<br />
+
+@*<div class="row">*@
+    <ul class="list-group col-md-4">
+        <li class="list-group-item">@Html.DisplayNameFor(model => model.AthleteCount) <span class="badge">@Html.DisplayFor(model => model.AthleteCount)</span></li>
+    </ul>
+@*</div>*@
+
+
+<table class="table">
+    <tr>
+        <th>
+            Стартовый №
+        </th>
+
+        <th>
+            Имя
+        </th>
+
+        <th>
+            Фамилия
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Athletes)
+    {
+        <tr>
+            <td>
+                @foreach (var i in item.StartNumbers)
+                {
+                    @i.Number
+                }
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+        </tr>
+    }
+
+</table>

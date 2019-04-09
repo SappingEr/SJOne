@@ -14,9 +14,6 @@ namespace SJOne.Models.Repositories
             base(session)
         {
 
-
-
-
         }
     }
 }

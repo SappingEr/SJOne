@@ -193,11 +193,12 @@
     <Compile Include="Models\InfoUserViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ManageJudgeViewModel.cs" />
-    <Compile Include="Models\RaceAthleteListViewModel.cs" />
+    <Compile Include="Models\RaceAthletesListViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\SelectRolesViewModel.cs" />
     <Compile Include="Models\SortLinkModel.cs" />
     <Compile Include="Models\StatusViewModel.cs" />
+    <Compile Include="Models\JudgeAthletesListViewModel.cs" />
     <Compile Include="Models\UserRolesViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -260,7 +261,6 @@
     <Content Include="Views\User\UploadAvatar.cshtml" />
     <Content Include="Views\User\EditUserInfo.cshtml" />
     <Content Include="Views\User\Info.cshtml" />
-    <Content Include="Views\Judge\Index.cshtml" />
     <Content Include="Views\Judge\Manage.cshtml" />
     <Content Include="Views\Race\StartList.cshtml" />
     <Content Include="Views\Shared\SortLink.cshtml" />
@@ -270,6 +270,8 @@
     <Content Include="Views\Admin\SearchFilter.cshtml" />
     <Content Include="Views\Admin\Status.cshtml" />
     <Content Include="Views\Admin\UserRoles.cshtml" />
+    <Content Include="Views\Judge\JudgeList.cshtml" />
+    <Content Include="Views\Judge\Num.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

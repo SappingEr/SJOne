@@ -18,10 +18,12 @@ namespace SJOne.Models.Mapping
             Map(u => u.City).Length(50);
             Map(u => u.Club).Length(50);            
             Map(u => u.DOB).Nullable();
-            Map(u => u.RegistrationDate);
-            References(u => u.Race);
+            Map(u => u.RegistrationDate);            
             References(u => u.Judge);
             HasMany(u => u.StartNumbers);
+            HasManyToMany(u => u.Races).Table("User_Rase")
+                .ParentKeyColumn("User_id")
+                .ChildKeyColumn("Race_id"); ;
             HasManyToMany(u => u.Roles).Table("User_Role")
                 .ParentKeyColumn("User_id")
                 .ChildKeyColumn("Role_id");

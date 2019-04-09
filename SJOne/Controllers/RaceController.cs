@@ -20,11 +20,11 @@ namespace SJOne.Controllers
         }
 
 
-        public ActionResult StartList(long id, RaceAthleteListViewModel model, UserFilter userFilter, FetchOptions options)
+        public ActionResult StartList(long id, RaceAthletesListViewModel model, UserFilter userFilter, FetchOptions options)
         {
             var race = raceRepository.Get(id);            
             var athleteList = userRepository.RaceAthletesList(race, userFilter, options);
-            model.Athletes = athleteList;
+            model.Athletes = race.Users;/*athleteList*/;
             model.AthleteCount = athleteList.Count;
             model.JudgeCount = Convert.ToInt32(Math.Ceiling(athleteList.Count / 10.0));
             model.Distance = race.Distance;
