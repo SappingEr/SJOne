@@ -14,7 +14,7 @@ namespace SJOne.Models.Mapping
             Map(j => j.CountAthlete).Length(2);
             Map(j => j.Ready);
             References(j => j.Race);
-            HasMany(j => j.Users);
+            HasMany(j => j.StartNumbers);
             HasMany(j => j.HandTimings);
             HasMany(j => j.AutoTimings);
             HasMany(r => r.Protocols);

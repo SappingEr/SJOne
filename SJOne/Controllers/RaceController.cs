@@ -19,12 +19,13 @@ namespace SJOne.Controllers
             this.raceRepository = raceRepository;
         }
 
-
+        
         public ActionResult StartList(long id, RaceAthletesListViewModel model, UserFilter userFilter, FetchOptions options)
         {
-            var race = raceRepository.Get(id);            
-            var athleteList = userRepository.RaceAthletesList(race, userFilter, options);
-            model.Athletes = race.Users;/*athleteList*/;
+            var race = raceRepository.Get(id);
+            long[] userId = race.Users.Select(i=>i.Id).ToArray();
+            var athleteList = userRepository.RaceAthletesList(userId, race, userFilter, options);
+            model.Athletes = athleteList;
             model.AthleteCount = athleteList.Count;
             model.JudgeCount = Convert.ToInt32(Math.Ceiling(athleteList.Count / 10.0));
             model.Distance = race.Distance;

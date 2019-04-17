@@ -11,11 +11,12 @@ namespace SJOne.Models.Mapping
     {
         public AutoTimingMap()
         {
-            Id(h => h.Id).GeneratedBy.Identity();
-            Map(h => h.StartNumber).Length(10);
-            Map(h => h.Lap).Length(5);
-            Map(h => h.LapTime);
-            References(h => h.Judge);
+            Id(a => a.Id).GeneratedBy.Identity();            
+            Map(a => a.Lap).Length(5);            
+            Map(a => a.LapTime);
+            Map(a => a.TotalTime);
+            References(a => a.Judge);
+            References(a => a.StartNumber);
         }
     }
 }

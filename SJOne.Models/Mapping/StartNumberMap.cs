@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace SJOne.Models.Mapping
 {
-    public class StartNumberHistoryMap : ClassMap<StartNumber>
+    public class StartNumberMap : ClassMap<StartNumber>
     {
-        public StartNumberHistoryMap()
+        public StartNumberMap()
         {
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Number).Length(5);
             References(s => s.User);
             References(s => s.Race);
+            References(s => s.Judge);
+            HasMany(s => s.HandTimings);
         }
     }
 }

@@ -10,12 +10,14 @@ namespace SJOne.Models.Interfaces
     {
         long Id { get; set; }
 
-        int StartNumber { get; set; }
+        StartNumber StartNumber { get; set; }
 
         int Lap { get; set; }
 
         DateTime? LapTime { get; set; }
 
-        DateTime? Delay { get; set; }
+        DateTime? TotalTime { get; set; }
+
+        
     }
 }

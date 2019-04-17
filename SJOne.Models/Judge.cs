@@ -8,9 +8,9 @@ namespace SJOne.Models
 
         public virtual bool Ready { get; set; }
         
-        public override Race Race { get; set; }
+        public virtual Race Race { get; set; }
 
-        public virtual IList<User> Users { get; set; } = new List<User>();
+        public override IList<StartNumber> StartNumbers { get; set; } = new List<StartNumber>();
 
         public virtual IList<HandTiming> HandTimings { get; set; } = new List<HandTiming>();
 

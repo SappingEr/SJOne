@@ -13,10 +13,11 @@ namespace SJOne.Models.Repositories
         {
         }
 
-        public IList<StartNumber> GetStartNumbers(Judge judge)
+        public IList<StartNumber> GetTimings()
         {
             var crit = session.CreateCriteria<StartNumber>()
-                .Add(Restrictions.Eq("Judge", judge));
+                .CreateCriteria("HandTimings")
+                .SetProjection(Projections.Max("Lap"));
             return crit.List<StartNumber>();
         }
     }

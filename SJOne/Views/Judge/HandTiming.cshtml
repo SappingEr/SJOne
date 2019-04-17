@@ -1,0 +1,15 @@
+﻿@model SJOne.Models.HandTimingIndexViewModel
+
+@{
+    ViewBag.Title = "HandTiming";
+}
+
+<h2>HandTiming</h2>
+
+
+
+
+@foreach (var item in Model.HandTimings)
+{
+    <button type="button" class="btn-lg btn-primary">@item.StartNumber.Number <span class="badge">@item.Lap</span></button>
+}

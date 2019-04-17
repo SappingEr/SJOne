@@ -11,11 +11,13 @@ namespace SJOne.Models.Mapping
     {
         public HandTimingMap()
         {
-            Id(h => h.Id).GeneratedBy.Identity();
-            Map(h => h.StartNumber).Length(10);
+            Id(h => h.Id).GeneratedBy.Identity();            
             Map(h => h.Lap).Length(5);
             Map(h => h.LapTime);
+            Map(h => h.TotalTime);
+            Map(h => h.TimerDelay);            
             References(h => h.Judge);
+            References(h => h.StartNumber);
         }
     }
 }
