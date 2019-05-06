@@ -9,12 +9,14 @@ namespace SJOne.Models
 
         public virtual int Lap { get; set; }
 
-        public virtual DateTime? LapTime { get; set; }
+        public virtual TimeSpan? LapTime { get; set; }
 
-        public virtual DateTime? TotalTime { get; set; }
+        public virtual TimeSpan? TotalTime { get; set; }
 
         public virtual StartNumber StartNumber { get; set; }
 
         public virtual Judge Judge { get; set; }
+
+        public virtual DateTime? TimeStamp { get; set; }
     }
 }

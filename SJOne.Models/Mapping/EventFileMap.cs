@@ -6,7 +6,7 @@ namespace SJOne.Models.Mapping
     {
         public EventFileMap()
         {
-            Id(f => f.Id).GeneratedBy.Identity();
+            Id(f => f.Id);
             Map(f => f.FileName).Length(100);
             Map(f => f.FilePath).Length(100);
             References(f => f.RunningEvent);

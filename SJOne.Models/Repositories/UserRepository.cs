@@ -64,24 +64,22 @@ namespace SJOne.Models.Repositories
             return crit.List<User>();
         }
 
-        public IList<User> JudgeAthletesList(Judge judge, Race race)
+        public IList<User> RaceAthletesList(long[] userId, Race race, UserFilter filter, FetchOptions options = null)
         {
             var crit = session.CreateCriteria<User>()
-                .Add(Restrictions.Eq("Judge", judge))
-                .CreateCriteria("StartNumbers", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
+                .Add(Restrictions.In("Id", userId));
+            SetupFilter(filter, crit);
+            SetupFetchOptions(crit, options);
+            crit.CreateCriteria("StartNumbersU", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
             .Add(Restrictions.Eq("Race", race));
             return crit.List<User>();
         }
 
-
-        public IList<User> RaceAthletesList(long[] userId, Race race, UserFilter filter, FetchOptions options = null)
+         public IList<User> JudgeAthletesList(Judge judge)
         {
-            var crit = session.CreateCriteria<User>()
-                .Add(Restrictions.In("Id", userId));            
-            SetupFilter(filter, crit);
-            SetupFetchOptions(crit, options);
-            crit.CreateCriteria("StartNumbers", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
-            .Add(Restrictions.Eq("Race", race));
+            var crit = session.CreateCriteria<StartNumber>()
+                .Add(Restrictions.Eq("Judge", judge))
+                .CreateCriteria("StartNumbersJ", NHibernate.SqlCommand.JoinType.LeftOuterJoin);
             return crit.List<User>();
         }
 

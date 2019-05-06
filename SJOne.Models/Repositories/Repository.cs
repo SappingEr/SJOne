@@ -25,6 +25,13 @@ namespace SJOne.Models.Repositories
             return session.Get<T>(id);
         }
 
+        public virtual T Load(long id)
+        {
+            return session.Load<T>(id);
+        }
+
+
+
         public virtual void Save(T entity)
         {
             session.Save(entity);
@@ -37,6 +44,11 @@ namespace SJOne.Models.Repositories
                 action.Invoke();
                 tr.Commit();
             }
+        }
+
+        public void Flush()
+        {
+            session.Flush();
         }
 
         public virtual void Delete(T entity)

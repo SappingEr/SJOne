@@ -1,0 +1,12 @@
+﻿@model SJOne.Models.ButtonListViewModel
+
+
+@foreach (var item in Model.HandTimings)
+{
+    <button type="button" class="btn-lg btn-primary">@item.StartNumber.Number <span class="badge">@item.Lap</span></button>
+}
+
+
+
+
+

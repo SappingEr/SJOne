@@ -46,7 +46,7 @@ namespace SJOne.Models
         [DataType(DataType.Date)]
         public virtual DateTime RegistrationDate { get; set; }
 
-        public virtual IList<StartNumber> StartNumbers { get; set; } = new List<StartNumber>();
+        public virtual IList<StartNumber> StartNumbersU { get; set; } = new List<StartNumber>();
 
         public virtual IList<Role> Roles { get; set; } = new List<Role>();
 

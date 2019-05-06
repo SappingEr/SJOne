@@ -18,6 +18,6 @@ namespace SJOne.Models
         
         public virtual Race Race { get; set; }
 
-        public virtual IList<HandTiming> HandTimings { get; set; } = new List<HandTiming>();
+        public virtual IList<HandTiming> HandTimingsN { get; set; } = new List<HandTiming>();
     }
 }

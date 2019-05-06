@@ -1,0 +1,19 @@
+﻿@model SJOne.Models.StartViewModel
+
+@{
+    ViewBag.Title = "На Старт";
+}
+
+@if (User.Identity.Name == Model.Judge.UserName && User.IsInRole("Judge"))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@Model.Judge.Name @Model.Judge.Surname</div>
+        <div class="panel-body">
+            @foreach (var j in Model.Judges)
+            {
+                @j.Name @j.Surname
+            }
+        </div>
+    </div>
+}
+

@@ -1,9 +1,4 @@
 ﻿using FluentNHibernate.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SJOne.Models.Mapping
 {
@@ -11,11 +6,11 @@ namespace SJOne.Models.Mapping
     {
         public HandTimingMap()
         {
-            Id(h => h.Id).GeneratedBy.Identity();            
+            Id(h => h.Id).GeneratedBy.Increment();            
             Map(h => h.Lap).Length(5);
             Map(h => h.LapTime);
             Map(h => h.TotalTime);
-            Map(h => h.TimerDelay);            
+            Map(h => h.TimeStamp);
             References(h => h.Judge);
             References(h => h.StartNumber);
         }

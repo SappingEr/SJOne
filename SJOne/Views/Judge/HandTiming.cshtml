@@ -1,4 +1,5 @@
-﻿@model SJOne.Models.HandTimingIndexViewModel
+﻿@model SJOne.Models.HandTimingViewModel
+
 
 @{
     ViewBag.Title = "HandTiming";
@@ -8,8 +9,43 @@
 
 
 
+    <div class="col-md-2">
+        <button type="button" class="btn">Basic</button>
+    </div>
 
-@foreach (var item in Model.HandTimings)
-{
-    <button type="button" class="btn-lg btn-primary">@item.StartNumber.Number <span class="badge">@item.Lap</span></button>
+
+
+
+
+<hr />
+
+<div id="buttonList">
+    @{
+        @Html.Partial("ButtonList", @Model.Id);
+    }
+
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('.btn').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("HandTiming", "Judge")',
+                data: { id: '@Model.Id', start: true }
+                
+            });
+        });
+    });
+    </script>
 }
+
+
+
+
+
+
+
+

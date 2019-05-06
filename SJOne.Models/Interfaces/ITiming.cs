@@ -14,10 +14,11 @@ namespace SJOne.Models.Interfaces
 
         int Lap { get; set; }
 
-        DateTime? LapTime { get; set; }
+        TimeSpan? LapTime { get; set; }
 
-        DateTime? TotalTime { get; set; }
+        TimeSpan? TotalTime { get; set; }
 
+        DateTime? TimeStamp { get; set; }
         
     }
 }

@@ -11,12 +11,12 @@ namespace SJOne.Models.Mapping
     {
         public StartNumberMap()
         {
-            Id(s => s.Id).GeneratedBy.Identity();
+            Id(s => s.Id);
             Map(s => s.Number).Length(5);
             References(s => s.User);
             References(s => s.Race);
             References(s => s.Judge);
-            HasMany(s => s.HandTimings);
+            HasMany(s => s.HandTimingsN);
         }
     }
 }

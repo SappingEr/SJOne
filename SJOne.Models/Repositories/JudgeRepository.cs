@@ -7,18 +7,19 @@ using System.Collections.Generic;
 namespace SJOne.Models.Repositories
 {
     [Repository]
-    public class JudgeRepository : Repository<Judge, JudgeFilter>
+    public class JudgeRepository :  Repository<Judge, JudgeFilter>
     {
         public JudgeRepository(ISession session) : base(session)
-        {
+        {            
         }
 
-        public IList<StartNumber> GetTimings()
+        public IList<User> JudgeAthletesList(Judge judge)
         {
-            var crit = session.CreateCriteria<StartNumber>()
-                .CreateCriteria("HandTimings")
-                .SetProjection(Projections.Max("Lap"));
-            return crit.List<StartNumber>();
+            var crit = session.CreateCriteria<User>()
+                .Add(Restrictions.Eq("Judge", judge))
+                .CreateCriteria("StartNumbersJ");
+            return crit.List<User>();
         }
+
     }
 }

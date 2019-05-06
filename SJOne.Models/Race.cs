@@ -12,9 +12,9 @@ namespace SJOne.Models
         
         public virtual double Distance { get; set; }       
 
-        public virtual int LapCount { get; set; }
+        public virtual int LapCount { get; set; }        
 
-        public virtual IList<StartNumber> StartNumbers { get; set; } = new List<StartNumber>();
+        public virtual IList<StartNumber> StartNumbersR { get; set; } = new List<StartNumber>();
 
         public virtual IList<User> Users { get; set; } = new List<User>();
 

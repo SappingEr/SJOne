@@ -11,7 +11,7 @@ namespace SJOne.Models.Mapping
     {
         public EventMap()
         {
-            Id(e => e.Id).GeneratedBy.Identity();
+            Id(e => e.Id);
             Map(e => e.EventName).Length(300);
             Map(e => e.Description).Length(int.MaxValue);
             Map(e => e.EventDate);
