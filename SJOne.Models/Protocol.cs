@@ -1,12 +1,14 @@
-﻿namespace SJOne.Models
+﻿using SJOne.Models.Interfaces;
+
+namespace SJOne.Models
 {
     public class Protocol
     {
         public virtual long Id { get; set; }
 
-        public virtual string ProtocolName { get; set; }
+        public virtual string Name { get; set; }
 
-        public virtual string FilePath { get; set; }
+        public virtual byte[] ProtocolStream { get; set; }
 
         public virtual Judge Judge { get; set; }
     }

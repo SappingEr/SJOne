@@ -48,7 +48,6 @@ namespace SJOne.Controllers
                     user.Status = statusItem.Status;
                 });
             }
-
             return RedirectToAction("Index", "Admin");
         }
 
@@ -91,7 +90,7 @@ namespace SJOne.Controllers
                 UserManager.UpdateAsync(user);
                 return RedirectToAction("UserRoles", new { model.Id });
             }
-            return RedirectToAction("UserRoles", new { model.Id });
+            return RedirectToAction("UserRoles", "Admin", new { model.Id });
         }
 
         public ActionResult DeleteRole(long id, string role)
@@ -100,9 +99,9 @@ namespace SJOne.Controllers
             if (role != "Guest")
             {
                 UserManager.RemoveFromRole(user.Id, role);
-                return RedirectToAction("UserRoles", new { id });
+                return RedirectToAction("UserRoles", "Admin", new { id });
             }
-            return RedirectToAction("UserRoles", new { id });
+            return RedirectToAction("UserRoles", "Admin", new { id });
 
 
 

@@ -8,7 +8,11 @@ namespace SJOne.Models
 {
     public class Race
     {
-        public virtual long Id { get; set; }
+        public virtual long Id { get; set; }   
+        
+        public virtual string Name { get; set; }
+
+        public virtual int StartNumberCount { get; set; }
         
         public virtual double Distance { get; set; }       
 
@@ -20,6 +24,6 @@ namespace SJOne.Models
 
         public virtual IList<Judge> Judges { get; set; } = new List<Judge>();        
 
-        public virtual Event Event { get; set; }
+        public virtual SportEvent SportEvent { get; set; }
     }
 }

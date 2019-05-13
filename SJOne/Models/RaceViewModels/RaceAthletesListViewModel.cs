@@ -8,6 +8,8 @@ namespace SJOne.Models
 {
     public class RaceAthletesListViewModel
     {
+        public long Id { get; set; }
+
         [Display(Name = "Количество участников")]
         public int AthleteCount { get; set; }
 

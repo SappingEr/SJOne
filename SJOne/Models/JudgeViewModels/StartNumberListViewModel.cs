@@ -7,11 +7,13 @@ using System.Web;
 
 namespace SJOne.Models
 {
-    public class JudgeAthletesListViewModel
+    public class StartNumberListViewModel
     {
+        public long Id { get; set; }
+
         [Display(Name = "Количество участников")]
-        public int AthleteCount { get; set; }
-        public IList<User> Athletes { get; set; } = new List<User>();      
+        public int NumCount { get; set; }
+        public IList<StartNumber> StartNumbers { get; set; } = new List<StartNumber>();      
 
     }
 }

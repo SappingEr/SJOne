@@ -94,7 +94,7 @@ namespace SJOne.Controllers
                     DOB = user.DOB
                 });
             }
-            return HttpNotFound();
+            return HttpNotFound("Пользователь не найден");
         }
 
         [HttpPost]

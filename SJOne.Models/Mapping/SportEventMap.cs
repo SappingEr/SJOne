@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace SJOne.Models.Mapping
 {
-    public class EventMap: ClassMap<Event>
+    public class SportEventMap: ClassMap<SportEvent>
     {
-        public EventMap()
+        public SportEventMap()
         {
             Id(e => e.Id);
-            Map(e => e.EventName).Length(300);
+            Map(e => e.EventName).Length(150);
             Map(e => e.Description).Length(int.MaxValue);
             Map(e => e.EventDate);
             HasMany(e => e.EventFiles);
-            HasMany(e => e.Races);
+            HasMany(e => e.RacesEvent);
+            HasManyToMany(e=>e.Tags).Table("SportEvent_Tag").ParentKeyColumn("SportEvent_id")
+                .ChildKeyColumn("Tag_id");
 
         }
 

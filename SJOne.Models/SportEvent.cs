@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace SJOne.Models
 {
-    public class Event
+    public class SportEvent
     {
         public virtual long Id { get; set; }
 
@@ -14,10 +12,15 @@ namespace SJOne.Models
 
         public virtual string Description { get; set; }
 
+        [DataType(DataType.Date)]
         public virtual DateTime EventDate { get; set; }
 
         public virtual IList<EventFile> EventFiles { get; set; }
 
-        public virtual IList<Race> Races { get; set; }
+        public virtual IList<EventPhoto> EventPhotos { get; set; }
+
+        public virtual IList<Tag> Tags { get; set; }
+
+        public virtual IList<Race> RacesEvent { get; set; }
     }
 }

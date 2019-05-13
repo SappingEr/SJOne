@@ -23,20 +23,24 @@ namespace SJOne.Controllers
         }
 
 
-        public ActionResult JudgeList(long id, JudgeAthletesListViewModel model)
+        public ActionResult JudgeList(long id, StartNumberListViewModel model)
         {
             var judge = judgeRepository.Get(id);
-            var race = judge.Race;
-            var athletes = userRepository.JudgeAthletesList(judge);
-            model.AthleteCount = model.Athletes.Count;            
-            return View(model);
+            if (judge != null)
+            {
+                model.StartNumbers = startNumberRepository.JudgeAthletesList(judge);
+                model.NumCount = model.StartNumbers.Count;
+                model.Id = id;
+                return View(model);
+            }
+            return View(model); // Поменять на адрес кабинета.
         }
 
         [HttpGet]
-        public ActionResult OnStart(StartViewModel model)
+        public ActionResult OnStart(long id, StartViewModel model)
         {
-            var judge = (Judge)userRepository.GetCurrentUser();
-            if (judge != null)
+            var judge = judgeRepository.Get(id);
+            if (judge != null && User.IsInRole("Judge"))
             {
                 var assistJudges = judge.Race.Judges;
                 model.Judge = judge;

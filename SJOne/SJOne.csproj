@@ -179,6 +179,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ManagementController.cs" />
+    <Compile Include="Controllers\SportEventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JudgeController.cs" />
     <Compile Include="Controllers\RaceController.cs" />
@@ -187,24 +189,28 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AvatarViewModel.cs" />
-    <Compile Include="Models\ChangePassViewModel.cs" />
-    <Compile Include="Models\EditUserViewModel.cs" />
-    <Compile Include="Models\ButtonListViewModel.cs" />
-    <Compile Include="Models\ButtonClickViewModel.cs" />
-    <Compile Include="Models\HandTimingViewModel.cs" />
-    <Compile Include="Models\InfoUserViewModel.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\ManageJudgeViewModel.cs" />
-    <Compile Include="Models\RaceAthletesListViewModel.cs" />
-    <Compile Include="Models\RegisterViewModel.cs" />
-    <Compile Include="Models\SelectRolesViewModel.cs" />
+    <Compile Include="Models\EventViewModels\EventRaceListViewModel.cs" />
+    <Compile Include="Models\EventViewModels\SportEventListViewModel.cs" />
+    <Compile Include="Models\ManagementViewModels\SportEventViewModel.cs" />
+    <Compile Include="Models\RaceViewModels\AthleteViewModel.cs" />
+    <Compile Include="Models\ManagementViewModels\RaceViewModel.cs" />
+    <Compile Include="Models\UserViewModels\AvatarViewModel.cs" />
+    <Compile Include="Models\UserViewModels\ChangePassViewModel.cs" />
+    <Compile Include="Models\UserViewModels\EditUserViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\ButtonListViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\ButtonClickViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\HandTimingViewModel.cs" />
+    <Compile Include="Models\UserViewModels\InfoUserViewModel.cs" />
+    <Compile Include="Models\AccountViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\ManageJudgeViewModel.cs" />
+    <Compile Include="Models\RaceViewModels\RaceAthletesListViewModel.cs" />
+    <Compile Include="Models\AccountViewModels\RegisterViewModel.cs" />
+    <Compile Include="Models\AdminViewModels\SelectRolesViewModel.cs" />
     <Compile Include="Models\SortLinkModel.cs" />
-    <Compile Include="Models\StartViewModel.cs" />
-    <Compile Include="Models\StatusViewModel.cs" />
-    <Compile Include="Models\JudgeAthletesListViewModel.cs" />
-    <Compile Include="Models\UserRolesViewModel.cs" />
-    <Compile Include="Models\UserViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\StartViewModel.cs" />
+    <Compile Include="Models\AdminViewModels\StatusViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\StartNumberListViewModel.cs" />
+    <Compile Include="Models\AdminViewModels\UserRolesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +283,11 @@
     <Content Include="Views\Judge\ButtonList.cshtml" />
     <Content Include="Views\Judge\HandTiming.cshtml" />
     <Content Include="Views\Judge\OnStart.cshtml" />
+    <Content Include="Views\Race\AddAthlete.cshtml" />
+    <Content Include="Views\SportEvent\CreateRace.cshtml" />
+    <Content Include="Views\SportEvent\RaceList.cshtml" />
+    <Content Include="Views\SportEvent\Index.cshtml" />
+    <Content Include="Views\Management\CreateEvent.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -308,7 +319,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51421</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51421/</IISUrl>
+          <IISUrl>http://localhost:51420/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

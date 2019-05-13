@@ -90,30 +90,37 @@
   <ItemGroup>
     <Compile Include="AutoTiming.cs" />
     <Compile Include="EventFile.cs" />
+    <Compile Include="EventPhoto.cs" />
     <Compile Include="FetchOptions.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\DateRange.cs" />
+    <Compile Include="Filters\SportEventFilter.cs" />
     <Compile Include="Filters\HandTimingFilter.cs" />
     <Compile Include="Filters\JudgeFilter.cs" />
     <Compile Include="Filters\Range.cs" />
     <Compile Include="Filters\StartNumberFilter.cs" />
     <Compile Include="Filters\UserFilter.cs" />
     <Compile Include="Gender.cs" />
+    <Compile Include="Interfaces\IContent.cs" />
     <Compile Include="Interfaces\ITiming.cs" />
     <Compile Include="Judge.cs" />
     <Compile Include="Mapping\EventFileMap.cs" />
     <Compile Include="Mapping\AutoTimingMap.cs" />
+    <Compile Include="Mapping\EventPhoto.cs" />
     <Compile Include="Mapping\HandTimingMap.cs" />
     <Compile Include="Mapping\JudgeMap.cs" />
+    <Compile Include="Mapping\MapClass.cs" />
     <Compile Include="Mapping\ProtocolMap.cs" />
     <Compile Include="Mapping\RaceMap.cs" />
     <Compile Include="Mapping\RoleMap.cs" />
-    <Compile Include="Mapping\EventMap.cs" />
+    <Compile Include="Mapping\SportEventMap.cs" />
     <Compile Include="Mapping\StartNumberMap.cs" />
+    <Compile Include="Mapping\TagMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol.cs" />
     <Compile Include="Race.cs" />
+    <Compile Include="Repositories\SportEventRepository.cs" />
     <Compile Include="Repositories\FastSearchAttribute.cs" />
     <Compile Include="Filters\RaceFilter.cs" />
     <Compile Include="Repositories\HandTimingRepository.cs" />
@@ -124,10 +131,11 @@
     <Compile Include="Repositories\StartNumberRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Role.cs" />
-    <Compile Include="Event.cs" />
+    <Compile Include="SportEvent.cs" />
     <Compile Include="StartNumber.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="HandTiming.cs" />
+    <Compile Include="Tag.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

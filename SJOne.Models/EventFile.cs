@@ -1,13 +1,15 @@
-﻿namespace SJOne.Models
+﻿using SJOne.Models.Interfaces;
+
+namespace SJOne.Models
 {
-    public class EventFile
+    public class EventFile: IContent
     {
         public virtual long Id { get; set; }
 
-        public virtual string FileName { get; set; }
+        public virtual string Name { get; set; }
 
         public virtual string FilePath { get; set; }
 
-        public virtual Event RunningEvent { get; set; }
+        public virtual SportEvent SportEvent { get; set; }
     }
 }

@@ -73,15 +73,7 @@ namespace SJOne.Models.Repositories
             crit.CreateCriteria("StartNumbersU", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
             .Add(Restrictions.Eq("Race", race));
             return crit.List<User>();
-        }
-
-         public IList<User> JudgeAthletesList(Judge judge)
-        {
-            var crit = session.CreateCriteria<StartNumber>()
-                .Add(Restrictions.Eq("Judge", judge))
-                .CreateCriteria("StartNumbersJ", NHibernate.SqlCommand.JoinType.LeftOuterJoin);
-            return crit.List<User>();
-        }
+        }         
 
         public User GetCurrentUser(IPrincipal user = null)
         {

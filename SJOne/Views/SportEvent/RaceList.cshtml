@@ -1,0 +1,29 @@
+﻿@model SJOne.Models.EventViewModels.EventRaceListViewModel
+
+@{
+    ViewBag.Title = "RaceList";
+}
+
+<h2>RaceList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Races) {
+    <tr>
+        <td>@item.LapCount</td>
+        <td>
+            @item.Distance
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

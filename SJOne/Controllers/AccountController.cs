@@ -42,7 +42,7 @@ namespace SJOne.Controllers
                 {
                     UserManager.AddToRoleAsync(user.Id, "User");
                     user.RegistrationDate = DateTime.Now;                    
-                    user.Status = Status.Active;
+                    user.Status = Status.Active;                    
                     SignInManager.SignIn(user, false, false);
                     return RedirectToAction("Start", "Home");
                 }

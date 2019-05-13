@@ -30,11 +30,11 @@ namespace SJOne.Models
         [Display(Name = "Фамилия")]
         public string Surname { get; set; }
 
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
         [Display(Name = "Город")]
         public string City { get; set; }
 
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
         [Display(Name = "Клуб")]
         public string Club { get; set; }
 

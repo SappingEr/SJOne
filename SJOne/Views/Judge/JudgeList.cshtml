@@ -1,4 +1,4 @@
-﻿@model SJOne.Models.JudgeAthletesListViewModel
+﻿@model SJOne.Models.StartNumberListViewModel
 
 @{
     ViewBag.Title = "Стартовый список";
@@ -11,7 +11,7 @@
 
 @*<div class="row">*@
     <ul class="list-group col-md-4">
-        <li class="list-group-item">@Html.DisplayNameFor(model => model.AthleteCount) <span class="badge">@Html.DisplayFor(model => model.AthleteCount)</span></li>
+        <li class="list-group-item">@Html.DisplayNameFor(model => model.NumCount) <span class="badge">@Html.DisplayFor(model => model.NumCount)</span></li>
     </ul>
 @*</div>*@
 
@@ -31,22 +31,19 @@
         </th>
     </tr>
 
-    @foreach (var item in Model.Athletes)
+    @foreach (var item in Model.StartNumbers)
     {
         <tr>
             <td>
-                @foreach (var i in item.StartNumbersU)
-                {
-                    @i.Number
-                }
+                @item.Number
+            </td>
+            
+            <td>
+                @item.User.Name                
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
+                @item.User.Surname
             </td>
         </tr>
     }
