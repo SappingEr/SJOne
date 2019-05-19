@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using SJOne.Models;
+﻿using System.Web.Mvc;
 using SJOne.Models.EventViewModels;
 using SJOne.Models.Filters;
-using SJOne.Models.RaceViewModels;
 using SJOne.Models.Repositories;
 
 namespace SJOne.Controllers
@@ -41,27 +38,7 @@ namespace SJOne.Controllers
 
 
 
-        [HttpGet]
-        public ActionResult CreateRace(long id) => View(new RaceViewModel { Id = id });
-
-        [HttpPost]
-        public ActionResult CreateRace(long id, RaceViewModel raceModel)
-        {
-            var sportEvent = sportEventRepository.Get(id);
-            if (sportEvent != null)
-            {                    
-                raceRepository.InvokeInTransaction(() =>
-                {
-                    Race race = new Race();
-                    race.Name = raceModel.Name;
-                    race.Distance = raceModel.Distance;
-                    race.LapCount = raceModel.LapCount;
-                    race.SportEvent = sportEvent;
-                });
-                return RedirectToAction("RaceList", "SportEvent", new { id });
-            }
-            return HttpNotFound();
-        }
+        
 
 
 

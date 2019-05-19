@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 
+@{var userName = User.Identity.GetUserName(); }
 
 @if (Request.IsAuthenticated)
 {
@@ -7,10 +8,19 @@
     {
         @Html.AntiForgeryToken()
 
+
+
         <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole("$Admin"))
+            {
+                <li>
+                    @Html.ActionLink("Администрирование", "Index", "Admin")
+                </li>
+            }
             <li>
                 <a href="@Url.Action("Info", "User", new { id = User.Identity.GetUserId() })">
-                    <span class="glyphicon glyphicon-user"></span>
+                    <span class="glyphicon glyphicon-user"></span> @userName.Substring(0, 1).ToUpper()@(userName.Length > 1 ? userName.Substring(1) : "")
+                    
                 </a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>

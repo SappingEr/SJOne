@@ -115,6 +115,16 @@ namespace SJOne.Models.Repositories
             }
         }
 
+        public IList<T> Find(FT filter, FetchOptions options = null)
+        {
+            var crit = session.CreateCriteria<T>();
+            SetupFilter(filter, crit);
+            SetupFetchOptions(crit, options);
+            return crit.List<T>();
+        }
+
+
+
 
     }
 }

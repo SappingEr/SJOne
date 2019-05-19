@@ -12,9 +12,9 @@ namespace SJOne.Models.Mapping
             Map(r => r.LapCount).Length(5);            
             Map(r => r.StartNumberCount).Length(5);
             References(r => r.SportEvent);
-            HasMany(r => r.StartNumbersR).Inverse();            
-            HasMany(r => r.Judges);
-            HasManyToMany(r => r.Users).Table("User_Race")
+            HasMany(r => r.StartNumbersRace).Cascade.SaveUpdate();            
+            HasMany(r => r.JudgesRace);
+            HasManyToMany(r => r.UsersRace).Table("User_Race")
               .ParentKeyColumn("Race_id")
               .ChildKeyColumn("User_id");
         }

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SJOne.Models;
+using SJOne.Models.Filters;
 using SJOne.Models.Repositories;
 
 namespace SJOne.Controllers
@@ -21,6 +20,12 @@ namespace SJOne.Controllers
             this.startNumberRepository = startNumberRepository;
             this.handTimingRepository = handTimingRepository;
         }
+
+        //public ActionResult JudgeList(JudgeFilter judgeFilter, FetchOptions options)
+        //{
+        //    var judges = judgeRepository.Find(judgeFilter, options);
+        //    return View(judges);
+        //}
 
 
         public ActionResult JudgeList(long id, StartNumberListViewModel model)
@@ -42,7 +47,7 @@ namespace SJOne.Controllers
             var judge = judgeRepository.Get(id);
             if (judge != null && User.IsInRole("Judge"))
             {
-                var assistJudges = judge.Race.Judges;
+                var assistJudges = judge.Race.JudgesRace;
                 model.Judge = judge;
                 if (assistJudges.Count > 1)
                 {
@@ -64,7 +69,7 @@ namespace SJOne.Controllers
             var judge = judgeRepository.Get(id);
             handTimingRepository.InvokeInTransaction(() =>
             {                
-                var startNumbers = judge.Race.StartNumbersR;
+                var startNumbers = judge.Race.StartNumbersRace;
                 var timeStart = DateTime.Now;
                 foreach (var sN in startNumbers)
                 {
@@ -89,7 +94,7 @@ namespace SJOne.Controllers
             handTimingRepository.InvokeInTransaction(() =>
             {
                 var judge = judgeRepository.Get(id);
-                var startNumbers = judge.StartNumbersJ;
+                var startNumbers = judge.StartNumbersJudge;
                 var timeStart = DateTime.Now;
                 foreach (var sN in startNumbers)
                 {
@@ -102,17 +107,18 @@ namespace SJOne.Controllers
             return RedirectToAction("ButtonList", "Judge");
         }
 
-
-
-
         public ActionResult ButtonList(long id, ButtonListViewModel buttonModel)
         {
             var judge = judgeRepository.Get(id);            
-            buttonModel.HandTimings = judge.HandTimingsJ.GroupBy(i => i.StartNumber)
+            buttonModel.HandTimings = judge.HandTimingsJudge.GroupBy(i => i.StartNumber)
                 .Select(gr => gr.Where(x => x.Lap == gr.Max(y => y.Lap)).First())
                 .OrderByDescending(t => t.Lap).ToList();
             return PartialView(buttonModel);
         }
+
+        
+
+
 
         //[HttpPost]
         //public ActionResult ButtonList(long id, bool start, ButtonClickViewModel model)

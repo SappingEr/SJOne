@@ -19,6 +19,7 @@ namespace SJOne.Models.ManagementViewModels
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
+        [Display(Name = "Дата")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Введите дату события!")]
         public DateTime EventDate { get; set; }

@@ -45,24 +45,24 @@ namespace SJOne.Models.Repositories
                 {
                     if (filter.Date.From.HasValue)
                     {
-                        criteria.Add(Restrictions.Ge("LoginStartDate", filter.Date.From.Value));
+                        criteria.Add(Restrictions.Ge("DOB", filter.Date.From.Value));
                     }
 
                     if (filter.Date.To.HasValue)
                     {
-                        criteria.Add(Restrictions.Le("LoginStartDate", filter.Date.To.Value));
+                        criteria.Add(Restrictions.Le("DOB", filter.Date.To.Value));
                     }
                 }
             }
         }
 
-        public IList<User> Find(UserFilter filter, FetchOptions options = null)
-        {
-            var crit = session.CreateCriteria<User>();
-            SetupFilter(filter, crit);
-            SetupFetchOptions(crit, options);
-            return crit.List<User>();
-        }
+        //public IList<User> Find(UserFilter filter, FetchOptions options = null)
+        //{
+        //    var crit = session.CreateCriteria<User>();
+        //    SetupFilter(filter, crit);
+        //    SetupFetchOptions(crit, options);
+        //    return crit.List<User>();
+        //}
 
         public IList<User> RaceAthletesList(long[] userId, Race race, UserFilter filter, FetchOptions options = null)
         {

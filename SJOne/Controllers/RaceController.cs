@@ -24,7 +24,7 @@ namespace SJOne.Controllers
             var race = raceRepository.Get(id);
             if (race != null)
             {
-                long[] userId = race.Users.Select(i => i.Id).ToArray();
+                long[] userId = race.UsersRace.Select(i => i.Id).ToArray();
                 var athleteList = userRepository.RaceAthletesList(userId, race, userFilter, options);
                 model.Id = race.Id;
                 model.Athletes = athleteList;
@@ -38,8 +38,6 @@ namespace SJOne.Controllers
 
         }
 
-        
-
         [HttpGet]
         public ActionResult AddAthlete(long id) => View(new AthleteViewModel { Id = id });
 
@@ -50,7 +48,7 @@ namespace SJOne.Controllers
 
             if (race != null)
             {
-                var user = new User();                
+                var user = new User();
                 userRepository.InvokeInTransaction(() =>
                 {
                     user.Name = athleteModel.Name;
@@ -59,7 +57,7 @@ namespace SJOne.Controllers
                     user.Club = athleteModel.Club;
                     user.DOB = athleteModel.DOB;
                     user.RegistrationDate = DateTime.Now;
-                    race.Users.Add(user);
+                    race.UsersRace.Add(user);
                     userRepository.Save(user);
                 });
                 return RedirectToAction("StartList", "Race", new { id });

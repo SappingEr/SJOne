@@ -14,7 +14,7 @@ namespace SJOne.Models
         public int AthleteCount { get; set; }
 
         [Display(Name = "Дистанция, м")]
-        public double Distance { get; set; }
+        public decimal Distance { get; set; }
 
         [Display(Name = "Количество кругов")]
         public int LapCount { get; set; }

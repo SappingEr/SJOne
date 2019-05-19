@@ -13,6 +13,50 @@ namespace SJOne.Models.Repositories
         {            
         }
 
+        //public override void SetupFilter(JudgeFilter filter, ICriteria criteria)
+        //{
+        //    base.SetupFilter(filter, criteria);
+        //    if (filter != null)
+        //    {
+        //        if (!string.IsNullOrEmpty(filter.Name))
+        //        {
+        //            criteria.Add(Restrictions.Like("Name", filter.Name, MatchMode.Anywhere));
+        //        }
+
+        //        if (!string.IsNullOrEmpty(filter.Surname))
+        //        {
+        //            criteria.Add(Restrictions.Like("Surname", filter.Surname, MatchMode.Anywhere));
+        //        }
+
+        //        if (!string.IsNullOrEmpty(filter.City))
+        //        {
+        //            criteria.Add(Restrictions.Like("City", filter.City, MatchMode.Anywhere));
+        //        }                
+
+        //        if (filter.Date != null)
+        //        {
+        //            if (filter.Date.From.HasValue)
+        //            {
+        //                criteria.Add(Restrictions.Ge("LoginStartDate", filter.Date.From.Value));
+        //            }
+
+        //            if (filter.Date.To.HasValue)
+        //            {
+        //                criteria.Add(Restrictions.Le("LoginStartDate", filter.Date.To.Value));
+        //            }
+        //        }
+        //    }
+        //}
+
+        //public IList<Judge> Find(JudgeFilter filter, FetchOptions options = null)
+        //{
+        //    var crit = session.CreateCriteria<Judge>();
+        //    SetupFilter(filter, crit);
+        //    SetupFetchOptions(crit, options);
+        //    return crit.List<Judge>();
+        //}
+
+
         public IList<User> JudgeAthletesList(Judge judge)
         {
             var crit = session.CreateCriteria<User>()

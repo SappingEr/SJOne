@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using SJOne.Models;
+using SJOne.Models.AdminViewModels;
 using SJOne.Models.Filters;
 using SJOne.Models.Repositories;
 
@@ -19,10 +20,10 @@ namespace SJOne.Controllers
         }
 
         // GET: Admin
-        public ActionResult Index(UserFilter userFilter, FetchOptions options)
+        public ActionResult UserList(UserListViewModel userModel, UserFilter userFilter, FetchOptions options)
         {
-            var users = userRepository.Find(userFilter, options);
-            return View(users);
+            userModel.Users = userRepository.Find(userFilter, options);
+            return View(userModel);
         }
 
         [HttpGet]

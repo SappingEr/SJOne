@@ -189,9 +189,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminViewModels\UserListViewModel.cs" />
     <Compile Include="Models\EventViewModels\EventRaceListViewModel.cs" />
     <Compile Include="Models\EventViewModels\SportEventListViewModel.cs" />
+    <Compile Include="Models\ManagementViewModels\SportEventSettingsViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\SportEventViewModel.cs" />
+    <Compile Include="Models\ManagementViewModels\StartNumbersAddViewModel.cs" />
     <Compile Include="Models\RaceViewModels\AthleteViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\RaceViewModel.cs" />
     <Compile Include="Models\UserViewModels\AvatarViewModel.cs" />
@@ -212,6 +215,8 @@
     <Compile Include="Models\JudgeViewModels\StartNumberListViewModel.cs" />
     <Compile Include="Models\AdminViewModels\UserRolesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Views\Admin\_SearchUser.cshtml" />
+    <Content Include="Views\Judge\_SearchJudge.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SJ_Base.mdf" />
@@ -273,9 +278,8 @@
     <Content Include="Views\User\Info.cshtml" />
     <Content Include="Views\Race\StartList.cshtml" />
     <Content Include="Views\Shared\SortLink.cshtml" />
-    <Content Include="Views\Shared\SearchFilter.cshtml" />
     <Content Include="Views\Admin\AddRoles.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\UserList.cshtml" />
     <Content Include="Views\Admin\SearchFilter.cshtml" />
     <Content Include="Views\Admin\Status.cshtml" />
     <Content Include="Views\Admin\UserRoles.cshtml" />
@@ -283,11 +287,13 @@
     <Content Include="Views\Judge\ButtonList.cshtml" />
     <Content Include="Views\Judge\HandTiming.cshtml" />
     <Content Include="Views\Judge\OnStart.cshtml" />
-    <Content Include="Views\Race\AddAthlete.cshtml" />
     <Content Include="Views\SportEvent\CreateRace.cshtml" />
     <Content Include="Views\SportEvent\RaceList.cshtml" />
     <Content Include="Views\SportEvent\Index.cshtml" />
     <Content Include="Views\Management\CreateEvent.cshtml" />
+    <Content Include="Views\Management\EventSettings.cshtml" />
+    <Content Include="Views\Management\CreateRace.cshtml" />
+    <Content Include="Views\Management\AddStartNumbers.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

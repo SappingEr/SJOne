@@ -20,8 +20,8 @@ namespace SJOne.Models.Mapping
             Map(u => u.DOB).Nullable();
             Map(u => u.RegistrationDate);            
             References(u => u.Judge);
-            HasMany(u => u.StartNumbersU);
-            HasManyToMany(u => u.RacesU).Table("User_Race")
+            HasMany(u => u.StartNumbersUser);
+            HasManyToMany(u => u.RacesUser).Table("User_Race")
                 .ParentKeyColumn("User_id")
                 .ChildKeyColumn("Race_id");
             HasManyToMany(u => u.Roles).Table("User_Role")

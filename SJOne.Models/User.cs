@@ -32,11 +32,12 @@ namespace SJOne.Models
         [FastSearch]
         public virtual string Surname { get; set; }
 
+        [FastSearch]
         public virtual string City { get; set; }
 
         public virtual string Club { get; set; }
 
-        public virtual IList<Race> RacesU { get; set; } = new List<Race>();
+        public virtual IList<Race> RacesUser { get; set; } = new List<Race>();
 
         public virtual Judge Judge { get; set; }
 
@@ -46,7 +47,7 @@ namespace SJOne.Models
         [DataType(DataType.Date)]
         public virtual DateTime RegistrationDate { get; set; }
 
-        public virtual IList<StartNumber> StartNumbersU { get; set; } = new List<StartNumber>();
+        public virtual IList<StartNumber> StartNumbersUser { get; set; } = new List<StartNumber>();
 
         public virtual IList<Role> Roles { get; set; } = new List<Role>();
 

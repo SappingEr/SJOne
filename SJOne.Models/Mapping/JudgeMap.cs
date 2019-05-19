@@ -15,9 +15,9 @@ namespace SJOne.Models.Mapping
             Map(j => j.Ready);
             Map(j => j.TimerDelay);
             References(j => j.Race);
-            HasMany(j => j.HandTimingsJ);
-            HasMany(j => j.AutoTimings);
-            HasMany(j => j.StartNumbersJ);
+            HasMany(j => j.HandTimingsJudge);
+            HasMany(j => j.AutoTimingsJudge);
+            HasMany(j => j.StartNumbersJudge);
             HasMany(r => r.Protocols);
 
         }

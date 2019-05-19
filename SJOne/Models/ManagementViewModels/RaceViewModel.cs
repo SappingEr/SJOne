@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SJOne.Models.RaceViewModels
+namespace SJOne.Models.ManagementViewModels
 {
     public class RaceViewModel
     {
@@ -16,7 +16,7 @@ namespace SJOne.Models.RaceViewModels
 
         [Display(Name = "Дистанция")]
         [Required(ErrorMessage = "Введите дистанцию!")]
-        public double Distance { get; set; }
+        public decimal Distance { get; set; }
 
         [Display(Name = "Количество кругов")]
         [Required(ErrorMessage = "Введите количество кругов!")]
