@@ -4,9 +4,7 @@ namespace SJOne.Models.Interfaces
 {
     interface ITiming
     {
-        long Id { get; set; }
-
-        StartNumber StartNumber { get; set; }
+        long Id { get; set; }        
 
         int Lap { get; set; }
 

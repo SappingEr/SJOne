@@ -11,15 +11,18 @@ using SJOne.Models.Repositories;
 
 namespace SJOne.Controllers
 {
-    
+
     public class AdminController : BaseController
     {
-        public AdminController(UserRepository userRepository) : base(userRepository)
+        private JudgeRepository judgeRepository;
+
+        public AdminController(UserRepository userRepository, JudgeRepository judgeRepository) : base(userRepository)
         {
             this.userRepository = userRepository;
+            this.judgeRepository = judgeRepository;
         }
 
-        // GET: Admin
+
         public ActionResult UserList(UserListViewModel userModel, UserFilter userFilter, FetchOptions options)
         {
             userModel.Users = userRepository.Find(userFilter, options);
@@ -73,8 +76,8 @@ namespace SJOne.Controllers
             {
                 model.Id = user.Id;
                 var userRoles = UserManager.GetRoles(user.Id);
-                var roles = RoleManager.Roles.Select(r => r.Name).ToList();
-                var listRoles = roles.Except(userRoles).ToList();
+                var roles = RoleManager.Roles.Select(r => r.Name).Where(i => i != "$Admin");
+                var listRoles = roles.Except(userRoles);
                 model.RoleList = new MultiSelectList(listRoles, "RoleName");
                 return PartialView(model);
             }
@@ -87,6 +90,21 @@ namespace SJOne.Controllers
             var user = UserManager.FindById(model.Id);
             if (user != null)
             {
+                if (model.RoleName.Contains("Judge"))
+                {
+                    judgeRepository.InvokeInTransaction(() =>
+                    {
+                        var usr = userRepository.Get(model.Id);
+                        
+
+
+
+                        
+
+                        
+                    });
+
+                }
                 UserManager.AddToRolesAsync(user.Id, model.RoleName);
                 UserManager.UpdateAsync(user);
                 return RedirectToAction("UserRoles", new { model.Id });
@@ -97,8 +115,12 @@ namespace SJOne.Controllers
         public ActionResult DeleteRole(long id, string role)
         {
             var user = UserManager.FindById(id);
-            if (role != "Guest")
+            if (role != "User")
             {
+                if (role == "")
+                {
+
+                }
                 UserManager.RemoveFromRole(user.Id, role);
                 return RedirectToAction("UserRoles", "Admin", new { id });
             }

@@ -45,12 +45,12 @@ namespace SJOne.Models.Repositories
                 {
                     if (filter.Date.From.HasValue)
                     {
-                        criteria.Add(Restrictions.Ge("DOB", filter.Date.From.Value));
+                        criteria.Add(Restrictions.Ge("RegistrationDate", filter.Date.From.Value));
                     }
 
                     if (filter.Date.To.HasValue)
                     {
-                        criteria.Add(Restrictions.Le("DOB", filter.Date.To.Value));
+                        criteria.Add(Restrictions.Le("RegistrationDate", filter.Date.To.Value));
                     }
                 }
             }

@@ -35,11 +35,7 @@ namespace SJOne.Models
         [FastSearch]
         public virtual string City { get; set; }
 
-        public virtual string Club { get; set; }
-
-        public virtual IList<Race> RacesUser { get; set; } = new List<Race>();
-
-        public virtual Judge Judge { get; set; }
+        public virtual string Club { get; set; }        
 
         [DataType(DataType.Date)]
         public virtual DateTime? DOB { get; set; }
@@ -49,7 +45,26 @@ namespace SJOne.Models
 
         public virtual IList<StartNumber> StartNumbersUser { get; set; } = new List<StartNumber>();
 
+        public virtual IList<TrainerTiming> TrainerTimings { get; set; } = new List<TrainerTiming>();
+
         public virtual IList<Role> Roles { get; set; } = new List<Role>();
+
+        public virtual IList<Race> RacesUser { get; set; } = new List<Race>();
+
+        public virtual Training Training { get; set; }
+
+        public virtual Group Group { get; set; }
+
+        public virtual SubGroup SubGroup { get; set; }
+
+        private Trainer trainer;
+
+        public virtual Trainer Trainer { get { return trainer ?? (trainer = new Trainer()); } set { trainer = value; } }
+
+        private Judge judge;
+
+         public virtual Judge Judge { get { return judge ?? (judge = new Judge()); } set { judge = value; } }
+
 
     }
 }

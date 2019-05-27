@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace SJOne.Models
 {
-    public class Judge: User
+    public class Judge
     {
+        public virtual long Id { get; set; }
+
+        public virtual User User { get; set; }
+
         public virtual int CountAthlete { get; set; }
 
-        public virtual bool Ready { get; set; }
-
-        public virtual TimeSpan? TimerDelay { get; set; }
+        public virtual bool Ready { get; set; }        
 
         public virtual Race Race { get; set; }
 

@@ -1,0 +1,51 @@
+﻿@model SJOne.Models.StartNumberListViewModel
+
+@{
+    ViewBag.Title = "Стартовый список";
+}
+
+
+<h2>Стартовый список судьи</h2>
+
+<br />
+
+@*<div class="row">*@
+    <ul class="list-group col-md-4">
+        <li class="list-group-item">@Html.DisplayNameFor(model => model.NumCount) <span class="badge">@Html.DisplayFor(model => model.NumCount)</span></li>
+    </ul>
+@*</div>*@
+
+
+<table class="table">
+    <tr>
+        <th>
+            Стартовый №
+        </th>
+
+        <th>
+            Имя
+        </th>
+
+        <th>
+            Фамилия
+        </th>
+    </tr>
+
+    @foreach (var item in Model.StartNumbers)
+    {
+        <tr>
+            <td>
+                @item.Number
+            </td>
+            
+            <td>
+                @item.User.Name                
+            </td>
+
+            <td>
+                @item.User.Surname
+            </td>
+        </tr>
+    }
+
+</table>

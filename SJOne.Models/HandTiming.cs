@@ -10,7 +10,9 @@ namespace SJOne.Models
 {
     public class HandTiming: ITiming
     {
-        public virtual long Id { get; set; }                 
+        public virtual long Id { get; set; } 
+        
+        public virtual bool Free { get; set; }
 
         public virtual int Lap { get; set; }
         

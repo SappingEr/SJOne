@@ -1,51 +1,54 @@
-﻿@model SJOne.Models.StartNumberListViewModel
+﻿@using SJOne.Extensions
+@using SJOne.Models.Filters
+@model SJOne.Models.JudgeViewModels.JudgeListViewModel
 
 @{
-    ViewBag.Title = "Стартовый список";
+    ViewBag.Title = "Список Судей";
 }
 
+<h2>Список судей</h2>
 
-<h2>Стартовый список судьи</h2>
-
-<br />
-
-@*<div class="row">*@
-    <ul class="list-group col-md-4">
-        <li class="list-group-item">@Html.DisplayNameFor(model => model.NumCount) <span class="badge">@Html.DisplayFor(model => model.NumCount)</span></li>
-    </ul>
-@*</div>*@
-
+@Html.Partial("_SearchJudge", new JudgeFilter())
 
 <table class="table">
     <tr>
         <th>
-            Стартовый №
+            @Html.SortLink("Имя", "Name", "JudgeList", "Judge", null)
         </th>
-
         <th>
-            Имя
+            @Html.SortLink("Фамилия", "Surname", "JudgeList", "Judge", null)
         </th>
-
         <th>
-            Фамилия
+            @Html.SortLink("Город", "City", "JudgeList", "Judge", null)
         </th>
+        <th>
+            @Html.SortLink("Дата рождения", "DOB", "JudgeList", "Judge", null)
+        </th>       
+        
+        <th></th>
     </tr>
 
-    @foreach (var item in Model.StartNumbers)
+    @foreach (var item in Model.Judges)
     {
-        <tr>
-            <td>
-                @item.Number
-            </td>
-            
-            <td>
-                @item.User.Name                
-            </td>
-
-            <td>
-                @item.User.Surname
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Surname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.City)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DOB)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+    </td>
+</tr>
     }
 
 </table>

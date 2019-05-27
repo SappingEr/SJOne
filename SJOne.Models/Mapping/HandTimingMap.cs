@@ -6,7 +6,8 @@ namespace SJOne.Models.Mapping
     {
         public HandTimingMap()
         {
-            Id(h => h.Id).GeneratedBy.Increment();            
+            Id(h => h.Id).GeneratedBy.Increment();
+            Map(h => h.Free);
             Map(h => h.Lap).Length(5);
             Map(h => h.LapTime);
             Map(h => h.TotalTime);

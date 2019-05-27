@@ -3,7 +3,7 @@ using System;
 
 namespace SJOne.Models
 {
-    public class AutoTiming : ITiming
+    public class AutoTiming: ITiming
     {
         public virtual long Id { get; set; }        
 
