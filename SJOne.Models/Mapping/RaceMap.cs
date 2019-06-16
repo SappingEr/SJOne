@@ -13,7 +13,7 @@ namespace SJOne.Models.Mapping
             Map(r => r.StartNumberCount).Length(5);
             References(r => r.SportEvent);
             HasMany(r => r.StartNumbersRace).Cascade.SaveUpdate();            
-            HasMany(r => r.JudgesRace);
+            HasMany(r => r.JudgesRace).Cascade.SaveUpdate(); 
             HasManyToMany(r => r.UsersRace).Table("User_Race")
               .ParentKeyColumn("Race_id")
               .ChildKeyColumn("User_id");

@@ -11,7 +11,8 @@ namespace SJOne.Models.ManagementViewModels
         public long Id { get; set; }
 
         [Display(Name = "Название")]
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 150)")]
+        [Required(ErrorMessage = "Введите Название!")]
+        [StringLength(150, ErrorMessage = "Превышено колическтво допустимых символов(не более 150)")]
         public string EventName { get; set; }
 
         [Display(Name = "Описание")]
@@ -23,5 +24,7 @@ namespace SJOne.Models.ManagementViewModels
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Введите дату события!")]
         public DateTime EventDate { get; set; }
+
+        public IList<Tag> Tags { get; set; }
     }
 }

@@ -109,7 +109,7 @@ namespace SJOne.App_Start
                 var adminRole = new Role { Name = "$Admin" };
                 roleManager.Create(adminRole);
 
-                string[] roles = new string[] { "User", "Admin", "Manager", "Judge", "Trainer" };
+                string[] roles = new string[] { "User", "Admin", "Manager", "Judge", "JudgeAsist", "Trainer" };
 
                 foreach (var item in roles)
                 {

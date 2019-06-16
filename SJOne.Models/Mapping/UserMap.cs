@@ -28,7 +28,7 @@ namespace SJOne.Models.Mapping
                 .ChildKeyColumn("Race_id");
             HasManyToMany(u => u.Roles).Table("User_Role")
                 .ParentKeyColumn("User_id")
-                .ChildKeyColumn("Role_id");
+                .ChildKeyColumn("Role_id").Cascade.All().Inverse();
             HasOne(u => u.Judge).Cascade.All().Constrained();
             HasOne(u => u.Trainer).Cascade.All().Constrained();
         }

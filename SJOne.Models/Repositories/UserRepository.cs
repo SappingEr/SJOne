@@ -41,6 +41,11 @@ namespace SJOne.Models.Repositories
                     criteria.Add(Restrictions.Like("Email", filter.Email, MatchMode.Anywhere));
                 }
 
+                if (!string.IsNullOrEmpty(filter.City))
+                {
+                    criteria.Add(Restrictions.Like("City", filter.City, MatchMode.Anywhere));
+                }
+
                 if (filter.Date != null)
                 {
                     if (filter.Date.From.HasValue)
@@ -56,13 +61,15 @@ namespace SJOne.Models.Repositories
             }
         }
 
-        //public IList<User> Find(UserFilter filter, FetchOptions options = null)
-        //{
-        //    var crit = session.CreateCriteria<User>();
-        //    SetupFilter(filter, crit);
-        //    SetupFetchOptions(crit, options);
-        //    return crit.List<User>();
-        //}
+        public IList<User> FindUsersInRole(string role, UserFilter filter, FetchOptions options = null)
+        {
+            var crit = session.CreateCriteria<User>()
+                .CreateAlias("Roles", "r")
+                .Add(Restrictions.Eq("r.Name", role));
+            SetupFilter(filter, crit);
+            SetupFetchOptions(crit, options);
+            return crit.List<User>();
+        }
 
         public IList<User> RaceAthletesList(long[] userId, Race race, UserFilter filter, FetchOptions options = null)
         {
@@ -73,7 +80,7 @@ namespace SJOne.Models.Repositories
             crit.CreateCriteria("StartNumbersU", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
             .Add(Restrictions.Eq("Race", race));
             return crit.List<User>();
-        }         
+        }
 
         public User GetCurrentUser(IPrincipal user = null)
         {

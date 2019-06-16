@@ -4,39 +4,28 @@
     ViewBag.Title = "Настройки события";
 }
 
-<h2>Настройки события</h2>
+    <div class="row">
+        <div class="col-md-3">
 
-<div>
-    <h4>SportEventViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.EventName)
-        </dt>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.EventName)
-        </dd>
+        <div class="col-md-9">
+            <h2>@Html.DisplayFor(model => model.EventName)</h2>
+            <hr />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <h4><span class="glyphicon glyphicon-time"></span> @Html.DisplayFor(model => model.EventDate)</h4>
+           
+            <div>
+                <span class="label label-info">Info Label</span>
+            </div>
+            
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <div>
+                <p>@Html.DisplayFor(model => model.Description)</p>                
+            </div>
+        </div>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EventDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EventDate)
-        </dd>
+    
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -12,8 +12,7 @@ namespace SJOne.Models.Mapping
         public TagMap()
         {
             Id(m => m.Id);
-            Map(m => m.Name).Length(50);
-            Map(m => m.URL);
+            Map(m => m.Name).Length(50);            
             HasManyToMany(m => m.SportEvents).Table("SportEvent_Tag").ParentKeyColumn("Tag_id")
                 .ChildKeyColumn("SportEvent_id");
         }

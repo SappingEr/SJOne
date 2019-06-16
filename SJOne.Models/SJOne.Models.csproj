@@ -94,11 +94,12 @@
     <Compile Include="FetchOptions.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\DateRange.cs" />
+    <Compile Include="Filters\JudgeFilter.cs" />
     <Compile Include="Filters\SportEventFilter.cs" />
     <Compile Include="Filters\HandTimingFilter.cs" />
-    <Compile Include="Filters\JudgeFilter.cs" />
     <Compile Include="Filters\Range.cs" />
     <Compile Include="Filters\StartNumberFilter.cs" />
+    <Compile Include="Filters\TagFilter.cs" />
     <Compile Include="Filters\UserFilter.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Group.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\RepositoryAttribute.cs" />
     <Compile Include="Repositories\StartNumberRepository.cs" />
+    <Compile Include="Repositories\TagRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="SportEvent.cs" />

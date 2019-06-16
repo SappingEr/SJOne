@@ -35,7 +35,7 @@ namespace SJOne.Models
         [FastSearch]
         public virtual string City { get; set; }
 
-        public virtual string Club { get; set; }        
+        public virtual string Club { get; set; }
 
         [DataType(DataType.Date)]
         public virtual DateTime? DOB { get; set; }
@@ -63,7 +63,7 @@ namespace SJOne.Models
 
         private Judge judge;
 
-         public virtual Judge Judge { get { return judge ?? (judge = new Judge()); } set { judge = value; } }
+        public virtual Judge Judge { get { return judge ?? (judge = new Judge()); } set { judge = value; } }
 
 
     }

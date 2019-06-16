@@ -192,7 +192,8 @@
     <Compile Include="Models\AdminViewModels\UserListViewModel.cs" />
     <Compile Include="Models\EventViewModels\EventRaceListViewModel.cs" />
     <Compile Include="Models\EventViewModels\SportEventListViewModel.cs" />
-    <Compile Include="Models\JudgeViewModels\JudgeListViewModel.cs" />
+    <Compile Include="Models\ManagementViewModels\JudgeListViewModel.cs" />
+    <Compile Include="Models\ManagementViewModels\RaceSettingsViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\SportEventSettingsViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\SportEventViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\StartNumbersAddViewModel.cs" />
@@ -216,13 +217,19 @@
     <Compile Include="Models\JudgeViewModels\StartNumberListViewModel.cs" />
     <Compile Include="Models\AdminViewModels\UserRolesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Views\Admin\_SearchUser.cshtml" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <None Include="Views\Shared\_SearchUser.cshtml" />
     <Content Include="App_Data\SJ_Base.mdf" />
     <Content Include="App_Data\SJ_Base_log.ldf">
       <DependentUpon>SJ_Base.mdf</DependentUpon>
     </Content>
-    <Content Include="Views\Judge\_SearchJudge.cshtml" />
-    <Content Include="Views\Judge\JudgeList.cshtml" />
+    <Content Include="Views\Management\JudgeList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -244,13 +251,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -282,7 +284,6 @@
     <Content Include="Views\Shared\SortLink.cshtml" />
     <Content Include="Views\Admin\AddRoles.cshtml" />
     <Content Include="Views\Admin\UserList.cshtml" />
-    <Content Include="Views\Admin\SearchFilter.cshtml" />
     <Content Include="Views\Admin\Status.cshtml" />
     <Content Include="Views\Admin\UserRoles.cshtml" />
     <Content Include="Views\Judge\AthleteList.cshtml" />
@@ -300,8 +301,6 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SJOne.Models\SJOne.Models.csproj">

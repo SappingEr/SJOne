@@ -1,4 +1,5 @@
 ﻿using SJOne.Models;
+using SJOne.Models.Filters;
 using SJOne.Models.ManagementViewModels;
 using SJOne.Models.Repositories;
 using System.Collections.Generic;
@@ -9,12 +10,14 @@ namespace SJOne.Controllers
 {
     public class ManagementController : BaseController
     {
+        private TagRepository tagRepository;
         private SportEventRepository sportEventRepository;
         private RaceRepository raceRepository;
 
-        public ManagementController(UserRepository userRepository, SportEventRepository sportEventRepository, RaceRepository raceRepository)
+        public ManagementController(UserRepository userRepository, TagRepository tagRepository, SportEventRepository sportEventRepository, RaceRepository raceRepository)
             : base(userRepository)
         {
+            this.tagRepository = tagRepository;
             this.sportEventRepository = sportEventRepository;
             this.raceRepository = raceRepository;
         }
@@ -33,13 +36,35 @@ namespace SJOne.Controllers
                     Description = eventModel.Description,
                     EventDate = eventModel.EventDate
                 };
+
+                var modelTags = eventModel.Tags.Where(t => t.Name != null).ToList();
+
+                if (modelTags.Count > 0)
+                {
+                    var allTags = tagRepository.FindAll();                    
+                    var tags = allTags.Select(i => i.Name).Intersect(modelTags.Select(t => t.Name)).ToList();
+                    if (tags.Count > 0)
+                    {
+                        sportEvent.Tags = tagRepository.TagsByNames(tags.ToArray());
+                        var newTagNames = modelTags.Select(t => t.Name).Except(tags);
+                        foreach (var i in newTagNames)
+                        {
+                            sportEvent.Tags.Add(new Tag { Name = i });
+                        }
+                    }
+                    else
+                    {
+                        sportEvent.Tags = modelTags;
+                    }
+                    
+                }
                 sportEventRepository.InvokeInTransaction(() =>
                 {
                     sportEventRepository.Save(sportEvent);
                 });
                 return RedirectToAction("EventSettings", "Management", new { sportEvent.Id });
             }
-            ViewBag.Message = "Валидация не пройдена";
+            //Вывести ошибку
             return View(eventModel);
         }
 
@@ -55,6 +80,15 @@ namespace SJOne.Controllers
             }
             return HttpNotFound("Событие не обнаружено");
         }
+
+        //public ActionResult RaceSettings(long id, RaceSettingsViewModel raceModel)
+        //{
+        //    var race = raceRepository.Get(id);
+        //    if (race != null)
+        //    {
+
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult CreateRace(long id) => View(new RaceViewModel { Id = id });
@@ -77,7 +111,7 @@ namespace SJOne.Controllers
                     sportEventRepository.Save(sportEvent);
                 });
                 return RedirectToAction("AddStartNumbers", "Management", new { race.Id });
-            }            
+            }
             return View(raceModel);
         }
 
@@ -112,12 +146,32 @@ namespace SJOne.Controllers
             return HttpNotFound("Старт не обнаружен!");
         }
 
-        
 
-        //[HttpPost]
-        //public ActionResult AddJudge(long id, string userName)
-        //{
+        public ActionResult JudgeList(long id, JudgeListViewModel judgeModel, UserFilter userFilter, FetchOptions options)
+        {
+            if (raceRepository.Get(id) != null)
+            {
+                judgeModel.Id = id;
+                judgeModel.Judges = userRepository.FindUsersInRole("Judge", userFilter, options);
+                return View(judgeModel);
+            }
+            return HttpNotFound("Старт не обнаружен!");
+        }
 
-        //}
+
+        public ActionResult AddJudge(long raceId, long judgeId)
+        {
+            var race = raceRepository.Get(raceId);
+            var judge = userRepository.Get(judgeId).Judge;
+            if (race != null && judge != null)
+            {
+                raceRepository.InvokeInTransaction(() =>
+                {
+                    race.JudgesRace.Add(judge);
+                });
+                return RedirectToAction("EventSettings", "Management", new { race.SportEvent.Id });
+            }
+            return HttpNotFound("Старт не обнаружен!");
+        }
     }
 }

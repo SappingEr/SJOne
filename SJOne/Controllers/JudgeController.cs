@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using SJOne.Models;
-using SJOne.Models.Filters;
-using SJOne.Models.JudgeViewModels;
 using SJOne.Models.Repositories;
 
 namespace SJOne.Controllers
@@ -14,19 +12,13 @@ namespace SJOne.Controllers
         private StartNumberRepository startNumberRepository;
         private HandTimingRepository handTimingRepository;
 
-        public JudgeController(JudgeRepository judgeRepository, StartNumberRepository startNumberRepository, 
+        public JudgeController(StartNumberRepository startNumberRepository, 
             HandTimingRepository handTimingRepository, UserRepository userRepository) : base(userRepository)
         {
-            this.judgeRepository = judgeRepository;
+            
             this.startNumberRepository = startNumberRepository;
             this.handTimingRepository = handTimingRepository;
-        }
-
-        public ActionResult JudgeList(JudgeListViewModel judgeModel ,JudgeFilter judgeFilter, FetchOptions options)
-        {
-            judgeModel.Judges = judgeRepository.Find(judgeFilter, options);
-            return View(judgeModel);
-        }
+        }      
 
 
         public ActionResult AthleteList(long id, StartNumberListViewModel model)

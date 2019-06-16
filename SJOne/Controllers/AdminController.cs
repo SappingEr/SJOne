@@ -52,7 +52,7 @@ namespace SJOne.Controllers
                     user.Status = statusItem.Status;
                 });
             }
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("UserList", "Admin");
         }
 
         public ActionResult UserRoles(long id, UserRolesViewModel userRolesMod)
@@ -87,21 +87,14 @@ namespace SJOne.Controllers
         [HttpPost]
         public ActionResult AddRoles(SelectRolesViewModel model)
         {
-            var user = UserManager.FindById(model.Id);
+            var user = userRepository.Get(model.Id);
             if (user != null)
             {
                 if (model.RoleName.Contains("Judge"))
                 {
                     judgeRepository.InvokeInTransaction(() =>
                     {
-                        var usr = userRepository.Get(model.Id);
-                        
-
-
-
-                        
-
-                        
+                        user.Judge.CountAthlete = 5;                      
                     });
 
                 }
@@ -116,11 +109,7 @@ namespace SJOne.Controllers
         {
             var user = UserManager.FindById(id);
             if (role != "User")
-            {
-                if (role == "")
-                {
-
-                }
+            {                
                 UserManager.RemoveFromRole(user.Id, role);
                 return RedirectToAction("UserRoles", "Admin", new { id });
             }
