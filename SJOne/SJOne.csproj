@@ -197,6 +197,7 @@
     <Compile Include="Models\ManagementViewModels\SportEventSettingsViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\SportEventViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\StartNumbersAddViewModel.cs" />
+    <Compile Include="Models\ManagementViewModels\UploadEventContentViewModel.cs" />
     <Compile Include="Models\RaceViewModels\AthleteViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\RaceViewModel.cs" />
     <Compile Include="Models\UserViewModels\AvatarViewModel.cs" />
@@ -207,7 +208,7 @@
     <Compile Include="Models\JudgeViewModels\HandTimingViewModel.cs" />
     <Compile Include="Models\UserViewModels\InfoUserViewModel.cs" />
     <Compile Include="Models\AccountViewModels\LoginViewModel.cs" />
-    <Compile Include="Models\JudgeViewModels\ManageJudgeViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\JudgeViewModel.cs" />
     <Compile Include="Models\RaceViewModels\RaceAthletesListViewModel.cs" />
     <Compile Include="Models\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="Models\AdminViewModels\SelectRolesViewModel.cs" />
@@ -224,6 +225,8 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Views\Management\UploadEventPhotos.cshtml" />
+    <Content Include="Views\Judge\Index.cshtml" />
     <None Include="Views\Shared\_SearchUser.cshtml" />
     <Content Include="App_Data\SJ_Base.mdf" />
     <Content Include="App_Data\SJ_Base_log.ldf">
@@ -298,7 +301,9 @@
     <Content Include="Views\Management\CreateRace.cshtml" />
     <Content Include="Views\Management\AddStartNumbers.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\Images\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

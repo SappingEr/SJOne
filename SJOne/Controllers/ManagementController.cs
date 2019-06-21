@@ -4,6 +4,7 @@ using SJOne.Models.ManagementViewModels;
 using SJOne.Models.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SJOne.Controllers
@@ -41,7 +42,7 @@ namespace SJOne.Controllers
 
                 if (modelTags.Count > 0)
                 {
-                    var allTags = tagRepository.FindAll();                    
+                    var allTags = tagRepository.FindAll();
                     var tags = allTags.Select(i => i.Name).Intersect(modelTags.Select(t => t.Name)).ToList();
                     if (tags.Count > 0)
                     {
@@ -56,7 +57,7 @@ namespace SJOne.Controllers
                     {
                         sportEvent.Tags = modelTags;
                     }
-                    
+
                 }
                 sportEventRepository.InvokeInTransaction(() =>
                 {
@@ -76,19 +77,12 @@ namespace SJOne.Controllers
                 eventModel.EventName = sportEvent.EventName;
                 eventModel.Description = sportEvent.Description;
                 eventModel.EventDate = sportEvent.EventDate;
+                eventModel.Photos = sportEvent.EventPhotos;
+                eventModel.Tags = sportEvent.Tags;
                 return View(eventModel);
             }
             return HttpNotFound("Событие не обнаружено");
-        }
-
-        //public ActionResult RaceSettings(long id, RaceSettingsViewModel raceModel)
-        //{
-        //    var race = raceRepository.Get(id);
-        //    if (race != null)
-        //    {
-
-        //    }
-        //}
+        }        
 
         [HttpGet]
         public ActionResult CreateRace(long id) => View(new RaceViewModel { Id = id });
@@ -140,7 +134,7 @@ namespace SJOne.Controllers
                     raceRepository.Save(race);
                 });
 
-                return RedirectToAction("AddJudge", "Management", new { id });
+                return RedirectToAction("JudgeList", "Management", new { race.Id });
 
             }
             return HttpNotFound("Старт не обнаружен!");
@@ -157,21 +151,60 @@ namespace SJOne.Controllers
             }
             return HttpNotFound("Старт не обнаружен!");
         }
-
-
+     
         public ActionResult AddJudge(long raceId, long judgeId)
         {
-            var race = raceRepository.Get(raceId);
+            var race = raceRepository.Get(raceId);            
             var judge = userRepository.Get(judgeId).Judge;
             if (race != null && judge != null)
             {
                 raceRepository.InvokeInTransaction(() =>
                 {
-                    race.JudgesRace.Add(judge);
+                    race.MainJudgeRace = judge;
                 });
                 return RedirectToAction("EventSettings", "Management", new { race.SportEvent.Id });
             }
             return HttpNotFound("Старт не обнаружен!");
+        }
+
+        public ActionResult UploadEventPhotos(long id)
+        {
+            var sportEvent = sportEventRepository.Get(id);
+            if (sportEvent != null)
+            {
+                return View(new UploadEventContentViewModel { Id = id });
+            }
+            return HttpNotFound("Событие не обнаружено");
+        }
+
+        [HttpPost]
+        public ActionResult UploadEventPhotos(long id, HttpPostedFileBase[] content)
+        {
+            if (ModelState.IsValid)
+            {
+                var sportEvent = sportEventRepository.Get(id);
+                foreach (var item in content)
+                {
+                    if (item != null)
+                    {
+                        string fileName = System.IO.Path.GetFileName(item.FileName);
+                        string filePath = "~/Content/Images/" + fileName;
+                        item.SaveAs(Server.MapPath(filePath));
+                        sportEvent.EventPhotos.Add(new EventPhoto
+                        {
+                            Name = fileName,
+                            FilePath = filePath
+                        });
+                    }
+                }
+                sportEventRepository.InvokeInTransaction(() =>
+                {
+                    sportEventRepository.Save(sportEvent);
+                });
+                return RedirectToAction("EventSettings", "Management", new { sportEvent.Id });
+
+            }
+            return ViewBag.Message("Загрузка не удалась");
         }
     }
 }

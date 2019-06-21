@@ -13,8 +13,11 @@ namespace SJOne.Models.Mapping
         {
             Id(j => j.Id);
             Map(j => j.CountAthlete).Length(2);
-            Map(j => j.Ready);            
-            References(j => j.Race);
+            Map(j => j.Ready);
+            HasMany(j => j.MainRaces).Inverse();
+            HasManyToMany(j => j.Races).Table("Judge_Race")
+                .ParentKeyColumn("Judge_id")
+                .ChildKeyColumn("Race_id");
             HasMany(j => j.HandTimingsJudge);
             HasMany(j => j.AutoTimingsJudge);
             HasMany(j => j.StartNumbersJudge);

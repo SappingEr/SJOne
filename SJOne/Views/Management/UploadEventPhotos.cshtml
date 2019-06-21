@@ -1,0 +1,32 @@
+﻿@model SJOne.Models.ManagementViewModels.UploadEventContentViewModel
+
+@{
+    ViewBag.Title = "Загрузить фото";
+}
+
+<h2>Загрузить фото</h2>
+
+
+@using (Html.BeginForm("UploadEventPhotos", "Management", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            
+            <div>
+                @Html.TextBoxFor(model => model.Content, "", new { @type = "file", @multiple = "multiple", @accept="image/jpeg" })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <input type="submit" value="Загрузить" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+}
+
+

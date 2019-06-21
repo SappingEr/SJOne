@@ -11,9 +11,11 @@ namespace SJOne.Models
 
         public virtual int CountAthlete { get; set; }
 
-        public virtual bool Ready { get; set; }        
+        public virtual bool Ready { get; set; }
 
-        public virtual Race Race { get; set; }
+        public virtual IList<Race> MainRaces { get; set; } = new List<Race>();
+
+        public virtual IList<Race> Races { get; set; } = new List<Race>();
 
         public virtual IList<StartNumber> StartNumbersJudge { get; set; } = new List<StartNumber>();
 

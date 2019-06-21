@@ -63,7 +63,7 @@ namespace SJOne.Controllers
         [HttpPost]
         public ActionResult UploadAvatar(AvatarViewModel avatarView, HttpPostedFileBase imageFile, long id)
         {
-            if (imageFile != null)
+            if (ModelState.IsValid && imageFile != null)
             {
                 avatarView.Avatar = new byte[imageFile.ContentLength];
                 imageFile.InputStream.Read(avatarView.Avatar, 0, imageFile.ContentLength);
