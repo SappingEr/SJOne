@@ -15,6 +15,8 @@ namespace SJOne.Controllers
         }
 
 
+
+
         public ActionResult Info(long id, InfoUserViewModel infoModel)
         {
             var user = userRepository.Get(id);
@@ -39,7 +41,7 @@ namespace SJOne.Controllers
                         infoModel.Gender = "Женский";
                         break;
                     case Gender.No:
-                        infoModel.Gender = null;
+                        infoModel.Gender = "Не указан";
                         break;
                 }
                 return View(infoModel);
@@ -63,7 +65,7 @@ namespace SJOne.Controllers
         [HttpPost]
         public ActionResult UploadAvatar(AvatarViewModel avatarView, HttpPostedFileBase imageFile, long id)
         {
-            if (ModelState.IsValid && imageFile != null)
+            if (imageFile != null)
             {
                 avatarView.Avatar = new byte[imageFile.ContentLength];
                 imageFile.InputStream.Read(avatarView.Avatar, 0, imageFile.ContentLength);

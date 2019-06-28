@@ -1,7 +1,8 @@
 ﻿using System.Web.Mvc;
 using SJOne.Models.Repositories;
 using SJOne.Models;
-
+using SJOne.Models.Filters;
+using SJOne.Models.JudgeViewModels;
 
 namespace SJOne.Controllers
 {
@@ -17,10 +18,57 @@ namespace SJOne.Controllers
             this.handTimingRepository = handTimingRepository;
         }
 
-        public ActionResult Index(long id, JudgeViewModel judgeModel)
+        public ActionResult FindAthlete(long id, UserFilter userFilter, FetchOptions options, FindAthleteViewModel athletesModel)
         {
-            var judge = userRepository.Get(id).Judge;
-            return View(judge);
+            var user = userRepository.Get(id);
+            if (user != null)
+            {
+                athletesModel.Id = id;
+                if (userFilter.Name != null || userFilter.Surname != null || userFilter.Date !=null)
+                {
+                    var athletes = userRepository.Find(userFilter, options);
+                    var athletesCount = athletes.Count;
+                    if (athletesCount >= 1)
+                    {
+                        athletesModel.Athletes = athletes;
+                        athletesModel.Message = "Выберите спортсмена для регистрации в соревновании";
+                        return View(athletesModel);
+                    }
+                    else if (athletesCount == 0)
+                    {
+                        athletesModel.Button = true;
+                        athletesModel.Message = "Добавить нового участника?";
+                        return View(athletesModel);
+                    }
+                    
+                }                
+                athletesModel.Message = "Введите данные для поиска";
+                return View(athletesModel);                
+            }
+            return HttpNotFound("Пользователь не найден");
+        }
+
+
+        public ActionResult MainRaceList(long id, JudgeRacesViewModel judgeModel)
+        {
+            var judgeMainRaces = userRepository.Get(id).Judge.MainRaces;
+            if (judgeMainRaces != null)
+            {
+                judgeModel.JudgeRaces = judgeMainRaces;
+                return View(judgeModel);
+            }
+            return RedirectToAction("Index", "Judge", new { id });
+        }
+
+        public ActionResult RaceList(long id, JudgeRacesViewModel judgeModel)
+        {
+            var judgeRaces = userRepository.Get(id).Judge.Races;
+            if (judgeRaces != null)
+            {
+                judgeModel.JudgeRaces = judgeRaces;
+                return View(judgeModel);
+            }
+            return RedirectToAction("Index", "Judge", new { id });
         }
 
         //public ActionResult AthleteList(long id, StartNumberListViewModel model)

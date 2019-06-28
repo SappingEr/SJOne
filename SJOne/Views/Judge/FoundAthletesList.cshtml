@@ -1,0 +1,48 @@
+﻿@using SJOne.Extensions
+@model SJOne.Models.JudgeViewModels.FoundAthletesListViewModel
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.SortLink("Имя", "Name", "FoundAthletesList", "Judge", null)
+        </th>
+        <th>
+            @Html.SortLink("Фамилия", "Surname", "FoundAthletesList", "Judge", null)
+        </th>
+        <th>
+            @Html.SortLink("Дата рождения", "DOB", "FoundAthletesList", "Judge", null)
+        </th>
+        <th>
+            @Html.SortLink("Город", "City", "FoundAthletesList", "Judge", null)
+        </th>
+        <th>
+            Клуб
+        </th>
+
+    </tr>
+
+    @foreach (var i in Model.Athletes)
+    {
+        <tr>
+            <td>
+                @i.Name
+            </td>
+            <td>
+                @i.Surname
+            </td>
+            <td>
+                @i.DOB
+            </td>
+            <td>
+                @i.City
+            </td>
+            <td>
+                @i.Club
+            </td>
+        </tr>
+    }
+
+</table>

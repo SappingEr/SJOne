@@ -192,6 +192,7 @@
     <Compile Include="Models\AdminViewModels\UserListViewModel.cs" />
     <Compile Include="Models\EventViewModels\EventRaceListViewModel.cs" />
     <Compile Include="Models\EventViewModels\SportEventListViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\FindAthleteViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\JudgeListViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\RaceSettingsViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\SportEventSettingsViewModel.cs" />
@@ -208,7 +209,7 @@
     <Compile Include="Models\JudgeViewModels\HandTimingViewModel.cs" />
     <Compile Include="Models\UserViewModels\InfoUserViewModel.cs" />
     <Compile Include="Models\AccountViewModels\LoginViewModel.cs" />
-    <Compile Include="Models\JudgeViewModels\JudgeViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\JudgeRacesViewModel.cs" />
     <Compile Include="Models\RaceViewModels\RaceAthletesListViewModel.cs" />
     <Compile Include="Models\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="Models\AdminViewModels\SelectRolesViewModel.cs" />
@@ -226,7 +227,10 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Views\Management\UploadEventPhotos.cshtml" />
-    <Content Include="Views\Judge\Index.cshtml" />
+    <Content Include="Views\Judge\MainRaceList.cshtml" />
+    <Content Include="Views\Judge\FoundAthletesList.cshtml" />
+    <Content Include="Views\Shared\_ExtendedSearchUser.cshtml" />
+    <Content Include="Views\Judge\FindAthlete.cshtml" />
     <None Include="Views\Shared\_SearchUser.cshtml" />
     <Content Include="App_Data\SJ_Base.mdf" />
     <Content Include="App_Data\SJ_Base_log.ldf">

@@ -7,6 +7,6 @@ namespace SJOne.Models.AdminViewModels
 {
     public class UserListViewModel
     {
-        public IEnumerable<User> Users { get; set; } = new List<User>();
+        public IEnumerable<User> Users { get; set; }
     }
 }

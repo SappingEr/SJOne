@@ -81,7 +81,7 @@ namespace SJOne.Controllers
                 model.RoleList = new MultiSelectList(listRoles, "RoleName");
                 return PartialView(model);
             }
-            return HttpNotFound();
+            return HttpNotFound("Пользователь не найден");
         }
 
         [HttpPost]

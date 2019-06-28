@@ -1,0 +1,83 @@
+﻿@using SJOne.Models.Filters
+@model SJOne.Models.JudgeViewModels.FindAthleteViewModel
+
+@{
+    ViewBag.Title = "Поиск";
+}
+
+<h4>@Model.Message</h4>
+<hr />
+
+@Html.Partial("_ExtendedSearchUser", new UserFilter())
+
+
+@if (Model.Athletes != null)
+{
+    <br />
+    foreach (var item in Model.Athletes)
+    {
+        <div class="table table-responsive">
+            <table class="table">
+                <tr>
+                    <th>
+                        Имя
+                    </th>
+                    <th>
+                        Фамилия
+                    </th>
+                    <th>
+                        Дата рождения
+                    </th>
+                    <th>
+                        Город
+                    </th>
+                    <th>
+                        Опции
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(i => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(i => item.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(i => item.DOB)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(i => item.City)
+                    </td>
+                    <td>
+                        <a class="btn btn-success" href="@Url.Action("Register", "Judge",
+                                       new { id = Model.Id })">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>Если спортсмен не найден, проверьте данные и повторите запрос, либо зарегистрируйте нового участника</p>
+        <div>
+            <a class="btn btn-default" href="@Url.Action("AddNewAthlete", "Judge",
+                                       new { id = Model.Id })">
+                Новый участник <span class="glyphicon glyphicon-plus"></span>
+            </a>
+        </div>
+    }
+}
+@if (Model.Button == true)
+{
+    <br />
+    <p>Если спортсмен не найден, проверьте данные и повторите запрос, либо зарегистрируйте нового участника</p>
+    <div>
+        <a class="btn btn-default" href="@Url.Action("AddNewAthlete", "Judge",
+                                       new { id = Model.Id })">
+            Новый участник <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    </div>
+}
+
+

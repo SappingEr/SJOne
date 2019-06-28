@@ -1,4 +1,6 @@
-﻿namespace SJOne.Models.Filters
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SJOne.Models.Filters
 {
     public class UserFilter: BaseFilter
     {
@@ -6,12 +8,17 @@
 
         public string Email { get; set; }
 
+        [Display(Name = "Имя")]
         public string Name { get; set; }
 
+        [Display(Name = "Фамилия")]
         public string Surname { get; set; }
 
+        [Display(Name = "Город")]
         public string City { get; set; }
 
+        [Display(Name = "Дата рождения")]
+        [DataType(DataType.Date)]
         public DateRange Date { get; set; }
     }
 }

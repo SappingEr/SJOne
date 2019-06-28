@@ -1,0 +1,35 @@
+﻿@model SJOne.Models.JudgeRacesViewModel
+
+@{
+    ViewBag.Title = "MainRaceList";
+}
+
+<h2>MainRaceList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@foreach (var i in Model.JudgeRaces)
+{
+<table class="table">
+    <tr>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        <th>4</th>
+    </tr>
+
+
+    <tr>
+        <td>@i.SportEvent.EventName</td>
+        <td>@i.Name</td>
+        <td>@i.Distance</td>
+        <td>@i.LapCount</td>
+    </tr>
+    
+
+
+</table>
+}
+
