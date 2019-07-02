@@ -17,8 +17,8 @@ namespace SJOne.Models.Filters
         [Display(Name = "Город")]
         public string City { get; set; }
 
-        [Display(Name = "Дата рождения")]
-        [DataType(DataType.Date)]
+        public DateTime DOB { get; set; }
+
         public DateRange Date { get; set; }
     }
 }

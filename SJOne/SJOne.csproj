@@ -192,6 +192,7 @@
     <Compile Include="Models\AdminViewModels\UserListViewModel.cs" />
     <Compile Include="Models\EventViewModels\EventRaceListViewModel.cs" />
     <Compile Include="Models\EventViewModels\SportEventListViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\AddAthleteViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\FindAthleteViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\JudgeListViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\RaceSettingsViewModel.cs" />
@@ -231,6 +232,7 @@
     <Content Include="Views\Judge\FoundAthletesList.cshtml" />
     <Content Include="Views\Shared\_ExtendedSearchUser.cshtml" />
     <Content Include="Views\Judge\FindAthlete.cshtml" />
+    <Content Include="Views\Judge\AddNewAthlete.cshtml" />
     <None Include="Views\Shared\_SearchUser.cshtml" />
     <Content Include="App_Data\SJ_Base.mdf" />
     <Content Include="App_Data\SJ_Base_log.ldf">

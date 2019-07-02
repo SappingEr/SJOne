@@ -3,51 +3,24 @@ using SJOne.Models.Repositories;
 using SJOne.Models;
 using SJOne.Models.Filters;
 using SJOne.Models.JudgeViewModels;
+using System.Linq;
+using System;
 
 namespace SJOne.Controllers
 {
     public class JudgeController : BaseController
     {
+        private RaceRepository raceRepository;
         private StartNumberRepository startNumberRepository;
         private HandTimingRepository handTimingRepository;
 
-        public JudgeController(StartNumberRepository startNumberRepository, JudgeRepository judgeRepository,
+        public JudgeController(StartNumberRepository startNumberRepository, RaceRepository raceRepository,
             HandTimingRepository handTimingRepository, UserRepository userRepository) : base(userRepository)
         {
+            this.raceRepository = raceRepository;
             this.startNumberRepository = startNumberRepository;
             this.handTimingRepository = handTimingRepository;
         }
-
-        public ActionResult FindAthlete(long id, UserFilter userFilter, FetchOptions options, FindAthleteViewModel athletesModel)
-        {
-            var user = userRepository.Get(id);
-            if (user != null)
-            {
-                athletesModel.Id = id;
-                if (userFilter.Name != null || userFilter.Surname != null || userFilter.Date !=null)
-                {
-                    var athletes = userRepository.Find(userFilter, options);
-                    var athletesCount = athletes.Count;
-                    if (athletesCount >= 1)
-                    {
-                        athletesModel.Athletes = athletes;
-                        athletesModel.Message = "Выберите спортсмена для регистрации в соревновании";
-                        return View(athletesModel);
-                    }
-                    else if (athletesCount == 0)
-                    {
-                        athletesModel.Button = true;
-                        athletesModel.Message = "Добавить нового участника?";
-                        return View(athletesModel);
-                    }
-                    
-                }                
-                athletesModel.Message = "Введите данные для поиска";
-                return View(athletesModel);                
-            }
-            return HttpNotFound("Пользователь не найден");
-        }
-
 
         public ActionResult MainRaceList(long id, JudgeRacesViewModel judgeModel)
         {
@@ -69,6 +42,111 @@ namespace SJOne.Controllers
                 return View(judgeModel);
             }
             return RedirectToAction("Index", "Judge", new { id });
+        }
+
+        public ActionResult FindAthlete(long id, UserFilter userFilter, FetchOptions options, FindAthleteViewModel athletesModel)
+        {
+            var race = raceRepository.Get(id);
+            if (race != null)
+            {
+                athletesModel.Id = id;
+                if (userFilter.Name != null || userFilter.Surname != null || userFilter.Date != null)
+                {
+                    var athletes = userRepository.Find(userFilter, options);
+                    var athletesCount = athletes.Count;
+                    if (athletesCount >= 1)
+                    {
+                        athletesModel.Athletes = athletes;
+                        athletesModel.Message = "Выберите спортсмена для регистрации в соревновании";
+                        return View(athletesModel);
+                    }
+                    else if (athletesCount == 0)
+                    {
+                        athletesModel.Button = true;
+                        athletesModel.Message = "Добавить нового участника?";
+                        return View(athletesModel);
+                    }
+
+                }
+                athletesModel.Message = "Введите данные для поиска";
+                return View(athletesModel);
+            }
+            return HttpNotFound("Старт не найден");
+        }
+
+
+        public ActionResult Register(long id, long athleteId)
+        {
+            var race = raceRepository.Get(id);
+            if (race != null)
+            {
+                var startNumbers = race.StartNumbersRace;
+                var freeNumbers = startNumbers.Where(i => i.User == null).ToList();
+                if (startNumbers.Count >= freeNumbers.Count)
+                {
+                    var freeNumber = freeNumbers.First();
+                    var judge = race.MainJudgeRace;
+                    var athlete = userRepository.Get(athleteId);
+                    freeNumber.Judge = judge;
+                    freeNumber.User = athlete;
+                    raceRepository.InvokeInTransaction(() =>
+                    {
+                        raceRepository.Save(race);
+                    });
+                    return RedirectToAction("wdwdwdwd");
+                }
+            }
+            return HttpNotFound("Старт не найден");
+        }
+
+        [HttpGet]
+        public ActionResult AddNewAthlete(long id) => View(new AddAthleteViewModel { Id = id });
+
+        [HttpPost]
+        public ActionResult AddNewAthlete(long id, AddAthleteViewModel addAthleteModel)
+        {
+            var race = raceRepository.Get(id);
+            if (race != null)
+            {
+                var startNumbers = race.StartNumbersRace;
+                var freeNumbers = startNumbers.Where(i => i.User == null).ToList();
+                if (startNumbers.Count >= freeNumbers.Count)
+                {
+                    var freeNumber = freeNumbers.First();
+                    var judge = race.MainJudgeRace;
+                    var user = new User
+                    {
+                        Name = addAthleteModel.Name,
+                        Surname = addAthleteModel.Surname,
+                        City = addAthleteModel.City,
+                        Club = addAthleteModel.Club,
+                        DOB = addAthleteModel.DOB,
+                        RegistrationDate = DateTime.Now.Date
+                    };
+                    if (addAthleteModel.Gender == "Мужской")
+                    {
+                        user.Gender = Gender.Male;
+                    }
+                    else if (addAthleteModel.Gender == "Женский")
+                    {
+                        user.Gender = Gender.Female;
+                    }
+                    var doubleUser = userRepository.Find(new UserFilter
+                    {
+                         Name = user.Name,
+                         Surname = user.Surname,
+                          
+                    });
+                    freeNumber.Judge = judge;
+                    freeNumber.User = user;
+                    raceRepository.InvokeInTransaction(() =>
+                    {
+                        raceRepository.Save(race);
+                    });
+                    return RedirectToAction("wdwdwdwd");
+                }                
+            }
+            return HttpNotFound("Старт не найден");
         }
 
         //public ActionResult AthleteList(long id, StartNumberListViewModel model)

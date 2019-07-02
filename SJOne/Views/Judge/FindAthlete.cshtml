@@ -13,7 +13,7 @@
 
 @if (Model.Athletes != null)
 {
-    <br />
+    
     foreach (var item in Model.Athletes)
     {
         <div class="table table-responsive">
@@ -51,7 +51,7 @@
                     </td>
                     <td>
                         <a class="btn btn-success" href="@Url.Action("Register", "Judge",
-                                       new { id = Model.Id })">
+                                       new { id = Model.Id, athleteId = item.Id })">
                             <span class="glyphicon glyphicon-ok"></span>
                         </a>
                     </td>
@@ -60,9 +60,10 @@
         </div>
 
         <p>Если спортсмен не найден, проверьте данные и повторите запрос, либо зарегистрируйте нового участника</p>
+
         <div>
             <a class="btn btn-default" href="@Url.Action("AddNewAthlete", "Judge",
-                                       new { id = Model.Id })">
+                                       new { id = Model.Id})">
                 Новый участник <span class="glyphicon glyphicon-plus"></span>
             </a>
         </div>
@@ -73,7 +74,7 @@
     <br />
     <p>Если спортсмен не найден, проверьте данные и повторите запрос, либо зарегистрируйте нового участника</p>
     <div>
-        <a class="btn btn-default" href="@Url.Action("AddNewAthlete", "Judge",
+        <a class="btn btn-success" href="@Url.Action("AddNewAthlete", "Judge",
                                        new { id = Model.Id })">
             Новый участник <span class="glyphicon glyphicon-plus"></span>
         </a>
