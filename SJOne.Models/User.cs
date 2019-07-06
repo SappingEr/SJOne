@@ -32,8 +32,10 @@ namespace SJOne.Models
         [FastSearch]
         public virtual string Surname { get; set; }
 
-        [FastSearch]
-        public virtual string City { get; set; }
+        
+        public virtual City City { get; set; }
+
+        public virtual Village Village { get; set; }
 
         public virtual string Club { get; set; }
 

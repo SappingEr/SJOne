@@ -28,7 +28,7 @@ namespace SJOne.Controllers
                 infoModel.Email = user.Email;
                 infoModel.Name = user.Name;
                 infoModel.Surname = user.Surname;
-                infoModel.City = user.City;
+                //infoModel.City = user.City;
                 infoModel.Club = user.Club;
                 infoModel.DOB = user.DOB;
 
@@ -91,7 +91,7 @@ namespace SJOne.Controllers
                     Email = user.Email,                    
                     Name = user.Name,
                     Surname = user.Surname,
-                    City = user.City,
+                    //City = user.City,
                     Club = user.Club,
                     DOB = user.DOB
                 });
@@ -117,7 +117,7 @@ namespace SJOne.Controllers
                 }
                 user.Name = userModel.Name;
                 user.Surname = userModel.Surname;
-                user.City = userModel.City;
+                //user.City = userModel.City;
                 user.Club = userModel.Club;
                 user.DOB = userModel.DOB;
             });

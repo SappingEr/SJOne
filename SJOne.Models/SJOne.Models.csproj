@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoTiming.cs" />
+    <Compile Include="City.cs" />
     <Compile Include="EventFile.cs" />
     <Compile Include="EventPhoto.cs" />
     <Compile Include="FetchOptions.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Interfaces\IContent.cs" />
     <Compile Include="Interfaces\ITiming.cs" />
     <Compile Include="Judge.cs" />
+    <Compile Include="Mapping\CityMap.cs" />
     <Compile Include="Mapping\EventFileMap.cs" />
     <Compile Include="Mapping\AutoTimingMap.cs" />
     <Compile Include="Mapping\EventPhoto.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Mapping\JudgeMap.cs" />
     <Compile Include="Mapping\ProtocolMap.cs" />
     <Compile Include="Mapping\RaceMap.cs" />
+    <Compile Include="Mapping\RegionMap.cs" />
     <Compile Include="Mapping\RoleMap.cs" />
     <Compile Include="Mapping\SportEventMap.cs" />
     <Compile Include="Mapping\StartNumberMap.cs" />
@@ -123,9 +126,12 @@
     <Compile Include="Mapping\TrainerTimingMap.cs" />
     <Compile Include="Mapping\TrainingMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />
+    <Compile Include="Mapping\VillageMap.cs" />
+    <Compile Include="Mapping\СountryMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol.cs" />
     <Compile Include="Race.cs" />
+    <Compile Include="Region.cs" />
     <Compile Include="Repositories\SportEventRepository.cs" />
     <Compile Include="Repositories\FastSearchAttribute.cs" />
     <Compile Include="Filters\RaceFilter.cs" />
@@ -148,6 +154,8 @@
     <Compile Include="TrainerTiming.cs" />
     <Compile Include="Training.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="Village.cs" />
+    <Compile Include="Country.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

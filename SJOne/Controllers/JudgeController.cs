@@ -118,7 +118,7 @@ namespace SJOne.Controllers
                     {
                         Name = addAthleteModel.Name,
                         Surname = addAthleteModel.Surname,
-                        City = addAthleteModel.City,
+                        //City = addAthleteModel.City,
                         Club = addAthleteModel.Club,
                         DOB = addAthleteModel.DOB,
                         RegistrationDate = DateTime.Now.Date

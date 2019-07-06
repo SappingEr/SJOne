@@ -46,7 +46,7 @@ namespace SJOne.Models.Repositories
                     criteria.Add(Restrictions.Like("City", filter.City, MatchMode.Anywhere));
                 }
 
-                if (!string.IsNullOrEmpty(filter.DOB))
+                if (!string.IsNullOrEmpty(filter.DOB.ToString()))
                 {
                     criteria.Add(Restrictions.Eq("DOB", filter.DOB));
                 }

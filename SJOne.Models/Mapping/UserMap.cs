@@ -14,11 +14,12 @@ namespace SJOne.Models.Mapping
             Map(u => u.Avatar).Length(int.MaxValue);            
             Map(u => u.Gender);
             Map(u => u.Name).Length(50);
-            Map(u => u.Surname).Length(50);
-            Map(u => u.City).Length(50);
+            Map(u => u.Surname).Length(50);            
             Map(u => u.Club).Length(50);            
             Map(u => u.DOB).Nullable();
-            Map(u => u.RegistrationDate);           
+            Map(u => u.RegistrationDate);
+            References(u => u.City).Cascade.All();
+            References(u => u.Village).Cascade.All();
             References(u => u.Training);
             References(u => u.Group);
             References(u => u.SubGroup);
