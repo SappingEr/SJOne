@@ -29,7 +29,7 @@ namespace SJOne.Controllers
                 infoModel.Name = user.Name;
                 infoModel.Surname = user.Surname;
                 //infoModel.City = user.City;
-                infoModel.Club = user.Club;
+                //infoModel.Club = user.Club;
                 infoModel.DOB = user.DOB;
 
                 switch (user.Gender)
@@ -92,7 +92,7 @@ namespace SJOne.Controllers
                     Name = user.Name,
                     Surname = user.Surname,
                     //City = user.City,
-                    Club = user.Club,
+                    //Club = user.Club,
                     DOB = user.DOB
                 });
             }
@@ -118,7 +118,7 @@ namespace SJOne.Controllers
                 user.Name = userModel.Name;
                 user.Surname = userModel.Surname;
                 //user.City = userModel.City;
-                user.Club = userModel.Club;
+                //user.Club = userModel.Club;
                 user.DOB = userModel.DOB;
             });
             return RedirectToAction("Info", new { id });

@@ -15,6 +15,8 @@ namespace SJOne.Models
         [DataType(DataType.Date)]
         public virtual DateTime EventDate { get; set; }
 
+        public virtual Locality EventCity { get; set; }
+
         public virtual IList<EventFile> EventFiles { get; set; }
 
         public virtual IList<EventPhoto> EventPhotos { get; set; }

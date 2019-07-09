@@ -54,7 +54,7 @@ namespace SJOne.Controllers
                     user.Name = athleteModel.Name;
                     user.Surname = athleteModel.Surname;
                     //user.City = athleteModel.City;
-                    user.Club = athleteModel.Club;
+                    //user.Club = athleteModel.Club;
                     user.DOB = athleteModel.DOB;
                     user.RegistrationDate = DateTime.Now;
                     race.UsersRace.Add(user);

@@ -33,11 +33,9 @@ namespace SJOne.Models
         public virtual string Surname { get; set; }
 
         
-        public virtual City City { get; set; }
+        public virtual Locality City { get; set; }       
 
-        public virtual Village Village { get; set; }
-
-        public virtual string Club { get; set; }
+        public virtual SportClub SportClub { get; set; }
 
         [DataType(DataType.Date)]
         public virtual DateTime? DOB { get; set; }

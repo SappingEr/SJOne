@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SJOne.Models.Filters
 {
-    public class TagFilter: BaseFilter
+    public class RegionFilter: BaseFilter
     {
         public string Name { get; set; }
     }

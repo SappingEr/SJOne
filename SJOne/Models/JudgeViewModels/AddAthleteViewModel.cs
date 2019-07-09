@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SJOne.Models.JudgeViewModels
 {
@@ -14,24 +15,25 @@ namespace SJOne.Models.JudgeViewModels
         [Required(ErrorMessage = "Укажите пол")]
         public string Gender { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
+        [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50)")]
         [Display(Name = "Имя")]
         [Required(ErrorMessage = "Введите Имя")]
         public string Name { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
+        [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50)")]
         [Display(Name = "Фамилия")]
         [Required(ErrorMessage = "Введите Фамилию")]
         public string Surname { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
-        [Display(Name = "Город")]
-        [Required(ErrorMessage = "Введите город")]
-        public string City { get; set; }
+        [Display(Name = "Регион")]
+        public IEnumerable<SelectListItem> Regions { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
+        public string NewPlace { get; set; }
+
+        public IEnumerable<SelectListItem> Locality { get; set; }        
+
         [Display(Name = "Клуб")]
-        public string Club { get; set; }
+        public IEnumerable<SelectListItem> Clubs { get; set; }        
 
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]

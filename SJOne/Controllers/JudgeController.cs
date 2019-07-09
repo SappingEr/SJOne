@@ -13,13 +13,15 @@ namespace SJOne.Controllers
         private RaceRepository raceRepository;
         private StartNumberRepository startNumberRepository;
         private HandTimingRepository handTimingRepository;
+        private RegionRepository regionRepository;
 
         public JudgeController(StartNumberRepository startNumberRepository, RaceRepository raceRepository,
-            HandTimingRepository handTimingRepository, UserRepository userRepository) : base(userRepository)
+            HandTimingRepository handTimingRepository, UserRepository userRepository, RegionRepository regionRepository) : base(userRepository)
         {
             this.raceRepository = raceRepository;
             this.startNumberRepository = startNumberRepository;
             this.handTimingRepository = handTimingRepository;
+            this.regionRepository = regionRepository;
         }
 
         public ActionResult MainRaceList(long id, JudgeRacesViewModel judgeModel)
@@ -117,9 +119,8 @@ namespace SJOne.Controllers
                     var user = new User
                     {
                         Name = addAthleteModel.Name,
-                        Surname = addAthleteModel.Surname,
-                        //City = addAthleteModel.City,
-                        Club = addAthleteModel.Club,
+                        Surname = addAthleteModel.Surname,                        
+                        //Club = addAthleteModel.Club,
                         DOB = addAthleteModel.DOB,
                         RegistrationDate = DateTime.Now.Date
                     };
@@ -148,6 +149,18 @@ namespace SJOne.Controllers
             }
             return HttpNotFound("Старт не найден");
         }
+
+        //[HttpPost]
+        //public ActionResult CitiesDropList(string region, CityDropListViewModel cityModel)
+        //{
+        //    var cities = cityRepository.CitiesInRegion(region)
+        //        .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+        //    if (cities.Count() >= 1)
+        //    {
+        //        cityModel.Cities = cities;
+        //    }
+        //    return View(cityModel);
+        //}
 
         //public ActionResult AthleteList(long id, StartNumberListViewModel model)
         //{
