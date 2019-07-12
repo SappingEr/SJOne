@@ -9,8 +9,7 @@ namespace SJOne.Models.Mapping
             Id(r => r.Id);
             Map(r => r.Name).Length(50);
             References(r => r.Country).Cascade.SaveUpdate();
-            HasMany(r => r.Cities);
-            HasMany(r => r.Villages);
+            HasMany(r => r.Localities);            
 ;        }
     }
 }

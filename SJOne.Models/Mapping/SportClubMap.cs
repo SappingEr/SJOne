@@ -8,6 +8,7 @@ namespace SJOne.Models.Mapping
         {
             Id(c => c.Id);
             Map(c => c.Name).Length(50);
+            References(c => c.Locality);
             HasMany(c => c.SportClubUsers);
         }
     }

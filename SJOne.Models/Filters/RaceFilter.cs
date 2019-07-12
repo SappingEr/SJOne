@@ -1,6 +1,4 @@
-﻿using SJOne.Models.Filters;
-
-namespace SJOne.Models.Repositories
+﻿namespace SJOne.Models.Filters
 {
     public class RaceFilter: BaseFilter
     {

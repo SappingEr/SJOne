@@ -14,12 +14,11 @@ namespace SJOne.Controllers
 
     public class AdminController : BaseController
     {
-        private JudgeRepository judgeRepository;
+        
 
-        public AdminController(UserRepository userRepository, JudgeRepository judgeRepository) : base(userRepository)
+        public AdminController(UserRepository userRepository) : base(userRepository)
         {
-            this.userRepository = userRepository;
-            this.judgeRepository = judgeRepository;
+            this.userRepository = userRepository;            
         }
 
 
@@ -92,10 +91,10 @@ namespace SJOne.Controllers
             {
                 if (model.RoleName.Contains("Judge"))
                 {
-                    judgeRepository.InvokeInTransaction(() =>
-                    {
-                        user.Judge.CountAthlete = 5;                      
-                    });
+                    //judgeRepository.InvokeInTransaction(() =>
+                    //{
+                    //    user.Judge.CountAthlete = 5;                      
+                    //});
 
                 }
                 UserManager.AddToRolesAsync(user.Id, model.RoleName);

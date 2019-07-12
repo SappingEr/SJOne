@@ -12,7 +12,7 @@
         </div>
         <hr />
         <div class="modal-body">
-            @Html.ListBoxFor(model => model.RoleName, Model.RoleList, new { @class = "form-control" })
+            @Html.ListBoxFor(model => model.RoleName, Model.RoleList, new { @data_live_search="true", @class = "form-control" })
         </div>
 
         <div class="modal-footer">

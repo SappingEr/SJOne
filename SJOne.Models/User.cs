@@ -33,7 +33,7 @@ namespace SJOne.Models
         public virtual string Surname { get; set; }
 
         
-        public virtual Locality City { get; set; }       
+        public virtual Locality Locality { get; set; }       
 
         public virtual SportClub SportClub { get; set; }
 

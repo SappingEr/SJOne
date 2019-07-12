@@ -14,14 +14,17 @@ namespace SJOne.Controllers
         private StartNumberRepository startNumberRepository;
         private HandTimingRepository handTimingRepository;
         private RegionRepository regionRepository;
+        private SportClubRepository clubRepository;
 
         public JudgeController(StartNumberRepository startNumberRepository, RaceRepository raceRepository,
-            HandTimingRepository handTimingRepository, UserRepository userRepository, RegionRepository regionRepository) : base(userRepository)
+            HandTimingRepository handTimingRepository, UserRepository userRepository, RegionRepository regionRepository,
+            SportClubRepository clubRepository) : base(userRepository)
         {
             this.raceRepository = raceRepository;
             this.startNumberRepository = startNumberRepository;
             this.handTimingRepository = handTimingRepository;
             this.regionRepository = regionRepository;
+            this.clubRepository = clubRepository;
         }
 
         public ActionResult MainRaceList(long id, JudgeRacesViewModel judgeModel)
@@ -102,7 +105,27 @@ namespace SJOne.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddNewAthlete(long id) => View(new AddAthleteViewModel { Id = id });
+        public ActionResult AddNewAthlete(long id)
+        {
+            var race = raceRepository.Get(id);
+            if (race != null)
+            {
+                
+                var sportEventLocality = race.SportEvent.Locality;
+                var sportEventRegion = sportEventLocality.Region;
+                var localityId = sportEventLocality.Id;
+                var regionId = sportEventLocality.Region.Id;
+                var model = new AddAthleteViewModel();                
+                model.LocalityId = sportEventLocality.Id;
+                model.RegionId = regionId;
+                model.RegionId = sportEventRegion.Id;
+                model.Clubs = clubRepository.FindAll().Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+                model.Regions = regionRepository.FindAll().Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name,  Selected = model.RegionId.Equals(regionId) });
+                model.Locality = sportEventRegion.Localities.Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });
+                return View(model);
+            }
+            return HttpNotFound("Старт не найден");
+        }
 
         [HttpPost]
         public ActionResult AddNewAthlete(long id, AddAthleteViewModel addAthleteModel)
@@ -149,18 +172,13 @@ namespace SJOne.Controllers
             }
             return HttpNotFound("Старт не найден");
         }
-
-        //[HttpPost]
-        //public ActionResult CitiesDropList(string region, CityDropListViewModel cityModel)
-        //{
-        //    var cities = cityRepository.CitiesInRegion(region)
-        //        .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
-        //    if (cities.Count() >= 1)
-        //    {
-        //        cityModel.Cities = cities;
-        //    }
-        //    return View(cityModel);
-        //}
+        
+        public ActionResult LocalitiesDropDownList(int id, LocalityDropDownListViewModel localityModel)
+        {
+            localityModel.Localities = regionRepository.Get(id).Localities
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+            return View(localityModel);            
+        }
 
         //public ActionResult AthleteList(long id, StartNumberListViewModel model)
         //{

@@ -14,8 +14,6 @@ namespace SJOne.Models
 
         public virtual Country Country { get; set; }
 
-        public virtual IList<City> Cities { get; set; } = new List<City>();
-
-        public virtual IList<Village> Villages { get; set; } = new List<Village>();        
+        public virtual IList<Locality> Localities { get; set; } = new List<Locality>();           
     }
 }

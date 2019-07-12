@@ -12,6 +12,8 @@ namespace SJOne.Models
 
         public virtual string Name { get; set; }
 
+        public virtual Locality Locality { get; set; }
+
         public virtual IList<User> SportClubUsers { get; set; } = new List<User>();
     }
 }
