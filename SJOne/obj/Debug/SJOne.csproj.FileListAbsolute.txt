@@ -218,7 +218,6 @@ E:\Repos\SJOne\SJOne\bin\Microsoft.Owin.xml
 E:\Repos\SJOne\SJOne\bin\Microsoft.Owin.Security.xml
 E:\Repos\SJOne\SJOne\bin\Microsoft.Owin.Security.Cookies.xml
 E:\Repos\SJOne\SJOne\bin\Microsoft.Owin.Security.OAuth.xml
-E:\Repos\SJOne\SJOne\bin\Newtonsoft.Json.pdb
 E:\Repos\SJOne\SJOne\bin\Newtonsoft.Json.xml
 E:\Repos\SJOne\SJOne\bin\NHibernate.xml
 E:\Repos\SJOne\SJOne\bin\Remotion.Linq.xml

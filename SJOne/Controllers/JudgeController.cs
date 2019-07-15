@@ -115,13 +115,17 @@ namespace SJOne.Controllers
                 var sportEventRegion = sportEventLocality.Region;
                 var localityId = sportEventLocality.Id;
                 var regionId = sportEventLocality.Region.Id;
-                var model = new AddAthleteViewModel();                
-                model.LocalityId = sportEventLocality.Id;
-                model.RegionId = regionId;
+                var model = new AddAthleteViewModel
+                {
+                    LocalityId = sportEventLocality.Id,
+                    RegionId = regionId
+                };
                 model.RegionId = sportEventRegion.Id;
                 model.Clubs = clubRepository.FindAll().Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
-                model.Regions = regionRepository.FindAll().Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name,  Selected = model.RegionId.Equals(regionId) });
-                model.Locality = sportEventRegion.Localities.Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });
+                model.Regions = regionRepository.FindAll()
+                    .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name,  Selected = model.RegionId.Equals(regionId) });
+                model.Localities = sportEventRegion.Localities
+                    .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });
                 return View(model);
             }
             return HttpNotFound("Старт не найден");
@@ -173,11 +177,13 @@ namespace SJOne.Controllers
             return HttpNotFound("Старт не найден");
         }
         
-        public ActionResult LocalitiesDropDownList(int id, LocalityDropDownListViewModel localityModel)
+        
+        public ActionResult LocalitiesDropDownList(long id, LocalityDropDownListViewModel localityModel)
         {
+            long sportEventLocality = 0;
             localityModel.Localities = regionRepository.Get(id).Localities
-                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
-            return View(localityModel);            
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name, Selected = localityModel.LocalityId.Equals(sportEventLocality)});
+            return PartialView(localityModel);            
         }
 
         //public ActionResult AthleteList(long id, StartNumberListViewModel model)

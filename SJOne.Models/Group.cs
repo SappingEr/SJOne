@@ -8,7 +8,7 @@ namespace SJOne.Models
 {
     public class Group
     {
-        public virtual int Id { get; set; }
+        public virtual long Id { get; set; }
 
         public virtual string GroupName { get; set; }
 

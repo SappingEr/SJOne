@@ -25,16 +25,19 @@ namespace SJOne.Models.JudgeViewModels
         [Required(ErrorMessage = "Введите Фамилию")]
         public string Surname { get; set; }
 
-        public int RegionId { get; set; }
+        public long RegionId { get; set; }
 
         [Display(Name = "Регион")]
+        [Required(ErrorMessage = "Укажите регион")]
         public IEnumerable<SelectListItem> Regions { get; set; }
 
         public string NewPlace { get; set; }
 
-        public int LocalityId { get; set; }
+        public long LocalityId { get; set; }
 
-        public IEnumerable<SelectListItem> Locality { get; set; }        
+        [Display(Name = "Насёленный пункт")]
+        [Required(ErrorMessage = "Укажите населенный пункт")]
+        public IEnumerable<SelectListItem> Localities { get; set; }        
 
         public int ClubId { get; set; }
 

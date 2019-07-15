@@ -1,81 +1,90 @@
-﻿@model SJOne.Models.JudgeViewModels.AddAthleteViewModel
+﻿@using SJOne.Models.JudgeViewModels
+@model SJOne.Models.JudgeViewModels.AddAthleteViewModel
+
 
 @{
     ViewBag.Title = "Новый участник";
 }
 
 <h2>Новый участник</h2>
+<h4>(Регистрация)</h4>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>AddAthleteViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-horizontal">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Gender, new SelectList(new string[] { "Мужской", "Женский" }), new { @class = "form-control" })
-            </div>
-        </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Clubs, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ClubId, Model.Clubs, new { @class = "selectpicker", @data_live_search="true"  })
-                @Html.ValidationMessageFor(model => model.Clubs, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Regions, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.RegionId, Model.Regions, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Regions, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.LocalityId, Model.Locality, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Зарегистрировать" class="btn btn-default" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Gender, new SelectList(new string[] { "Мужской", "Женский" }), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Clubs, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.ClubId, Model.Clubs, new { @class = "selectpicker", @data_live_search = "true" })
+            @Html.ValidationMessageFor(model => model.Clubs, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Regions, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.RegionId, Model.Regions, new { @id = "region", @class = "selectpicker", @data_live_search = "true" })
+            @Html.ValidationMessageFor(model => model.Regions, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div id="localities">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Localities, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="input-group col-md-10">
+                @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker", @data_live_search = "true" })
+                @Html.ValidationMessageFor(model => model.Localities, "", new { @class = "text-danger" })
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit">Go</button>
+                </div>
+                </div>
+            </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button tupe="submit" class="btn btn-success"><span class="octicon octicon-plus"></span> Зарегистрировать</button>
+        </div>
+    </div>
+</div>
 }
 
 <div>
@@ -90,6 +99,23 @@
         $(function () {
             $('.selectpicker').selectpicker();
         });
+
+        $(function () {
+        $('#region').change(function()
+        {
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("LocalitiesDropDownList")/' + id,
+                success: function (data) {
+
+                    $('#localities').html(data);
+                }
+            });
+        });
+        })
+
+
     </script>
 
 }

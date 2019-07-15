@@ -8,7 +8,7 @@ namespace SJOne.Models
 {
     public class SportClub
     {
-        public virtual int Id { get; set; }
+        public virtual long Id { get; set; }
 
         public virtual string Name { get; set; }
 

@@ -1,0 +1,24 @@
+﻿@model SJOne.Models.JudgeViewModels.LocalityDropDownListViewModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Localities, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker input-group", @data_live_search = "true" })
+        @Html.ValidationMessageFor(model => model.Localities, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $('.selectpicker').selectpicker();
+    });
+</script>
+
+
+
+
+
+

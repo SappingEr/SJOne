@@ -23,7 +23,7 @@ namespace SJOne.Models.Repositories
         public virtual T Get(long id)
         {
             return session.Get<T>(id);
-        }
+        }       
 
         public virtual T Load(long id)
         {

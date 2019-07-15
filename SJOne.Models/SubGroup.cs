@@ -8,7 +8,7 @@ namespace SJOne.Models
 {
     public class SubGroup
     {
-        public virtual int Id { get; set; }
+        public virtual long Id { get; set; }
 
         public virtual string SubGrName { get; set; }
 
