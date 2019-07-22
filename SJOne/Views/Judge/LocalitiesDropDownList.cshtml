@@ -1,12 +1,17 @@
-﻿@model SJOne.Models.JudgeViewModels.LocalityDropDownListViewModel
+﻿@model SJOne.Models.LocalityDropDownListViewModel
 
-<div class="form-group">
+
+<div id="localities" class="form-group">
     @Html.LabelFor(model => model.Localities, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker input-group", @data_live_search = "true" })
+    <div class="input-group col-md-10">
+        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker", @data_live_search = "true" })
         @Html.ValidationMessageFor(model => model.Localities, "", new { @class = "text-danger" })
+        <div class="input-group-append">
+            <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
+        </div>
     </div>
 </div>
+
 
 
 
@@ -14,7 +19,13 @@
 
     $(function () {
         $('.selectpicker').selectpicker();
+    });    
+
+    $('#newLocality').click(function () {
+            $('#newLocalityForm').show();
+            $('#localities').hide();
     });
+    
 </script>
 
 

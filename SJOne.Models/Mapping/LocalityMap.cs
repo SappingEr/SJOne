@@ -8,7 +8,7 @@ namespace SJOne.Models.Mapping
         {
             Id(c => c.Id);
             Map(c => c.Name).Length(50);
-            References(c => c.Region).Cascade.All();
+            References(c => c.Region);
             HasMany(c => c.LocalityUsers);
             HasMany(c => c.LocalitySportEvents);
             HasMany(c => c.LocalitySportClubs);

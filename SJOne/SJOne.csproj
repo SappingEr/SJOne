@@ -195,7 +195,7 @@
     <Compile Include="Models\EventViewModels\EventRaceListViewModel.cs" />
     <Compile Include="Models\EventViewModels\SportEventListViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\AddAthleteViewModel.cs" />
-    <Compile Include="Models\JudgeViewModels\LocalityDropDownListViewModel.cs" />
+    <Compile Include="Models\LocalityDropDownListViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\FindAthleteViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\VillageDropListModel.cs" />
     <Compile Include="Models\ManagementViewModels\JudgeListViewModel.cs" />

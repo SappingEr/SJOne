@@ -110,7 +110,7 @@ namespace SJOne.Controllers
             var race = raceRepository.Get(id);
             if (race != null)
             {
-                
+
                 var sportEventLocality = race.SportEvent.Locality;
                 var sportEventRegion = sportEventLocality.Region;
                 var localityId = sportEventLocality.Id;
@@ -123,7 +123,7 @@ namespace SJOne.Controllers
                 model.RegionId = sportEventRegion.Id;
                 model.Clubs = clubRepository.FindAll().Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
                 model.Regions = regionRepository.FindAll()
-                    .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name,  Selected = model.RegionId.Equals(regionId) });
+                    .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.RegionId.Equals(regionId) });
                 model.Localities = sportEventRegion.Localities
                     .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });
                 return View(model);
@@ -146,7 +146,7 @@ namespace SJOne.Controllers
                     var user = new User
                     {
                         Name = addAthleteModel.Name,
-                        Surname = addAthleteModel.Surname,                        
+                        Surname = addAthleteModel.Surname,
                         //Club = addAthleteModel.Club,
                         DOB = addAthleteModel.DOB,
                         RegistrationDate = DateTime.Now.Date
@@ -161,9 +161,9 @@ namespace SJOne.Controllers
                     }
                     var doubleUser = userRepository.Find(new UserFilter
                     {
-                         Name = user.Name,
-                         Surname = user.Surname,
-                          
+                        Name = user.Name,
+                        Surname = user.Surname,
+
                     });
                     freeNumber.Judge = judge;
                     freeNumber.User = user;
@@ -172,18 +172,40 @@ namespace SJOne.Controllers
                         raceRepository.Save(race);
                     });
                     return RedirectToAction("wdwdwdwd");
-                }                
+                }
             }
             return HttpNotFound("Старт не найден");
         }
-        
-        
+
+
         public ActionResult LocalitiesDropDownList(long id, LocalityDropDownListViewModel localityModel)
         {
             long sportEventLocality = 0;
             localityModel.Localities = regionRepository.Get(id).Localities
-                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name, Selected = localityModel.LocalityId.Equals(sportEventLocality)});
-            return PartialView(localityModel);            
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name, Selected = localityModel.LocalityId.Equals(sportEventLocality) });
+            return PartialView(localityModel);
+        }
+
+        public ActionResult AddNewLocality(long id, string name )
+        {
+            var region = regionRepository.Get(id);
+            if (region != null)
+            {
+                var localities = region.Localities.Select(i=>i.Name).ToList();
+
+                if (localities.Contains(name))
+                {
+                    return Json(new { succcess = false, responseText = "Ошибка! " + name + " есть в списке!" });
+                }
+
+                regionRepository.InvokeInTransaction(() =>
+                {
+                    region.Localities.Add(new Locality { Name = name });
+                });
+
+                return Json(new { succcess = true, responseText = "Список населенных пунктов успешно обновлен." });
+            }
+            return Json(new { succcess = false, responseText = "Ошибка! Попробуйте снова. Возможно не выбран регион." });
         }
 
         //public ActionResult AthleteList(long id, StartNumberListViewModel model)

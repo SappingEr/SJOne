@@ -29,9 +29,7 @@ namespace SJOne.Models.JudgeViewModels
 
         [Display(Name = "Регион")]
         [Required(ErrorMessage = "Укажите регион")]
-        public IEnumerable<SelectListItem> Regions { get; set; }
-
-        public string NewPlace { get; set; }
+        public IEnumerable<SelectListItem> Regions { get; set; }        
 
         public long LocalityId { get; set; }
 
