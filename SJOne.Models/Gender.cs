@@ -9,7 +9,6 @@ namespace SJOne.Models
 {
     public enum Gender
     {        
-        No,
         Male,        
         Female
     }

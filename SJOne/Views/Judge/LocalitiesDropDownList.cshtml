@@ -1,9 +1,9 @@
 ﻿@model SJOne.Models.LocalityDropDownListViewModel
 
 
-<div id="localities" class="form-group">
-    @Html.LabelFor(model => model.Localities, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="input-group col-md-10">
+<div id="localities" class="form-group offset-1">
+    @Html.LabelFor(model => model.Localities)
+    <div class="input-group">
         @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker", @data_live_search = "true" })
         @Html.ValidationMessageFor(model => model.Localities, "", new { @class = "text-danger" })
         <div class="input-group-append">
@@ -19,13 +19,22 @@
 
     $(function () {
         $('.selectpicker').selectpicker();
-    });    
+    });
 
     $('#newLocality').click(function () {
-            $('#newLocalityForm').show();
-            $('#localities').hide();
+        $('#newLocalityForm').show();
+        $('#localities').hide();
+        $('#locality').focus();
+        $('#locality').keyup(function () {
+            if ($(this).val() != '') {
+                $('#toAddLocality').prop('disabled', false);
+            }
+            else {
+                $('#toAddLocality').prop('disabled', true);
+            }
+        });
     });
-    
+
 </script>
 
 

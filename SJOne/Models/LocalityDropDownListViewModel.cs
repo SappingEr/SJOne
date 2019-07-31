@@ -8,7 +8,7 @@ namespace SJOne.Models
     {  
         public long LocalityId { get; set; }
 
-        [Display(Name = "Населённый пункт")]
+        [Display(Name = "Населённый пункт")]        
         public IEnumerable<SelectListItem> Localities { get; set; }
     }
 }

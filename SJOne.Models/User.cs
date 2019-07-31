@@ -18,6 +18,8 @@ namespace SJOne.Models
 
         public virtual string Email { get; set; }
 
+        public virtual string PhoneNumber { get; set; }
+
         public virtual string Password { get; set; }
 
         public virtual Status Status { get; set; }
@@ -31,7 +33,6 @@ namespace SJOne.Models
 
         [FastSearch]
         public virtual string Surname { get; set; }
-
         
         public virtual Locality Locality { get; set; }       
 

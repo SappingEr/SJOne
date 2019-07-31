@@ -39,10 +39,7 @@ namespace SJOne.Controllers
                         break;
                     case Gender.Female:
                         infoModel.Gender = "Женский";
-                        break;
-                    case Gender.No:
-                        infoModel.Gender = "Не указан";
-                        break;
+                        break;                    
                 }
                 return View(infoModel);
             }

@@ -9,6 +9,7 @@ namespace SJOne.Models.Mapping
             Id(u => u.Id).GeneratedBy.Identity();
             Map(u => u.UserName).Length(50);
             Map(u => u.Email).Length(50);
+            Map(u => u.PhoneNumber).Length(12);
             Map(u => u.Password).Length(350);
             Map(u => u.Status);
             Map(u => u.Avatar).Length(int.MaxValue);            
