@@ -48,9 +48,7 @@ namespace SJOne.Models
 
         public virtual IList<TrainerTiming> TrainerTimings { get; set; } = new List<TrainerTiming>();
 
-        public virtual IList<Role> Roles { get; set; } = new List<Role>();
-
-        public virtual IList<Race> RacesUser { get; set; } = new List<Race>();
+        public virtual IList<Role> Roles { get; set; } = new List<Role>();        
 
         public virtual Training Training { get; set; }
 
@@ -58,13 +56,11 @@ namespace SJOne.Models
 
         public virtual SubGroup SubGroup { get; set; }
 
-        private Trainer trainer;
+        public virtual Trainer Trainer { get; set; }       
 
-        public virtual Trainer Trainer { get { return trainer ?? (trainer = new Trainer()); } set { trainer = value; } }
+        public virtual Judge Judge { get; set; }
 
-        private Judge judge;
-
-        public virtual Judge Judge { get { return judge ?? (judge = new Judge()); } set { judge = value; } }
+        
 
 
     }

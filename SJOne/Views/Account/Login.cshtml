@@ -2,65 +2,73 @@
 
 @{
     ViewBag.Title = "Вход";
-}
-<br />
+ }
 
-<div class="panel panel-default text-center col-md-offset-3 col-md-6">
 
-    <h2>Вход</h2>
-    
+<div class="card col-sm-4 mx-auto">
+    <div class="card-body">
+        <h2 class="card-title text-center">Вход</h2>
+        <hr />
+
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group text-center">
-                    @Html.LabelFor(model => model.Login, htmlAttributes: new { @class = "control-label col-md-3", style = "display: none" })
-                    <div class="col-md-offset-2">
-                        @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control"} })
-                        @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
-                    </div>                    
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Login, htmlAttributes: new { @class = "control-label", style = "display: none" })
+                <div class="justify-content-center">
+                    @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-3", style = "display: none" })
-                    <div class="col-md-offset-2">
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label", style = "display: none" })
+                <div>
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-3">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.RememberMe)
-                            @Html.LabelFor(model => model.RememberMe)
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-log-in"></span> Войти</button> |
-                        @Html.ActionLink("Зарегистрироваться", "Register")
+            <div id="logRemember" class="form-group" style="display:none">
+                <div>
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.RememberMe)
+                        @Html.LabelFor(model => model.RememberMe)
                     </div>
                 </div>
             </div>
+
+            <div id="logButton" class="form-group" style="display:none">
+                <div>
+                    <button type="submit" class="btn btn-primary"><span class="octicon octicon-log-in"></span> Войти</button> |
+                    @Html.ActionLink("Зарегистрироваться", "Register")
+                </div>
+            </div>
+            <hr />
+
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+
         }
-    
+    </div>
 </div>
 
-<div class="clearfix"></div>
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        $(".form-control").focus(function () {
-            $(".control-label").show('slow');
-        });        
+        $('.form-control').focus(function () {
+            $('.control-label').show();
+            $('#logButton, #logRemember').show(1000);
+        });
     </script>
 
 }

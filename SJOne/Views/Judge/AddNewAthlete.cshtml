@@ -8,7 +8,7 @@
 
 <div class="jumbotron bg-warning text-white">
     <h2>Новый участник</h2>
-    <h4>(Регистрация)</h4>
+    <h4>Регистрация</h4>
 </div>
 
 @using (Html.BeginForm())
@@ -42,7 +42,7 @@
             <div class="form-group offset-1">
                 @Html.LabelFor(model => model.Gender)
                 <div>
-                    @Html.DropDownListFor(model => model.Gender, new SelectList(new string[] { "Мужской", "Женский" }), "- Выберите пол -", new { @class = "custom-select" })
+                    @Html.DropDownListFor(model => model.Gender, new SelectList(new string[] { "Мужской", "Женский" }), "- Выберите пол -", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                 </div>
             </div>

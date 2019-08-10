@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web;
+using System;
 using SJOne.Models.Filters;
 using Microsoft.AspNet.Identity;
 using NHibernate;
@@ -76,15 +77,14 @@ namespace SJOne.Models.Repositories
             return crit.List<User>();
         }
 
-        public IList<User> RaceAthletesList(long[] userId, Race race, UserFilter filter, FetchOptions options = null)
+        public IList<User> StartList(Race race, UserFilter filter, FetchOptions options = null)
         {
             var crit = session.CreateCriteria<User>()
-                .Add(Restrictions.In("Id", userId));
+                .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
+                .Add(Restrictions.Eq("sN.Race", race));                                         
             SetupFilter(filter, crit);
-            SetupFetchOptions(crit, options);
-            crit.CreateCriteria("StartNumbersU", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
-            .Add(Restrictions.Eq("Race", race));
-            return crit.List<User>();
+            SetupFetchOptions(crit, options);           
+            return crit.List<User>();           
         }
 
         public User GetCurrentUser(IPrincipal user = null)

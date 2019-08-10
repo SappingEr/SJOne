@@ -88,6 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgeGroup.cs" />
     <Compile Include="AutoTiming.cs" />
     <Compile Include="Filters\SportClubFilter.cs" />
     <Compile Include="Locality.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Interfaces\IContent.cs" />
     <Compile Include="Interfaces\ITiming.cs" />
     <Compile Include="Judge.cs" />
+    <Compile Include="Mapping\AgeGroupMap.cs" />
     <Compile Include="Mapping\LocalityMap.cs" />
     <Compile Include="Mapping\EventFileMap.cs" />
     <Compile Include="Mapping\AutoTimingMap.cs" />

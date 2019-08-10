@@ -16,9 +16,9 @@ namespace SJOne.Models
 
         public virtual Judge MainJudgeRace { get; set; }
 
-        public virtual IList<StartNumber> StartNumbersRace { get; set; } = new List<StartNumber>();
+        public virtual IList<AgeGroup> AgeGroups { get; set; } = new List<AgeGroup>(); 
 
-        public virtual IList<User> UsersRace { get; set; } = new List<User>();
+        public virtual IList<StartNumber> StartNumbersRace { get; set; } = new List<StartNumber>();       
 
         public virtual IList<Judge> JudgesRace { get; set; } = new List<Judge>();
 

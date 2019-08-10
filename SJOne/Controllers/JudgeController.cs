@@ -28,6 +28,20 @@ namespace SJOne.Controllers
             this.clubRepository = clubRepository;
         }
 
+        public ActionResult StartListSettings(long id, StartListViewModel startListModel, UserFilter userFilter, FetchOptions options)
+        {
+            var race= raceRepository.Get(id);
+            if (race != null)
+            {
+                startListModel.Id = id;
+                var athletes = userRepository.StartList(race, userFilter, options);                
+                startListModel.AthletesCount = athletes.Count;
+                startListModel.Athletes = athletes;
+                return View(startListModel);
+            }
+            return HttpNotFound("Старт не найден");
+        }
+
         public ActionResult MainRaceList(long id, JudgeRacesViewModel judgeModel)
         {
             var judgeMainRaces = userRepository.Get(id).Judge.MainRaces;

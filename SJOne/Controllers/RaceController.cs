@@ -19,24 +19,24 @@ namespace SJOne.Controllers
         }
 
 
-        public ActionResult StartList(long id, RaceAthletesListViewModel model, UserFilter userFilter, FetchOptions options)
-        {
-            var race = raceRepository.Get(id);
-            if (race != null)
-            {
-                long[] userId = race.UsersRace.Select(i => i.Id).ToArray();
-                var athleteList = userRepository.RaceAthletesList(userId, race, userFilter, options);
-                model.Id = race.Id;
-                model.Athletes = athleteList;
-                model.AthleteCount = athleteList.Count;
-                model.JudgeCount = Convert.ToInt32(Math.Ceiling(athleteList.Count / 10.0));
-                model.Distance = race.Distance;
-                model.LapCount = race.LapCount;
-                return View(model);
-            }
-            return HttpNotFound("Забег не найден");
+        //public ActionResult StartList(long id, RaceAthletesListViewModel model, UserFilter userFilter, FetchOptions options)
+        //{
+        //    var race = raceRepository.Get(id);
+        //    if (race != null)
+        //    {
+        //        long[] userId = race.UsersRace.Select(i => i.Id).ToArray();
+        //        var athleteList = userRepository.RaceAthletesList(userId, race, userFilter, options);
+        //        model.Id = race.Id;
+        //        model.Athletes = athleteList;
+        //        model.AthleteCount = athleteList.Count;
+        //        model.JudgeCount = Convert.ToInt32(Math.Ceiling(athleteList.Count / 10.0));
+        //        model.Distance = race.Distance;
+        //        model.LapCount = race.LapCount;
+        //        return View(model);
+        //    }
+        //    return HttpNotFound("Забег не найден");
 
-        }
+        //}
 
         [HttpGet]
         public ActionResult AddAthlete(long id) => View(new AthleteViewModel { Id = id });
@@ -57,7 +57,7 @@ namespace SJOne.Controllers
                     //user.Club = athleteModel.Club;
                     user.DOB = athleteModel.DOB;
                     user.RegistrationDate = DateTime.Now;
-                    race.UsersRace.Add(user);
+                    //race.UsersRace.Add(user);
                     userRepository.Save(user);
                 });
                 return RedirectToAction("StartList", "Race", new { id });

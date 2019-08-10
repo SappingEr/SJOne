@@ -51,7 +51,7 @@
     {
         <tr>
             <td>
-                @foreach (var i in item.StartNumbersU)
+                @foreach (var i in item.StartNumbersUser)
                 {
                     @i.Number
                 }
@@ -66,10 +66,10 @@
                 @Html.DisplayFor(modelItem => item.DOB)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City)
+                @Html.DisplayFor(modelItem => item.Locality)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Club)
+                @Html.DisplayFor(modelItem => item.SportClub)
             </td>
 
         </tr>
