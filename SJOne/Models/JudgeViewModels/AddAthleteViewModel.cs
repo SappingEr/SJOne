@@ -11,9 +11,11 @@ namespace SJOne.Models.JudgeViewModels
     {
         public long Id { get; set; }
 
+        public byte GenderId { get; set; }
+
         [Display(Name = "Пол")]
-        [Required(ErrorMessage = "Выберите пол")]
-        public string Gender { get; set; }        
+        [Required(ErrorMessage = "Выберите пол.")]
+        public IEnumerable<SelectListItem> Genders { get; set; }        
 
         [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50).")]
         [Display(Name = "Имя")]
@@ -31,12 +33,12 @@ namespace SJOne.Models.JudgeViewModels
         [RegularExpression(@"\+7[0-9]{10}", ErrorMessage = "Введите номер без пробелов.")]
         public string PhoneNumber { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50)")]
+        [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50).")]
         [Display(Name = "Email")]
-        [EmailAddress(ErrorMessage = "Заполните поле Email правильно")]
+        [EmailAddress(ErrorMessage = "Заполните поле Email правильно.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Выберите регион")]
+        [Required(ErrorMessage = "Выберите регион.")]
         public long RegionId { get; set; }
 
         [Display(Name = "Регион")]

@@ -1,69 +1,76 @@
-﻿@using SJOne.Extensions
+﻿@using SJOne.Models.JudgeViewModels
 @using SJOne.Models.Filters
-@model SJOne.Models.StartListViewModel
+@model SJOne.Models.JudgeViewModels.StartListSettingsViewModel
 
 @{
-    ViewBag.Title = "Список участников (Настройки)";
+    ViewBag.Title = "Список участников - распределение";
 }
 
+@Scripts.Render("~/bundles/jquery")
+
 <div class="jumbotron">
-    <h2>Список участников</h2>
-    <h4>Настройки</h4>
+    <h2>Распределение стартового списка</h2>
 </div>
 
+<div class="col">
+    @Html.Partial("_SearchUser", new UserFilter())
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6">
 
+        <form class="form-inline">
+            <div class="col">
+                @Html.DropDownListFor(model => model.AgeGroupId, Model.AgeGroups, "-Возрастная группа-", new { @class = "form-control" })
+            </div>
+            <div class="col">
+                @Html.DropDownListFor(model => model.Gender, new SelectList(new string[] { "Мужской", "Женский" }), "-Пол-", new { @id = "gender", @class = "form-control" })
+            </div>
+        </form>
+        <br />
+        <div id="mainList">
+            @Html.Action("StartList", new { id = Model.Id })
+        </div>
+    </div>
 
-@Html.Partial("_SearchUser", new UserFilter())
+    <div class="col-md-6">
+        <div>
+            @Html.DropDownListFor(model => model.JudgeId, Model.Judges, new { @class = "form-control" })
+        </div>
+        <br />
+        <div id="assistantList">
+            @Html.Action("JudgeAssistantStartList", new { id = Model.Id, judgeId = Model.JudgeId })
+        </div>
+    </div>
+</div>
 
-<div class="table-responsive-md">
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>
-                    №
-                </th>
-                <th>
-                    @Html.SortLink("Имя", "Name", "StartListSettings", "Judge", null)
-                </th>
-                <th>
-                    @Html.SortLink("Фамилия", "Surname", "StartListSettings", "Judge", null)
-                </th>
-                <th>
-                    @Html.SortLink("Дата рождения", "DOB", "StartListSettings", "Judge", null)
-                </th>
-                <th>
-                    Опции
-                </th>
-            </tr>
-        </thead>
+@section Scripts {
 
-        @foreach (var item in Model.Athletes)
-        {
-            <tr>
-                <td>
-                    @foreach (var n in item.StartNumbersUser)
-                    {
-                        <h5><span class="badge badge-info"> @n.Number</span></h5>
+    <script>
+        $(document).ready(function () {
+
+            $('#gender').change(function () {
+                var gender = $(this).val();
+                $.ajax({
+                    async: true,
+                    type: 'GET',
+                    url: '@Url.Action("StartList")/' + @Model.Id + '?gender=' + gender,
+                    success: function (data) {
+                        $('#mainList').html(data);
                     }
-                </td>
-                <td>
-                    @Html.DisplayFor(i => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(i => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(i => item.DOB)
-                </td>
-                <td>
-                    <a class="btn-sm btn-outline-success" href="@Url.Action("Register", "Judge",
-                                       new { id = Model.Id, athleteId = item.Id })">
-                        <span class="octicon octicon-check"></span>
-                    </a>
-                </td>
-            </tr>
-        }
+                });
+            });
+        });
+    </script>
+}
 
-    </table>
 
-</div>
+
+
+
+
+
+
+
+
+

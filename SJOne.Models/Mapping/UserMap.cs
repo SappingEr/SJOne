@@ -12,12 +12,12 @@ namespace SJOne.Models.Mapping
             Map(u => u.PhoneNumber).Length(12);
             Map(u => u.Password).Length(350);
             Map(u => u.Status);
-            Map(u => u.Avatar).Length(int.MaxValue);            
-            Map(u => u.Gender);
+            Map(u => u.Avatar).Length(int.MaxValue);          
             Map(u => u.Name).Length(50);
             Map(u => u.Surname).Length(50);                        
             Map(u => u.DOB).Nullable();
             Map(u => u.RegistrationDate);
+            References(u => u.Gender).Cascade.SaveUpdate();
             References(u => u.SportClub).Cascade.SaveUpdate();
             References(u => u.Locality).Cascade.SaveUpdate();            
             References(u => u.Training);

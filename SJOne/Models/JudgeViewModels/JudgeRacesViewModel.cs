@@ -7,11 +7,5 @@ namespace SJOne.Models
         public long Id { get; set; }
 
         public IEnumerable<Race> JudgeRaces { get; set; } 
-
-
-
-
-
-
     }
 }

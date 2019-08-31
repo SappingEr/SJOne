@@ -28,19 +28,10 @@ namespace SJOne.Controllers
                 infoModel.Email = user.Email;
                 infoModel.Name = user.Name;
                 infoModel.Surname = user.Surname;
-                //infoModel.City = user.City;
-                //infoModel.Club = user.Club;
+                infoModel.Locality = user.Locality.Name;
+                infoModel.Club = user.SportClub.Name;
                 infoModel.DOB = user.DOB;
-
-                switch (user.Gender)
-                {
-                    case Gender.Male:
-                        infoModel.Gender = "Мужской";
-                        break;
-                    case Gender.Female:
-                        infoModel.Gender = "Женский";
-                        break;                    
-                }
+                infoModel.Gender = user.Gender.Name;                
                 return View(infoModel);
             }
 
@@ -103,15 +94,7 @@ namespace SJOne.Controllers
             {
                 var user = userRepository.Get(id);
                 user.UserName = userModel.Login;
-                user.Email = userModel.Email;                
-                if (userModel.Gender == "Мужской")
-                {
-                    user.Gender = Gender.Male;
-                }
-                else if (userModel.Gender == "Женский")
-                {
-                    user.Gender = Gender.Female;
-                }
+                user.Email = userModel.Email;               
                 user.Name = userModel.Name;
                 user.Surname = userModel.Surname;
                 //user.City = userModel.City;

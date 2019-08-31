@@ -59,7 +59,7 @@ namespace SJOne.App_Start
                 schemaExport.Execute(true, true);
                 ISessionFactory session = conf.BuildSessionFactory();
                 InitialData(session);
-                return session;                
+                return session;
             }).As<ISessionFactory>().SingleInstance();
             builder.Register(x => x.Resolve<ISessionFactory>().OpenSession())
                 .As<ISession>().InstancePerRequest();
@@ -109,7 +109,7 @@ namespace SJOne.App_Start
                 var adminRole = new Role { Name = "$Admin" };
                 roleManager.Create(adminRole);
 
-                string[] roles = new string[] { "User", "Admin", "Manager", "Judge", "JudgeAsist", "Trainer" };
+                string[] roles = new string[] { "User", "Admin", "Manager", "Judge", "JudgeAssist", "Trainer" };
 
                 foreach (var item in roles)
                 {
@@ -126,7 +126,10 @@ namespace SJOne.App_Start
                     var result = userManager.AddToRoleAsync(user.Id, adminRole.Name);
                 }
 
-
+                var maleGender = new Gender { Name = "Male" };
+                var femaleGender = new Gender { Name = "Female" };
+                session.Save(maleGender);
+                session.Save(femaleGender);
             }
 
 

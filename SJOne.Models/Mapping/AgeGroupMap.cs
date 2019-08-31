@@ -15,7 +15,7 @@ namespace SJOne.Models.Mapping
             Map(a => a.Name).Length(20);
             Map(a => a.From);
             Map(a => a.To);
-            Map(a => a.Gender);
+            References(a => a.Gender).Cascade.SaveUpdate();
             HasManyToMany(a => a.Races).Table("AgeGroup_Race")
                 .ParentKeyColumn("AgeGroup_id")
                 .ChildKeyColumn("Race_id");

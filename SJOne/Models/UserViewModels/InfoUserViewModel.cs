@@ -28,7 +28,7 @@ namespace SJOne.Models
         public string Gender { get; set; }
 
         [Display(Name = "Город")]
-        public string City { get; set; }
+        public string Locality { get; set; }
 
         [Display(Name = "Клуб")]
         public string Club { get; set; }
@@ -38,7 +38,7 @@ namespace SJOne.Models
                         string.IsNullOrWhiteSpace(Surname) &&
                         string.IsNullOrWhiteSpace(DOB.ToString()) &&
                         string.IsNullOrWhiteSpace(Gender) &&
-                        string.IsNullOrWhiteSpace(City) &&
+                        string.IsNullOrWhiteSpace(Locality) &&
                         string.IsNullOrWhiteSpace(Club);
     }
 }

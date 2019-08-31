@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
-namespace SJOne.Models
+namespace SJOne.Models.JudgeViewModels
 {
     public class StartListViewModel
     {
-        public long Id { get; set; }
+        public long Id { get; set; }        
 
-        [Display(Name = "Количество участников")]
         public int AthletesCount { get; set; }
 
-        public IList<User> Athletes { get; set; } = new List<User>();      
+        public int SetFirst { get; set; }
 
+        public int SetMax { get; set; }
+
+        public int Items { get; set; }        
+
+        public IList<User> Athletes { get; set; } = new List<User>();       
     }
 }

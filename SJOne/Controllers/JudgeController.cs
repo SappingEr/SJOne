@@ -16,8 +16,9 @@ namespace SJOne.Controllers
         private HandTimingRepository handTimingRepository;
         private RegionRepository regionRepository;
         private SportClubRepository clubRepository;
+        private GenderRepository genderRepository;
 
-        public JudgeController(StartNumberRepository startNumberRepository, RaceRepository raceRepository,
+        public JudgeController(StartNumberRepository startNumberRepository, RaceRepository raceRepository, GenderRepository genderRepository,
             HandTimingRepository handTimingRepository, UserRepository userRepository, RegionRepository regionRepository,
             SportClubRepository clubRepository) : base(userRepository)
         {
@@ -26,20 +27,70 @@ namespace SJOne.Controllers
             this.handTimingRepository = handTimingRepository;
             this.regionRepository = regionRepository;
             this.clubRepository = clubRepository;
+            this.genderRepository = genderRepository;
         }
 
-        public ActionResult StartListSettings(long id, StartListViewModel startListModel, UserFilter userFilter, FetchOptions options)
+        public ActionResult StartListSettings(long id, StartListSettingsViewModel startListModel)
         {
-            var race= raceRepository.Get(id);
+            var race = raceRepository.Get(id);
             if (race != null)
             {
                 startListModel.Id = id;
-                var athletes = userRepository.StartList(race, userFilter, options);                
-                startListModel.AthletesCount = athletes.Count;
-                startListModel.Athletes = athletes;
+                var judges = race.JudgesRace;
+                if (judges.Count >= 1)
+                {
+                    var judgeId = judges.Select(j => j.Id).First();
+                    startListModel.JudgeId = judgeId;
+                    startListModel.Judges = race.JudgesRace
+                        .Select(j => new SelectListItem { Value = j.Id.ToString(), Text = j.User.Surname + " " + j.User.Name });
+                }
+                startListModel.AgeGroups = race.AgeGroups
+                    .Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name });
                 return View(startListModel);
             }
             return HttpNotFound("Старт не найден");
+        }
+
+        public ActionResult StartList(long id,
+                                      long? ageGroupId,
+                                      byte? genderId,
+                                      Page? page,
+                                      UserFilter userFilter,
+                                      StartListViewModel startListModel,
+                                      int setFirst = 0)
+        {
+            var race = raceRepository.Get(id);
+            int setMax = 5;            
+            var athletes = userRepository.StartList(setFirst, setMax, race, userFilter);
+            if (athletes.Count() >= 1)
+            {
+                startListModel.AthletesCount = race.StartNumbersRace.Select(u => u.User).Count();
+                startListModel.Id = id;
+                startListModel.SetMax = setMax;
+                startListModel.Athletes = athletes;
+                startListModel.SetFirst = setFirst + 1;
+                if (page == Page.Next || page == null)
+                {                    
+                    startListModel.Items = setFirst + setMax;
+                }
+                else if(page == Page.Previous)
+                {                    
+                    startListModel.Items = setFirst + setMax;
+                }
+
+                return PartialView(startListModel);
+            }
+            return ViewBag.Message("Нет зарегистрированных участников.");
+
+
+        }
+
+        public ActionResult JudgeAssistantStartList(long id, long judgeId, JudgeAssistantStartListViewModel assistListModel)
+        {
+            var race = raceRepository.Get(id);
+            var judge = userRepository.Get(judgeId).Judge;
+            assistListModel.AssistantStartList = race.StartNumbersRace.Where(j => j.Judge == judge);
+            return PartialView(assistListModel);
         }
 
         public ActionResult MainRaceList(long id, JudgeRacesViewModel judgeModel)
@@ -135,12 +186,13 @@ namespace SJOne.Controllers
                     LocalityId = sportEventLocality.Id,
                     RegionId = regionId
                 };
+                model.Genders = genderRepository.FindAll().Select(g=> new SelectListItem { Value = g.Name.ToString(), Text = g.Name });
                 model.RegionId = sportEventRegion.Id;
                 model.Clubs = clubRepository.FindAll().Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
                 model.Regions = regionRepository.FindAll()
                     .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.RegionId.Equals(regionId) });
                 model.Localities = sportEventRegion.Localities
-                    .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });                
+                    .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });
                 return View(model);
             }
             return HttpNotFound("Старт не найден");
@@ -178,32 +230,24 @@ namespace SJOne.Controllers
                         DOB = addAthleteModel.DOB,
                         RegistrationDate = DateTime.Now.Date,
                         Locality = regionRepository.Get(addAthleteModel.RegionId).Localities.ToList()
-                                    .Where(l => l.Id == addAthleteModel.LocalityId).Single(),                        
+                                    .Where(l => l.Id == addAthleteModel.LocalityId).Single(),
                         Email = addAthleteModel.Email,
-                        PhoneNumber = addAthleteModel.PhoneNumber
+                        PhoneNumber = addAthleteModel.PhoneNumber,
+                        Gender = genderRepository.Get(addAthleteModel.GenderId)
                     };
 
                     if (addAthleteModel.ClubId != null)
-                    {                       
+                    {
                         user.SportClub = clubRepository.Get(Convert.ToInt64(addAthleteModel.ClubId));
                     }
-
-                    switch (addAthleteModel.Gender)
-                    {
-                        case "Мужской":
-                            user.Gender = Gender.Male;
-                            break;
-                        case "Женский":
-                            user.Gender = Gender.Female;
-                            break;
-                    }                    
+                    
                     freeNumber.Judge = judge;
                     freeNumber.User = user;
                     raceRepository.InvokeInTransaction(() =>
                     {
                         raceRepository.Save(race);
                     });
-                    return RedirectToAction("Home","Start");
+                    return RedirectToAction("Home", "Start");
                 }
             }
             return HttpNotFound("Старт не найден");
@@ -240,12 +284,12 @@ namespace SJOne.Controllers
             return Json(new { succcess = true, responseText = "Список спортивных клубов успешно обновлён." });
         }
 
-        public ActionResult AddNewLocality(long id, string name )
+        public ActionResult AddNewLocality(long id, string name)
         {
             var region = regionRepository.Get(id);
             if (region != null && name != null && name != "")
             {
-                var localities = region.Localities.Select(i=>i.Name.ToLower()).ToList();
+                var localities = region.Localities.Select(i => i.Name.ToLower()).ToList();
 
                 if (localities.Contains(name.ToLower()))
                 {

@@ -37,14 +37,19 @@ namespace SJOne.Models.Repositories
                     criteria.Add(Restrictions.Like("Surname", filter.Surname, MatchMode.Anywhere));
                 }
 
+                if (!string.IsNullOrEmpty(filter.Gender))
+                {
+                    criteria.Add(Restrictions.Like("Gender", filter.Gender, MatchMode.Anywhere));
+                }
+
                 if (!string.IsNullOrEmpty(filter.Email))
                 {
                     criteria.Add(Restrictions.Like("Email", filter.Email, MatchMode.Anywhere));
                 }
 
-                if (!string.IsNullOrEmpty(filter.City))
+                if (!string.IsNullOrEmpty(filter.Locality))
                 {
-                    criteria.Add(Restrictions.Like("City", filter.City, MatchMode.Anywhere));
+                    criteria.Add(Restrictions.Like("Locality", filter.Locality, MatchMode.Anywhere));
                 }
 
                 if (!string.IsNullOrEmpty(filter.DOB.ToString()))
@@ -77,13 +82,14 @@ namespace SJOne.Models.Repositories
             return crit.List<User>();
         }
 
-        public IList<User> StartList(Race race, UserFilter filter, FetchOptions options = null)
+        public IList<User> StartList(int setFirst, int setMax, Race race, UserFilter filter, FetchOptions options = null)
         {
             var crit = session.CreateCriteria<User>()
                 .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
                 .Add(Restrictions.Eq("sN.Race", race));                                         
             SetupFilter(filter, crit);
-            SetupFetchOptions(crit, options);           
+            SetupFetchOptions(crit, options);
+            crit.SetFirstResult(setFirst).SetMaxResults(setMax);
             return crit.List<User>();           
         }
 
