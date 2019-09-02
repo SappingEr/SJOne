@@ -35,22 +35,17 @@ namespace SJOne.Models.Repositories
                 if (!string.IsNullOrEmpty(filter.Surname))
                 {
                     criteria.Add(Restrictions.Like("Surname", filter.Surname, MatchMode.Anywhere));
-                }
-
-                if (!string.IsNullOrEmpty(filter.Gender))
-                {
-                    criteria.Add(Restrictions.Like("Gender", filter.Gender, MatchMode.Anywhere));
-                }
+                }               
 
                 if (!string.IsNullOrEmpty(filter.Email))
                 {
                     criteria.Add(Restrictions.Like("Email", filter.Email, MatchMode.Anywhere));
                 }
 
-                if (!string.IsNullOrEmpty(filter.Locality))
+                if (!string.IsNullOrEmpty(filter.Gender.ToString()))
                 {
-                    criteria.Add(Restrictions.Like("Locality", filter.Locality, MatchMode.Anywhere));
-                }
+                    criteria.Add(Restrictions.Eq("Gender", filter.Gender));
+                }               
 
                 if (!string.IsNullOrEmpty(filter.DOB.ToString()))
                 {

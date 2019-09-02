@@ -26,7 +26,7 @@
             <div class="form-group offset-1">
                 @Html.LabelFor(model => model.Name)
                 <div>
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "text-transform: capitalize" } })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "text-transform: capitalize", autofocus = "autofocus" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -40,10 +40,10 @@
             </div>
 
             <div class="form-group offset-1">
-                @Html.LabelFor(model => model.Genders)
+                @Html.LabelFor(model => model.GenderId)
                 <div>
                     @Html.DropDownListFor(model => model.GenderId, Model.Genders, "- Выберите пол -", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Genders, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.GenderId, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -56,19 +56,19 @@
             </div>
 
             <div class="form-group offset-1">
-                @Html.LabelFor(model => model.Regions)
+                @Html.LabelFor(model => model.RegionId)
                 <div>
                     @Html.DropDownListFor(model => model.RegionId, Model.Regions, new { @id = "region", @class = "selectpicker", @data_live_search = "true" })
-                    @Html.ValidationMessageFor(model => model.Regions, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div id="localities">
                 <div class="form-group offset-1">
-                    @Html.LabelFor(model => model.Localities)
+                    @Html.LabelFor(model => model.LocalityId)
                     <div class="input-group">
                         @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker", @data_live_search = "true" })
-                        @Html.ValidationMessageFor(model => model.Localities, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
                         <div class="input-group-append">
                             <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
                         </div>
@@ -78,7 +78,7 @@
 
             <div id="newLocalityForm">
                 <div class="form-group offset-1">
-                    <label>Новый населенный пункт</label>
+                    <label>Новый населённый пункт</label>
                     <div class="input-group">
                         <input type="text" name="Locality" id="locality" class="form-control" />
                         <div class="input-group-append">

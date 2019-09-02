@@ -24,7 +24,7 @@
                 @Html.DropDownListFor(model => model.AgeGroupId, Model.AgeGroups, "-Возрастная группа-", new { @class = "form-control" })
             </div>
             <div class="col">
-                @Html.DropDownListFor(model => model.Gender, new SelectList(new string[] { "Мужской", "Женский" }), "-Пол-", new { @id = "gender", @class = "form-control" })
+                @Html.EnumDropDownListFor(model => model.Gender, "-Пол-", new { @id = "gender", @class = "form-control" })
             </div>
         </form>
         <br />

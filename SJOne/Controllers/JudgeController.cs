@@ -16,9 +16,9 @@ namespace SJOne.Controllers
         private HandTimingRepository handTimingRepository;
         private RegionRepository regionRepository;
         private SportClubRepository clubRepository;
-        private GenderRepository genderRepository;
+       
 
-        public JudgeController(StartNumberRepository startNumberRepository, RaceRepository raceRepository, GenderRepository genderRepository,
+        public JudgeController(StartNumberRepository startNumberRepository, RaceRepository raceRepository,
             HandTimingRepository handTimingRepository, UserRepository userRepository, RegionRepository regionRepository,
             SportClubRepository clubRepository) : base(userRepository)
         {
@@ -26,8 +26,7 @@ namespace SJOne.Controllers
             this.startNumberRepository = startNumberRepository;
             this.handTimingRepository = handTimingRepository;
             this.regionRepository = regionRepository;
-            this.clubRepository = clubRepository;
-            this.genderRepository = genderRepository;
+            this.clubRepository = clubRepository;           
         }
 
         public ActionResult StartListSettings(long id, StartListSettingsViewModel startListModel)
@@ -43,7 +42,9 @@ namespace SJOne.Controllers
                     startListModel.JudgeId = judgeId;
                     startListModel.Judges = race.JudgesRace
                         .Select(j => new SelectListItem { Value = j.Id.ToString(), Text = j.User.Surname + " " + j.User.Name });
-                }
+                }        
+                
+
                 startListModel.AgeGroups = race.AgeGroups
                     .Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name });
                 return View(startListModel);
@@ -53,7 +54,7 @@ namespace SJOne.Controllers
 
         public ActionResult StartList(long id,
                                       long? ageGroupId,
-                                      byte? genderId,
+                                      string genderId,
                                       Page? page,
                                       UserFilter userFilter,
                                       StartListViewModel startListModel,
@@ -186,7 +187,7 @@ namespace SJOne.Controllers
                     LocalityId = sportEventLocality.Id,
                     RegionId = regionId
                 };
-                model.Genders = genderRepository.FindAll().Select(g=> new SelectListItem { Value = g.Name.ToString(), Text = g.Name });
+                //model.Genders = genderRepository.FindAll().Select(g=> new SelectListItem { Value = g.Id.ToString(), Text = g.Name });
                 model.RegionId = sportEventRegion.Id;
                 model.Clubs = clubRepository.FindAll().Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
                 model.Regions = regionRepository.FindAll()
@@ -233,7 +234,9 @@ namespace SJOne.Controllers
                                     .Where(l => l.Id == addAthleteModel.LocalityId).Single(),
                         Email = addAthleteModel.Email,
                         PhoneNumber = addAthleteModel.PhoneNumber,
-                        Gender = genderRepository.Get(addAthleteModel.GenderId)
+                        //Gender = genderRepository.Get(addAthleteModel.GenderId),
+                        Judge = new Judge(),
+                        Trainer = new Trainer()
                     };
 
                     if (addAthleteModel.ClubId != null)

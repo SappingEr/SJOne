@@ -124,12 +124,7 @@ namespace SJOne.App_Start
                 if (create.Succeeded)
                 {
                     var result = userManager.AddToRoleAsync(user.Id, adminRole.Name);
-                }
-
-                var maleGender = new Gender { Name = "Male" };
-                var femaleGender = new Gender { Name = "Female" };
-                session.Save(maleGender);
-                session.Save(femaleGender);
+                }               
             }
 
 

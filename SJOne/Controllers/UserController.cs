@@ -31,7 +31,7 @@ namespace SJOne.Controllers
                 infoModel.Locality = user.Locality.Name;
                 infoModel.Club = user.SportClub.Name;
                 infoModel.DOB = user.DOB;
-                infoModel.Gender = user.Gender.Name;                
+                //infoModel.Gender = user.Gender.Name;                
                 return View(infoModel);
             }
 

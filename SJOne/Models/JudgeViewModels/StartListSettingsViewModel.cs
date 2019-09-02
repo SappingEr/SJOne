@@ -10,9 +10,9 @@ namespace SJOne.Models.JudgeViewModels
 {
     public class StartListSettingsViewModel
     {
-        public long Id { get; set; }       
-
-        public string Gender { get; set; }        
+        public long Id { get; set; }        
+        
+        public Gender Gender { get; set; }
 
         public long AgeGroupId { get; set; }
 

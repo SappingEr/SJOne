@@ -92,6 +92,7 @@
     <Compile Include="AutoTiming.cs" />
     <Compile Include="Filters\GenderFilter.cs" />
     <Compile Include="Filters\SportClubFilter.cs" />
+    <Compile Include="Gender.cs" />
     <Compile Include="Locality.cs" />
     <Compile Include="EventFile.cs" />
     <Compile Include="EventPhoto.cs" />
@@ -106,13 +107,11 @@
     <Compile Include="Filters\StartNumberFilter.cs" />
     <Compile Include="Filters\TagFilter.cs" />
     <Compile Include="Filters\UserFilter.cs" />
-    <Compile Include="Gender.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="Interfaces\IContent.cs" />
     <Compile Include="Interfaces\ITiming.cs" />
     <Compile Include="Judge.cs" />
     <Compile Include="Mapping\AgeGroupMap.cs" />
-    <Compile Include="Mapping\GenderMap.cs" />
     <Compile Include="Mapping\LocalityMap.cs" />
     <Compile Include="Mapping\EventFileMap.cs" />
     <Compile Include="Mapping\AutoTimingMap.cs" />
@@ -139,7 +138,6 @@
     <Compile Include="Protocol.cs" />
     <Compile Include="Race.cs" />
     <Compile Include="Region.cs" />
-    <Compile Include="Repositories\GenderRepository.cs" />
     <Compile Include="Repositories\RegionRepository.cs" />
     <Compile Include="Repositories\CityRepository.cs" />
     <Compile Include="Repositories\SportClubRepository.cs" />

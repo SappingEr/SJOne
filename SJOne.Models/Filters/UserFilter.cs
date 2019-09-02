@@ -15,11 +15,8 @@ namespace SJOne.Models.Filters
         [Display(Name = "Фамилия")]
         public string Surname { get; set; }
 
-        [Display(Name = "Населенный пункт")]
-        public string Locality { get; set; }
-
-        public string Gender { get; set; }
-
+        public Gender? Gender { get; set; }
+        
         [DataType(DataType.Date)]
         public DateTime? DOB { get; set; }
 

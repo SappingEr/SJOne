@@ -26,7 +26,7 @@ namespace SJOne.Models
 
         public virtual byte[] Avatar { get; set; }
 
-        public virtual Gender Gender { get; set; }
+        public virtual Gender Gender { get; set; }       
 
         [FastSearch]
         public virtual string Name { get; set; }
