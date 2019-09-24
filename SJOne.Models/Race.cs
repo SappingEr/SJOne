@@ -12,9 +12,13 @@ namespace SJOne.Models
 
         public virtual decimal Distance { get; set; }
 
+        public virtual Kind Kind { get; set; }
+
         public virtual int LapCount { get; set; }
 
         public virtual Judge MainJudgeRace { get; set; }
+
+        public virtual bool AgeFromEvent { get; set; }
 
         public virtual IList<AgeGroup> AgeGroups { get; set; } = new List<AgeGroup>(); 
 

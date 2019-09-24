@@ -1,31 +1,54 @@
 ﻿@model SJOne.Models.JudgeViewModels.StartListViewModel
 
+@{
+    Layout = null;
+}
 
+@{ 
+    var preItem = Model.SetFirst - Model.SetMax - 1;
+    var setFirst = Model.SetFirst;
+    var items = Model.Items;
+}
 
 <div class="row">
     <div class="ml-auto mr-3">
         <div class="btn-group">
-            <button id="pPage" type="button" class="btn btn-link"><span class="octicon octicon-triangle-left"></span></button>
-            <button type="button" class="btn btn-link" disabled>@Model.SetFirst - @Model.Items</button>
-            <button id="nPage" type="button" class="btn btn-link"><span class="octicon octicon-triangle-right"></span></button>
+            @if (setFirst <= 1)
+            {
+                <button id="pPage" value="@preItem" type="button" class="btn btn-link" disabled><span class="octicon octicon-triangle-left"></span></button>
+            }
+            else
+            {
+                <button id="pPage" value="@preItem" type="button" class="btn btn-link"><span class="octicon octicon-triangle-left"></span></button>
+            }
+            <button id="nowPage" value="@setFirst" type="button" class="btn btn-link" disabled>@setFirst - @items</button>
+            @if (items == @Model.MainJudgeAthletesCount)
+            {
+                <button id="nPage" value="@items" type="button" class="btn btn-link" disabled><span class="octicon octicon-triangle-right"></span></button>
+            }
+            else
+            {
+                <button id="nPage" value="@items" type="button" class="btn btn-link"><span class="octicon octicon-triangle-right"></span></button>
+            }
+
         </div>
     </div>
 </div>
 
 <br />
 
+@Model.Message
 
 <table class="table table-hover table-sm">
     <tbody>
         @foreach (var item in Model.Athletes)
         {
+            var startNumber = item.StartNumbersUser.FirstOrDefault();
+
             <tr>
                 <td>
                     <span class="badge badge-info">
-                        @foreach (var n in item.StartNumbersUser)
-                        {
-                            @n.Number
-                        }
+                        @startNumber.Number
                     </span>
                 </td>
                 <td>
@@ -35,47 +58,13 @@
                     @Html.DisplayFor(i => item.DOB)
                 </td>
                 <td>
-                    <a class="btn-sm btn-primary" href="@Url.Action("Edit", "Admin", new { id = item.Id })">
-                        <span class="octicon octicon-arrow-right"></span>
-                    </a>
+                    <button id="@startNumber.Id" type="button" class="btn-sm btn-primary addToAssist"><span class="octicon octicon-arrow-right"></span></button>
                 </td>
             </tr>
 
         }
     </tbody>
 </table>
-
-
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $('#nPage').click(function () {
-            $.ajax({
-                async: true,
-                type: 'GET',
-                url: '@Url.Action("StartList")/' + '?setFirst=@Model.Items' + '&' + 'page=Next',
-                success: function (data) {
-                    $('#mainList').html(data);
-                }
-            });
-        });
-
-        $('#pPage').click(function () {
-            var preItem = @Model.SetFirst-@Model.SetMax-1
-            $.ajax({
-                async: true,
-                type: 'GET',
-                url: '@Url.Action("StartList")/' + '?setFirst=' + preItem + '&' + 'page=Previous',
-                success: function (data) {
-                    $('#mainList').html(data);
-                }
-            });
-        });
-    });
-</script>
-
 
 
 

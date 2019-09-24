@@ -5,8 +5,8 @@ namespace SJOne.Models
     public enum Gender
     {
         [Display(Name = "Мужской")]       
-        Male,
+        Male = 1,
         [Display(Name = "Женский")]
-        Female
+        Female = 2
     }
 }

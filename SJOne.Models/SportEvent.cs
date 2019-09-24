@@ -15,6 +15,9 @@ namespace SJOne.Models
         [DataType(DataType.Date)]
         public virtual DateTime EventDate { get; set; }
 
+        [DataType(DataType.Date)]
+        public virtual DateTime EndRegDate { get; set; }
+
         public virtual Locality Locality { get; set; }
 
         public virtual IList<EventFile> EventFiles { get; set; }

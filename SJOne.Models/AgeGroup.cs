@@ -15,7 +15,9 @@ namespace SJOne.Models
         
         public virtual byte From { get; set; }
         
-        public virtual byte To { get; set; }      
+        public virtual byte To { get; set; } 
+        
+        public virtual Gender Gender { get; set; }
 
         public virtual IList<Race> Races { get; set; } = new List<Race>();
     }

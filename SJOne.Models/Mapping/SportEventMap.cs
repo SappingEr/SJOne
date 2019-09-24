@@ -10,6 +10,7 @@ namespace SJOne.Models.Mapping
             Map(e => e.EventName).Length(150);
             Map(e => e.Description).Length(int.MaxValue);
             Map(e => e.EventDate);
+            Map(e => e.EndRegDate);
             References(e => e.Locality).Cascade.SaveUpdate();
             HasMany(e => e.EventFiles).Cascade.All();
             HasMany(e =>e.EventPhotos).Cascade.SaveUpdate();

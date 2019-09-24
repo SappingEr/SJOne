@@ -1,42 +1,37 @@
 ﻿@model SJOne.Models.JudgeViewModels.JudgeAssistantStartListViewModel
 
-    <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link" href="@Url.Action("Edit", "Admin")">
-                <span class="octicon octicon-triangle-left"></span>
-            </a>
-        </li>
-        <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
-        <li class="page-item">
-            <a class="page-link" href="@Url.Action("Edit", "Admin")">
-                <span class="octicon octicon-triangle-right"></span>
-            </a>
-        </li>
+<div class="row">
+        <div class="ml-auto mr-3">
+            <div class="btn-group">
+                <button type="button" class="btn btn-link" disabled><span class="octicon octicon-triangle-left"></span></button>
+                <button type="button" class="btn btn-link" disabled>@Html.DisplayFor(model => model.AthletesCount)</button>
+                <button type="button" class="btn btn-link" disabled><span class="octicon octicon-triangle-right"></span></button>
+            </div>
+        </div>
+    </div>
 
-    </ul>
+<br />
 
-    <table class="table table-hover table-sm">       
-        <tbody>
-            @foreach (var item in Model.AssistantStartList)
-            {
-                <tr>
-                    <td>
-                        <a class="btn-sm btn-secondary" href="@Url.Action("Edit", "Admin", new { id = item.Id })">
-                            <span class="octicon octicon-arrow-left"></span>
-                        </a>
-                    </td>
-                    <td>
-                        <span class="badge badge-info">
-                            @item.Number
-                        </span>
-                    </td>
-                    <td>
-                        @item.User.Surname @item.User.Name
-                    </td>
-                    <td>
-                        @Html.DisplayFor(i => item.User.DOB)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<table class="table table-hover table-sm">
+    <tbody>
+        @foreach (var item in Model.AssistantStartList)
+        {           
+            <tr>
+                <td>
+                    <button id="@item.Id" type="button" class="btn-sm btn-dark addToMain"><span class="octicon octicon-arrow-left"></span></button>
+                </td>
+                <td>
+                    <span class="badge badge-info">
+                        @item.Number
+                    </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(i => item.User.Surname) @Html.DisplayFor(i => item.User.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => item.User.DOB)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

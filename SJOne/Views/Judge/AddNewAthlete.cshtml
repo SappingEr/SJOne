@@ -140,14 +140,14 @@
             <div class="form-group offset-1">
                 @Html.LabelFor(model => model.Email)
                 <div>
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @id="disabledForm", @class = "form-control", disabled = "disabled" } })
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @id="email", @class = "form-control", disabled = "disabled" } })
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group offset-1">
                 @Html.LabelFor(model => model.PhoneNumber)
                 <div>
-                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @id="disabledForm2", @class = "form-control", disabled = "disabled" } })
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @id="phoneNum", @class = "form-control", disabled = "disabled" } })
                     @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -291,11 +291,11 @@
             });     
 
             $('#switch1').click(function () {
-                if ($('#disabledForm, #disabledForm2').prop('disabled')) {
-                    $('#disabledForm, #disabledForm2').prop('disabled', false);
+                if ($('#email, #phoneNum').prop('disabled')) {
+                    $('#email, #phoneNum').prop('disabled', false);
                 }
                 else {
-                    $('#disabledForm, #disabledForm2').prop('disabled', true);
+                    $('#email, #phoneNum').prop('disabled', true);
                 }
                 
             });

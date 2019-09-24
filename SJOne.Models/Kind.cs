@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace SJOne.Models
 {
-   public enum Page
+    public enum Kind
     {
-        Start,
-        Next,
-        Previous,
-        End
+        Run = 1,
+        HourRun,
+        Bicycle
     }
 }

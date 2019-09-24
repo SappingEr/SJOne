@@ -1,12 +1,10 @@
-﻿@using SJOne.Models.JudgeViewModels
-@using SJOne.Models.Filters
+﻿@using SJOne.Models.Filters
 @model SJOne.Models.JudgeViewModels.StartListSettingsViewModel
 
 @{
     ViewBag.Title = "Список участников - распределение";
 }
 
-@Scripts.Render("~/bundles/jquery")
 
 <div class="jumbotron">
     <h2>Распределение стартового списка</h2>
@@ -21,7 +19,7 @@
 
         <form class="form-inline">
             <div class="col">
-                @Html.DropDownListFor(model => model.AgeGroupId, Model.AgeGroups, "-Возрастная группа-", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.AgeGroupId, Model.AgeGroups, "-Возрастная группа-", new { @id = "ageGroup", @class = "form-control" })
             </div>
             <div class="col">
                 @Html.EnumDropDownListFor(model => model.Gender, "-Пол-", new { @id = "gender", @class = "form-control" })
@@ -29,13 +27,13 @@
         </form>
         <br />
         <div id="mainList">
-            @Html.Action("StartList", new { id = Model.Id })
+            @Html.Action("StartList", new { id = Model.Id, judgeAssistId = Model.JudgeId })
         </div>
     </div>
 
     <div class="col-md-6">
         <div>
-            @Html.DropDownListFor(model => model.JudgeId, Model.Judges, new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.JudgeId, Model.Judges, new { @id = "judge", @class = "form-control" })
         </div>
         <br />
         <div id="assistantList">
@@ -47,18 +45,137 @@
 @section Scripts {
 
     <script>
-        $(document).ready(function () {
 
-            $('#gender').change(function () {
-                var gender = $(this).val();
+        $(document).ready(function () {           
+
+            function refreshFilter(filterLink) {
                 $.ajax({
                     async: true,
                     type: 'GET',
-                    url: '@Url.Action("StartList")/' + @Model.Id + '?gender=' + gender,
+                    url: '@Url.Action("StartList")/@Model.Id' + filterLink,
                     success: function (data) {
                         $('#mainList').html(data);
                     }
                 });
+            }
+
+            $('#gender').change(function () {
+                var gender = $(this).val();
+                if (gender !== "0") {
+                    $('#ageGroup').prop('selectedIndex', 0);
+                    var filterLink = '?gender=' + gender;
+                    refreshFilter(filterLink);
+                }
+                else {
+                    refreshFilter(filterLink = "");
+                }
+            });
+
+            $('#ageGroup').change(function () {
+                var ageGroup = $(this).val();
+                $('#gender').val(0);
+                var filterLink = '?ageGroupId=' + ageGroup;
+                refreshFilter(filterLink);
+            });
+
+            $('#judge').change(function () {
+                var judgeId = $(this).val();
+                $.ajax({                    
+                    type: 'GET',                   
+                    url: '@Url.Action("JudgeAssistantStartList")/' + @Model.Id + '?judgeId=' + judgeId,
+                    success: function (data) {
+                        $('#assistantList').html(data);
+                    }
+                });
+            })
+
+            function refreshPage(pageLink) {
+            var ageGroup = $('#ageGroup').val();
+            var gender = $('#gender').val();
+
+            if (ageGroup !== '') {
+                var link = pageLink + '&ageGroupId=' + ageGroup;
+            }
+            else if (gender !== '0') {
+                var link = pageLink + '&gender=' + gender;
+            }
+            else
+                var link = pageLink;
+
+                $.ajax({
+                    async: true,
+                    type: 'GET',
+                    url: link,
+                    success: function (data) {
+                        $('#mainList').html(data);
+                    }
+                });
+            }
+
+            $(document).on('click', '#nPage', function() {                
+                var setFirst = $(this).val();
+                var pageLink = '@Url.Action("StartList")/@Model.Id' + '?setFirst=' + setFirst;
+                refreshPage(pageLink);
+            });
+
+            $(document).on('click', '#pPage', function () {                
+                var preItem = $(this).val();                
+                var pageLink = '@Url.Action("StartList")/@Model.Id' + '?setFirst=' + preItem;
+                refreshPage(pageLink);               
+            });            
+
+            function refreshMainList() {
+                var setFirst = $('#nowPage').val() - 1;
+                var pageLink = '@Url.Action("StartList")/@Model.Id' + '?setFirst=' + setFirst;
+                refreshPage(pageLink);
+            }
+
+            function refreshAssistList(judge) {
+                $.ajax({
+                    async: true,
+                    type: 'GET',
+                    url: '@Url.Action("JudgeAssistantStartList")/@Model.Id' + '?judgeId=' + judge,
+                    success: function (data) {
+                        $('#assistantList').html(data);
+                    }
+                });
+            }            
+
+            $(document).on('click', '.addToAssist', function () {
+                var numId = $(this).attr('id');                
+                var judge = $('#judge').val();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: @Model.Id, startNumberId: numId, judgeId: judge},
+                    url: '@Url.Action("AddToJudgeAssist", "Judge")',
+                    success: function () {
+                        refreshMainList();
+                        refreshAssistList(judge);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            $(document).on('click', '.addToMain', function () {
+                var numId = $(this).attr('id');
+                var judge = $('#judge').val();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: @Model.Id, startNumberId: numId},
+                    url: '@Url.Action("AddToMainJudge", "Judge")',
+                    success: function () {
+                        refreshMainList();
+                        refreshAssistList(judge);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+               
             });
         });
     </script>

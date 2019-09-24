@@ -56,12 +56,12 @@ namespace SJOne.Models.Repositories
                 {
                     if (filter.Date.From.HasValue)
                     {
-                        criteria.Add(Restrictions.Ge("RegistrationDate", filter.Date.From.Value));
+                        criteria.Add(Restrictions.Ge("DOB", filter.Date.From.Value));
                     }
 
                     if (filter.Date.To.HasValue)
                     {
-                        criteria.Add(Restrictions.Le("RegistrationDate", filter.Date.To.Value));
+                        criteria.Add(Restrictions.Le("DOB", filter.Date.To.Value));
                     }
                 }
             }
@@ -75,13 +75,14 @@ namespace SJOne.Models.Repositories
             SetupFilter(filter, crit);
             SetupFetchOptions(crit, options);
             return crit.List<User>();
-        }
+        }        
 
-        public IList<User> StartList(int setFirst, int setMax, Race race, UserFilter filter, FetchOptions options = null)
+        public IList<User> StartList(int setFirst, int setMax, Race race, Judge mainJudge, UserFilter filter, FetchOptions options = null)
         {
             var crit = session.CreateCriteria<User>()
                 .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
-                .Add(Restrictions.Eq("sN.Race", race));                                         
+                .Add(Restrictions.Eq("sN.Race", race))
+                .Add(Restrictions.Eq("sN.Judge", mainJudge));                                         
             SetupFilter(filter, crit);
             SetupFetchOptions(crit, options);
             crit.SetFirstResult(setFirst).SetMaxResults(setMax);
