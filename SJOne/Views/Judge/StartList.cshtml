@@ -1,10 +1,6 @@
 ﻿@model SJOne.Models.JudgeViewModels.StartListViewModel
 
 @{
-    Layout = null;
-}
-
-@{ 
     var preItem = Model.SetFirst - Model.SetMax - 1;
     var setFirst = Model.SetFirst;
     var items = Model.Items;
@@ -13,6 +9,8 @@
 <div class="row">
     <div class="ml-auto mr-3">
         <div class="btn-group">
+            <button type="button" class="btn btn-link" disabled>Всего: @Model.AllAthletesCount</button>
+            <button type="button" class="btn btn-link" disabled>Судья: @Model.MainJudgeAthletesCount</button>
             @if (setFirst <= 1)
             {
                 <button id="pPage" value="@preItem" type="button" class="btn btn-link" disabled><span class="octicon octicon-triangle-left"></span></button>
@@ -21,8 +19,10 @@
             {
                 <button id="pPage" value="@preItem" type="button" class="btn btn-link"><span class="octicon octicon-triangle-left"></span></button>
             }
+
             <button id="nowPage" value="@setFirst" type="button" class="btn btn-link" disabled>@setFirst - @items</button>
-            @if (items == @Model.MainJudgeAthletesCount)
+
+            @if ((setFirst == 0) || (items < Model.SetMax) || (items == Model.MainJudgeAthletesCount))
             {
                 <button id="nPage" value="@items" type="button" class="btn btn-link" disabled><span class="octicon octicon-triangle-right"></span></button>
             }
@@ -30,14 +30,22 @@
             {
                 <button id="nPage" value="@items" type="button" class="btn btn-link"><span class="octicon octicon-triangle-right"></span></button>
             }
-
         </div>
     </div>
 </div>
 
-<br />
+@{
+    var message = Model.Message;
+    if (message != null)
+    {
+        <div class="alert alert-light">
+            <strong>@message</strong> <button type="button" id="clearFilter" class="btn btn-link">Сбросить фильтр</button>
 
-@Model.Message
+        </div>
+    }
+}
+
+
 
 <table class="table table-hover table-sm">
     <tbody>

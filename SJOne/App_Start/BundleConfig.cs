@@ -27,9 +27,7 @@ namespace SJOne
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
                       "~/Scripts/bootstrap-select.min.js",
-                      "~/Scripts/i18n/defaults-ru_RU.min.js"));
-
-            
+                      "~/Scripts/i18n/defaults-ru_RU.min.js"));           
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

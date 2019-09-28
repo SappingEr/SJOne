@@ -35,16 +35,25 @@ namespace SJOne.Controllers
             if (race != null)
             {
                 startListModel.Id = id;
-                var judges = race.JudgesRace;
-                if (judges.Count >= 1)
+                var ageGroups = race.AgeGroups;
+
+                if (ageGroups.Count() >= 1)
                 {
-                    var judgeId = judges.Select(j => j.Id).FirstOrDefault();
-                    startListModel.JudgeId = judgeId;
-                    startListModel.Judges = race.JudgesRace
-                        .Select(j => new SelectListItem { Value = j.Id.ToString(), Text = j.User.Surname + " " + j.User.Name });
-                }
-                startListModel.AgeGroups = race.AgeGroups
+                    startListModel.AgeGroups = race.AgeGroups
                     .Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name });
+                }
+                else
+                {
+                    startListModel.AgeGroupError = "Нет возрастных групп.";
+                }
+
+                var judges = race.JudgesRace;
+
+                var judgeId = judges.Select(j => j.Id).FirstOrDefault();
+                startListModel.JudgeId = judgeId;
+                startListModel.Judges = race.JudgesRace
+                    .Select(j => new SelectListItem { Value = j.Id.ToString(), Text = j.User.Surname + " " + j.User.Name });
+
                 return View(startListModel);
             }
             return HttpNotFound("Старт не найден");
@@ -59,10 +68,13 @@ namespace SJOne.Controllers
             var race = raceRepository.Get(id);
             var mainJudge = race.MainJudgeRace;
             int setMax = 5;
+            startListModel.Id = id;
+
             if (setFirst < 0)
             {
                 setFirst = 0;
             }
+
             if (ageGroupId != null)
             {
                 var ageGroup = race.AgeGroups.Where(g => g.Id.Equals(ageGroupId)).FirstOrDefault();
@@ -79,18 +91,18 @@ namespace SJOne.Controllers
                     var date = new DateTime(year, 12, 31);
                     userFilter.Date = new DateRange { From = date.AddYears(-ageGroup.From), To = date.AddYears(-ageGroup.To) };
                     userFilter.Gender = ageGroup.Gender;
-                }
-                else
-                {
-                    startListModel.Message = "Ошибка фильтра возрастных групп. Группа не найдена.";
-                    return PartialView(startListModel);
-                }
+                }               
             }
 
+            startListModel.AllAthletesCount = race.StartNumbersRace.Where(u => u.User != null).Count();
+           
             var mainJudgeAthletesCount = mainJudge.StartNumbersJudge.Count();
+            
 
             if (mainJudgeAthletesCount >= 1)
             {
+                startListModel.MainJudgeAthletesCount = mainJudgeAthletesCount;
+
                 if (mainJudgeAthletesCount == setFirst)
                 {
                     setFirst -= setMax;
@@ -98,11 +110,17 @@ namespace SJOne.Controllers
 
                 var athletes = userRepository.StartList(setFirst, setMax, race, mainJudge, userFilter);
 
-                if (athletes.Count() >= 1)
+                if (athletes.Count() == 0)
                 {
-                    startListModel.AllAthletesCount = race.StartNumbersRace.Where(u => u.User != null).Count();
-                    startListModel.MainJudgeAthletesCount = mainJudgeAthletesCount;
-                    startListModel.Id = id;
+                    startListModel.Items = 0;
+                    startListModel.SetFirst = setFirst;
+                    startListModel.Message = "Текущий список пуст.";
+                }
+
+                else if (athletes.Count() >= 1)
+                {
+                    
+                    
                     startListModel.SetMax = setMax;
                     startListModel.Athletes = athletes;
 
@@ -125,9 +143,7 @@ namespace SJOne.Controllers
 
                     return PartialView(startListModel);
                 }
-            }
-            
-            startListModel.Message = "Нет зарегистрированных участников.";
+            }           
             return PartialView(startListModel);
         }
 
