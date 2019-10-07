@@ -11,7 +11,7 @@ namespace SJOne.Models.Mapping
             References(c => c.Region);
             HasMany(c => c.LocalityUsers);
             HasMany(c => c.LocalitySportEvents);
-            HasMany(c => c.LocalitySportClubs);
+            HasMany(c => c.LocalitySportClubs).Cascade.All();
         }
     }
 }

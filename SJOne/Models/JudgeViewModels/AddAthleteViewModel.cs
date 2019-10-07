@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using SJOne.Extensions;
 
 namespace SJOne.Models.JudgeViewModels
 {
@@ -12,10 +11,9 @@ namespace SJOne.Models.JudgeViewModels
         public long Id { get; set; }
 
         [Display(Name = "Пол")]
-        [Required(ErrorMessage = "Выберите пол.")]
-        public byte GenderId { get; set; }        
-        
-        public IEnumerable<SelectListItem> Genders { get; set; }        
+        [Required]
+        [Range(1, 2, ErrorMessage = "Выберите пол.")]
+        public Gender Gender { get; set; }
 
         [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50).")]
         [Display(Name = "Имя")]
@@ -44,14 +42,11 @@ namespace SJOne.Models.JudgeViewModels
         public IEnumerable<SelectListItem> Regions { get; set; }
         
         [Required(ErrorMessage = "Выберите населённый пункт.")]
-        [Display(Name = "Насёленный пункт")]
+        [Display(Name = "Населённый пункт")]
         public long LocalityId { get; set; }        
-        public IEnumerable<SelectListItem> Localities { get; set; }
-        
-        public long? ClubId { get; set; }
+        public IEnumerable<SelectListItem> Localities { get; set; } 
 
-        [Display(Name = "Клуб")]
-        public IEnumerable<SelectListItem> Clubs { get; set; }
+        public long? ClubId { get; set; }
 
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]

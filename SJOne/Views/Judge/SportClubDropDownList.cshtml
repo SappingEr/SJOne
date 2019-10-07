@@ -1,35 +1,20 @@
 ﻿@model SJOne.Models.SportClubDropDownListViewModel
 
-    
-        <div id="clubs" class="form-group offset-1">
-            @Html.LabelFor(model => model.Clubs)
-            <div class="input-group">
-                @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Нет клуба -", new { @class = "selectpicker", @data_live_search = "true" })
-                @Html.ValidationMessageFor(model => model.Clubs, "", new { @class = "text-danger" })
-                <div class="input-group-append">
-                    <button id="newClub" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
-                </div>
-            </div>
-        </div>
-    
-<script type="text/javascript">
+
+
+@Html.LabelFor(model => model.Clubs)
+<div class="input-group">
+    @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Нет клуба -", new { @class = "selectpicker", @data_live_search = "true" })
+    @Html.ValidationMessageFor(model => model.Clubs, "", new { @class = "text-danger" })
+    <div class="input-group-append">
+        <button id="newClub" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
+    </div>
+</div>
+
+
+<script>
 
     $(function () {
         $('.selectpicker').selectpicker();
     });
-
-    $('#newClub').click(function () {
-        $('#newClubForm').show();
-        $('#clubs').hide();
-        $('#club').focus();
-        $('#club').keyup(function () {
-            if ($(this).val() !== '') {
-                $('#toAddClub').prop('disabled', false);
-            }
-            else {
-                $('#toAddClub').prop('disabled', true);
-            }
-        });
-    });
-
 </script>

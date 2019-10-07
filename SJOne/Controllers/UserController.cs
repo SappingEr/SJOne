@@ -14,9 +14,6 @@ namespace SJOne.Controllers
             this.userRepository = userRepository;
         }
 
-
-
-
         public ActionResult Info(long id, InfoUserViewModel infoModel)
         {
             var user = userRepository.Get(id);
@@ -31,7 +28,7 @@ namespace SJOne.Controllers
                 infoModel.Locality = user.Locality.Name;
                 infoModel.Club = user.SportClub.Name;
                 infoModel.DOB = user.DOB;
-                //infoModel.Gender = user.Gender.Name;                
+                infoModel.Gender = user.Gender.ToString();                
                 return View(infoModel);
             }
 

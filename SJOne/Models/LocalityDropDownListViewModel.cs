@@ -6,7 +6,9 @@ namespace SJOne.Models
 {
     public class LocalityDropDownListViewModel
     {  
-        public long LocalityId { get; set; }
+        public long LocalityId { get; set; } 
+        
+        public bool UserLocality { get; set; }
 
         [Display(Name = "Населённый пункт")]        
         public IEnumerable<SelectListItem> Localities { get; set; }

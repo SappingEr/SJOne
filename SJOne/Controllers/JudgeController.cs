@@ -275,7 +275,6 @@ namespace SJOne.Controllers
             var race = raceRepository.Get(id);
             if (race != null)
             {
-
                 var sportEventLocality = race.SportEvent.Locality;
                 var sportEventRegion = sportEventLocality.Region;
                 var localityId = sportEventLocality.Id;
@@ -284,14 +283,12 @@ namespace SJOne.Controllers
                 {
                     LocalityId = sportEventLocality.Id,
                     RegionId = regionId
-                };
-                //model.Genders = genderRepository.FindAll().Select(g=> new SelectListItem { Value = g.Id.ToString(), Text = g.Name });
-                model.RegionId = sportEventRegion.Id;
-                model.Clubs = clubRepository.FindAll().Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+                };                
+                model.RegionId = sportEventRegion.Id;                               
                 model.Regions = regionRepository.FindAll()
                     .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.RegionId.Equals(regionId) });
                 model.Localities = sportEventRegion.Localities
-                    .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });
+                    .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });                
                 return View(model);
             }
             return HttpNotFound("Старт не найден");
@@ -309,6 +306,7 @@ namespace SJOne.Controllers
                     Surname = addAthleteModel.Surname,
                     DOB = addAthleteModel.DOB
                 });
+
                 if (doubleUser.Count > 0)
                 {
                     return RedirectToAction("Contact", "Home");
@@ -319,7 +317,7 @@ namespace SJOne.Controllers
                 var freeNumbers = startNumbers.Where(i => i.User == null).ToList();
                 if (startNumbers.Count >= freeNumbers.Count)
                 {
-                    var freeNumber = freeNumbers.First();
+                    var freeNumber = freeNumbers.FirstOrDefault();
                     var judge = race.MainJudgeRace;
                     var textInfo = new CultureInfo("ru-RU").TextInfo;
                     var user = new User
@@ -332,9 +330,7 @@ namespace SJOne.Controllers
                                     .Where(l => l.Id == addAthleteModel.LocalityId).Single(),
                         Email = addAthleteModel.Email,
                         PhoneNumber = addAthleteModel.PhoneNumber,
-                        //Gender = genderRepository.Get(addAthleteModel.GenderId),
-                        Judge = new Judge(),
-                        Trainer = new Trainer()
+                        Gender = addAthleteModel.Gender                        
                     };
 
                     if (addAthleteModel.ClubId != null)
@@ -354,35 +350,75 @@ namespace SJOne.Controllers
             return HttpNotFound("Старт не найден");
         }
 
-
-        public ActionResult LocalitiesDropDownList(long id, LocalityDropDownListViewModel localityModel)
+        public ActionResult AddSportClub(long regionId, long localityId, AddSportClubViewModel clubModel )
         {
-            long sportEventLocality = 0;
-            localityModel.Localities = regionRepository.Get(id).Localities
-                .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = localityModel.LocalityId.Equals(sportEventLocality) });
-            return PartialView(localityModel);
-        }
+            var region = regionRepository.Get(regionId);
+            
+            if (region != null)
+            {
+                clubModel.ClubRegionId = regionId;
+                clubModel.ClubLocalityId = localityId;
+                clubModel.ClubRegions = regionRepository.FindAll()
+                   .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = clubModel.ClubRegionId.Equals(regionId) });
+                clubModel.ClubLocalities = region.Localities
+                   .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = clubModel.ClubLocalityId.Equals(localityId) });
 
-        public ActionResult SportClubDropDownList(SportClubDropDownListViewModel clubModel)
-        {
-            clubModel.Clubs = clubRepository.FindAll().Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+                var locality = region.Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
 
+                clubModel.Clubs = locality.LocalitySportClubs
+                    .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name});
+                return PartialView(clubModel);
+            }
+            clubModel.Message = "Во время загрузки списка клубов возникла ошибка.";
             return PartialView(clubModel);
         }
 
-        public ActionResult AddNewSportClub(string name)
-        {
-            var clubs = clubRepository.FindAll().Select(i => i.Name.ToLower()).ToList();
-            if (clubs.Contains(name.ToLower()))
-            {
-                return Json(new { succcess = false, responseText = "Ошибка! " + name + " есть в списке!" });
-            }
+        public ActionResult LocalitiesDropDownList(long id, LocalityDropDownListViewModel localityModel, bool userLocality = false)
+        { 
+            long localitySelect = 0;
+            localityModel.UserLocality = userLocality;
+            localityModel.Localities = regionRepository.Get(id).Localities
+                .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = localityModel.LocalityId.Equals(localitySelect) });
+            return PartialView(localityModel);
+        }
 
-            clubRepository.InvokeInTransaction(() =>
+        public ActionResult SportClubDropDownList(long id, long? localityId, SportClubDropDownListViewModel clubModel)
+        {
+            if (localityId == null)
+            {                
+                clubModel.Clubs = regionRepository.Get(id).Localities.FirstOrDefault().LocalitySportClubs
+                    .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+                return PartialView(clubModel);
+            }
+            var clubsLocality  = regionRepository.Get(id).Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+            clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+            return PartialView(clubModel);
+        }
+
+        public ActionResult AddNewSportClub(long id, long localityId, string name)
+        {
+            var region = regionRepository.Get(id);
+            var locality = region.Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+            if (region != null && locality != null)
             {
-                clubRepository.Save(new SportClub { Name = name });
-            });
-            return Json(new { succcess = true, responseText = "Список спортивных клубов успешно обновлён." });
+                var clubs = locality.LocalitySportClubs.Select(c=>c.Name.ToLower()).ToList();
+                if (clubs.Contains(name.ToLower()))
+                {
+                    return Json(new { succcess = false, responseText = "Ошибка! " + name + " есть в списке!" });
+                }
+
+                if (name != null)
+                {
+                    locality.LocalitySportClubs.Add(new SportClub { Name = name });
+                    regionRepository.InvokeInTransaction(() =>
+                    {
+                        regionRepository.Save(region);
+                    });
+                    return Json(new { succcess = true, responseText = "Список спортивных клубов успешно обновлён." });
+                }
+                return Json(new { succcess = false, responseText = "Ошибка! Введите клуб!" });
+            }
+            return Json(new { succcess = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
         }
 
         public ActionResult AddNewLocality(long id, string name)

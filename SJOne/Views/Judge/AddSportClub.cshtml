@@ -1,0 +1,72 @@
+﻿@model SJOne.Models.AddSportClubViewModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ClubRegionId)
+    <div>
+        @Html.DropDownListFor(model => model.ClubRegionId, Model.ClubRegions, new { @id = "clubRegionList", @class = "selectpicker", @data_live_search = "true" })
+        @Html.ValidationMessageFor(model => model.ClubRegionId, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div id="clubLocalities" class="form-group">
+    @Html.LabelFor(model => model.ClubLocalityId)
+    <div class="input-group">
+        @Html.DropDownListFor(model => model.ClubLocalityId, Model.ClubLocalities, new { @id = "clubLocalityList", @class = "selectpicker", @data_live_search = "true" })
+        @Html.ValidationMessageFor(model => model.ClubLocalityId, "", new { @class = "text-danger" })
+        <div class="input-group-append">
+            <button id="newClubLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
+        </div>
+    </div>
+</div>
+
+
+<div id="newClubLocalityForm" class="form-group">
+
+    <label>Новый населённый пункт</label>
+    <div class="input-group">
+        <input type="text" name="Locality" id="clubLocality" class="form-control" />
+        <div class="input-group-append">
+            <button id="toAddClubLocality" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
+        </div>
+        <div class="input-group-append">
+            <button id="toListClubLocality" class="btn btn-outline-info" type="button"><span class="octicon octicon-x"></span></button>
+        </div>
+    </div>
+</div>
+
+<div id="clubs" class="form-group">
+    @Html.LabelFor(model => model.ClubId, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="input-group">
+        @Html.DropDownListFor(model => model.ClubId, Model.Clubs, new { @id = "clubList", @class = "selectpicker", @data_live_search = "true" })
+        @Html.ValidationMessageFor(model => model.ClubId, "", new { @class = "text-danger" })
+        <div class="input-group-append">
+            <button id="newClub" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
+        </div>
+    </div>
+</div>
+
+<div id="newClubForm">
+    <div class="form-group">
+        <label>Новый клуб</label>
+        <div class="input-group">
+            <input type="text" name="Club" id="club" class="form-control" />
+            <div class="input-group-append">
+                <button id="AddClub" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
+            </div>
+            <div class="input-group-append">
+                <button id="toListClub" class="btn btn-outline-info" type="button"><span class="octicon octicon-x"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Message != null)
+{
+    <div>
+        @Model.Message
+    </div>
+}
+
+
+
+

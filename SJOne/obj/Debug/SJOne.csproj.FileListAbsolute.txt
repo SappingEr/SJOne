@@ -237,3 +237,11 @@ E:\Repos\SJOne\SJOne\obj\Debug\SJOne.dll
 E:\Repos\SJOne\SJOne\obj\Debug\SJOne.pdb
 E:\Repos\SJOne\SJOne\bin\Microsoft.Owin.Host.SystemWeb.dll
 E:\Repos\SJOne\SJOne\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\Repos\SJOne\SJOne\bin\System.Buffers.dll
+E:\Repos\SJOne\SJOne\bin\System.Memory.dll
+E:\Repos\SJOne\SJOne\bin\System.Numerics.Vectors.dll
+E:\Repos\SJOne\SJOne\bin\System.Runtime.CompilerServices.Unsafe.dll
+E:\Repos\SJOne\SJOne\bin\System.Buffers.xml
+E:\Repos\SJOne\SJOne\bin\System.Memory.xml
+E:\Repos\SJOne\SJOne\bin\System.Numerics.Vectors.xml
+E:\Repos\SJOne\SJOne\bin\System.Runtime.CompilerServices.Unsafe.xml
