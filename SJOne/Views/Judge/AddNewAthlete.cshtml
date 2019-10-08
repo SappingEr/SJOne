@@ -79,7 +79,7 @@
                     <div class="input-group">
                         <input type="text" name="Locality" id="locality" class="form-control" />
                         <div class="input-group-append">
-                            <button id="toAddLocality" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
+                            <button id="AddLocality" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
                         </div>
                         <div class="input-group-append">
                             <button id="toListLocality" class="btn btn-outline-info" type="button"><span class="octicon octicon-x"></span></button>
@@ -217,10 +217,10 @@
                 $('#locality').focus();
                 $('#locality').keyup(function () {
                     if ($(this).val() != '') {
-                        $('#toAddLocality').prop('disabled', false);
+                        $('#AddLocality').prop('disabled', false);
                     }
                     else {
-                        $('#toAddLocality').prop('disabled', true);
+                        $('#AddLocality').prop('disabled', true);
                     }
                 });
             });
@@ -232,29 +232,29 @@
                 $('#clubLocality').keyup(function () {
                     if ($(this).val() != '') {
 
-                        $('#toAddClubLocality').prop('disabled', false);
+                        $('#AddClubLocality').prop('disabled', false);
                     }
                     else {
-                        $('#toAddClubLocality').prop('disabled', true);
+                        $('#AddClubLocality').prop('disabled', true);
                     }
                 });
             });
 
-            $('#toAddLocality').click(function () {
+            $('#AddLocality').click(function () {
                 $('#newLocalityForm').hide();
                 $('#localities').show();
                 var locality = $('#locality').val();
-                var id = $('#regions').val();
+                var regionId = $('#regionList').val();
 
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("AddNewLocality", "Judge")',
                     dataType: 'json',
-                    data: { id: id, name: locality },
+                    data: { id: regionId, name: locality },
                     success: function (response) {
                         alert(response.responseText);
                         $('#locality').val('');
-                        refreshListLocality(id);
+                        refreshListLocality(id, userLocality = true);
                     },
                     error: function (response) {
                         alert(response.responseText);
@@ -307,7 +307,7 @@
                         $('#newClubForm').hide();
                         $('#clubs').show();
                     },
-                    error: function (response) {
+                    error: function (response) {                        
                         alert(response.responseText);
                     }
                 });

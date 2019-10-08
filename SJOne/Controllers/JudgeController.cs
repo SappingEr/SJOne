@@ -437,7 +437,6 @@ namespace SJOne.Controllers
                 {
                     region.Localities.Add(new Locality { Name = name });
                 });
-
                 return Json(new { succcess = true, responseText = "Список населённых пунктов успешно обновлён." });
             }
             return Json(new { succcess = false, responseText = "Ошибка! Выберите регион и введите название нового населённого пункта." });
