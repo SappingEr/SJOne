@@ -44,9 +44,7 @@ namespace SJOne.Models.JudgeViewModels
         [Required(ErrorMessage = "Выберите населённый пункт.")]
         [Display(Name = "Населённый пункт")]
         public long LocalityId { get; set; }        
-        public IEnumerable<SelectListItem> Localities { get; set; } 
-
-        public long? ClubId { get; set; }
+        public IEnumerable<SelectListItem> Localities { get; set; }         
 
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]

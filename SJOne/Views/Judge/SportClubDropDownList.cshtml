@@ -4,7 +4,7 @@
 
 @Html.LabelFor(model => model.Clubs)
 <div class="input-group">
-    @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Нет клуба -", new { @class = "selectpicker", @data_live_search = "true" })
+    @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Выберите клуб -", new { @class = "selectpicker", @data_live_search = "true" })
     @Html.ValidationMessageFor(model => model.Clubs, "", new { @class = "text-danger" })
     <div class="input-group-append">
         <button id="newClub" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>

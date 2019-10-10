@@ -295,7 +295,7 @@ namespace SJOne.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddNewAthlete(long id, AddAthleteViewModel addAthleteModel)
+        public ActionResult AddNewAthlete(long id, AddAthleteViewModel addAthleteModel, AddSportClubViewModel sportClubModel)
         {
             var race = raceRepository.Get(id);
             if (race != null)
@@ -333,9 +333,11 @@ namespace SJOne.Controllers
                         Gender = addAthleteModel.Gender                        
                     };
 
-                    if (addAthleteModel.ClubId != null)
+                    var clubId = sportClubModel.ClubId;
+
+                    if (clubId != null)
                     {
-                        user.SportClub = clubRepository.Get(Convert.ToInt64(addAthleteModel.ClubId));
+                        user.SportClub = clubRepository.Get(Convert.ToInt64(clubId));
                     }
 
                     freeNumber.Judge = judge;
@@ -373,10 +375,9 @@ namespace SJOne.Controllers
             return PartialView(clubModel);
         }
 
-        public ActionResult LocalitiesDropDownList(long id, LocalityDropDownListViewModel localityModel, bool userLocality = false)
+        public ActionResult LocalitiesDropDownList(long id, LocalityDropDownListViewModel localityModel)
         { 
-            long localitySelect = 0;
-            localityModel.UserLocality = userLocality;
+            long localitySelect = 0;            
             localityModel.Localities = regionRepository.Get(id).Localities
                 .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = localityModel.LocalityId.Equals(localitySelect) });
             return PartialView(localityModel);
@@ -384,13 +385,19 @@ namespace SJOne.Controllers
 
         public ActionResult SportClubDropDownList(long id, long? localityId, SportClubDropDownListViewModel clubModel)
         {
+            var localities = regionRepository.Get(id).Localities;            
+
             if (localityId == null)
-            {                
-                clubModel.Clubs = regionRepository.Get(id).Localities.FirstOrDefault().LocalitySportClubs
-                    .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+            {
+                var clubs = localities.FirstOrDefault().LocalitySportClubs.ToList();
+                if (clubs != null)
+                {
+                    clubModel.Clubs = clubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+                }
+               
                 return PartialView(clubModel);
             }
-            var clubsLocality  = regionRepository.Get(id).Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+            var clubsLocality  = localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
             clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
             return PartialView(clubModel);
         }
