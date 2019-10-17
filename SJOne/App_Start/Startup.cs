@@ -101,30 +101,28 @@ namespace SJOne.App_Start
 
         public static void InitialData(ISessionFactory sessionFactory)
         {
-            using (ISession session = sessionFactory.OpenSession())
+            using ISession session = sessionFactory.OpenSession();
+            var roleManager = new RoleManager(new RoleStore(session));
+            var userManager = new UserManager(new IdentityStore(session));
+
+            var adminRole = new Role { Name = "$Admin" };
+            roleManager.Create(adminRole);
+
+            string[] roles = new string[] { "User", "Admin", "Manager", "Judge", "JudgeAssist", "Trainer" };
+
+            foreach (var item in roles)
             {
-                var roleManager = new RoleManager(new RoleStore(session));
-                var userManager = new UserManager(new IdentityStore(session));
+                var role = new Role { Name = item };
+                roleManager.Create(role);
+            }
 
-                var adminRole = new Role { Name = "$Admin" };
-                roleManager.Create(adminRole);
+            var user = new User { UserName = "admin" };
 
-                string[] roles = new string[] { "User", "Admin", "Manager", "Judge", "JudgeAssist", "Trainer" };
+            var create = userManager.Create(user, "12345");
 
-                foreach (var item in roles)
-                {
-                    var role = new Role { Name = item };
-                    roleManager.Create(role);
-                }                
-
-                var user = new User { UserName = "admin" };
-
-                var create = userManager.Create(user, "12345");
-
-                if (create.Succeeded)
-                {
-                    var result = userManager.AddToRoleAsync(user.Id, adminRole.Name);
-                }               
+            if (create.Succeeded)
+            {
+                var result = userManager.AddToRoleAsync(user.Id, adminRole.Name);
             }
 
 

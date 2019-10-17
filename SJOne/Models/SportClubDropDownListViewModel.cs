@@ -6,9 +6,10 @@ namespace SJOne.Models
 {
     public class SportClubDropDownListViewModel
     {
-        public long ClubId { get; set; }
-
+        [Required(ErrorMessage = "Выберите клуб.")]
         [Display(Name = "Спортивный клуб")]
+        public long ClubId { get; set; }
+        
         public IEnumerable<SelectListItem> Clubs { get; set; }
     }
 }

@@ -64,7 +64,7 @@
 
                 @Html.LabelFor(model => model.LocalityId)
                 <div class="input-group">
-                    @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker", @data_live_search = "true" })
+                    @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new {@id = "localityList", @class = "selectpicker", @data_live_search = "true" })
                     @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
                     <div class="input-group-append">
                         <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
@@ -156,7 +156,7 @@
                 $('.selectpicker').selectpicker();
             });
 
-            $('#clubSelect, #newLocalityForm, #newClubLocalityForm, #newClubForm').hide();
+            $('#clubSelect, #newClubLocalityForm, #newClubForm, #newLocalityForm').hide();
 
             function refreshListLocality(regionId) {
                  $.ajax({
@@ -166,48 +166,12 @@
                           $('#localities').html(data);
                       }
                  });
-            }
-
-            function refreshClubListLocality(clubRegionId) {
-                 $.ajax({
-                      type: 'GET',
-                      url: '@Url.Action("LocalitiesDropDownList")/' + clubRegionId,
-                      success: function (data) {
-                          $('#clubLocalities').html(data);
-                      }
-                 });
-            }
-
-            function refreshListClubs(regionClubId, localityClubId) {
-                 $.ajax({
-                     type: 'GET',
-                     url: '@Url.Action("SportClubDropDownList")/' + regionClubId + '?localityId=' + localityClubId,
-                     success: function (data) {
-                         $('#clubs').html(data);
-                     }
-                 });
-            }
+            }            
 
             $('#regionList').change(function () {
                 var regionId = $(this).val();
                 refreshListLocality(regionId);
             });
-
-            $(document).on('change', '#clubRegionList', function () {
-                var clubRegionId = $(this).val();
-                var clubLocalityId = null;
-                refreshClubListLocality(clubRegionId);
-                refreshListClubs(clubRegionId, clubLocalityId);
-                $('#clubLocalities').html(data);
-            });
-
-             $(document).on('change', '#clubLocalityList', function () {
-                var localityId = $(this).val();
-                var regionId = $('#clubRegionList').val();
-                refreshListClubs(regionId, localityId);
-            });
-
-
 
             $(document).on('click', '#newLocality', function () {
                 $('#newLocalityForm').show();
@@ -221,22 +185,7 @@
                         $('#addLocality').prop('disabled', true);
                     }
                 });
-            });
-
-            $(document).on('click', '#newClubLocality', function () {
-                $('#newClubLocalityForm').show();
-                $('#clubLocalities').hide();
-                $('#clubLocality').focus();
-                $('#clubLocality').keyup(function () {
-                    if ($(this).val() != '') {
-
-                        $('#addClubLocality').prop('disabled', false);
-                    }
-                    else {
-                        $('#addClubLocality').prop('disabled', true);
-                    }
-                });
-            });
+            });            
 
             $('#addLocality').click(function () {
                 $('#newLocalityForm').hide();
@@ -258,35 +207,69 @@
                         alert(response.responseText);
                     }
                 });
-            });
-
-            $(document).on('click', '#addClubLocality', function () {
-                $('#newClubLocalityForm').hide();
-                $('#clubLocalities').show();
-                var clubLocality = $('#clubLocality').val();
-                var clubRegionId = $('#clubRegionId').val();
-
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("AddNewLocality", "Judge")',
-                    dataType: 'json',
-                    data: { id: clubRegionId, name: clubLocality },
-                    success: function (response) {
-                        alert(response.responseText);
-                        $('#clubLocality').val('');
-                        refreshClubListLocality(id);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
-                    }
-                });
-            });
-
+            });            
             $('#toListLocality').click(function () {
                 $('#newLocalityForm').hide();
                 $('#locality').val('');
                 $('#addLocality').prop('disabled', true);
                 $('#localities').show();
+            });  
+
+
+
+
+
+            $('#switch1').click(function () {
+                $('#clubSelect').toggle("slow");
+            });
+
+            function refreshClubListLocality(clubRegionId) {
+                 $.ajax({
+                      type: 'GET',
+                      url: '@Url.Action("LocalitiesDropDownList")/' + clubRegionId,
+                      success: function (data) {
+                          $('#clubLocalities').html(data);
+                      }
+                 });
+            }
+
+            function refreshListClubs(regionClubId, localityClubId) {
+                 $.ajax({
+                     type: 'GET',
+                     url: '@Url.Action("SportClubDropDownList")/' + regionClubId + '?localityId=' + localityClubId,
+                     success: function (data) {
+                         $('#clubs').html(data);
+                     }
+                 });
+            }
+
+            $(document).on('change', '#clubRegionList', function () {
+                var clubRegionId = $(this).val();
+                var clubLocalityId = null;
+                refreshClubListLocality(clubRegionId);
+                refreshListClubs(clubRegionId, clubLocalityId);
+                $('#clubLocalities').html(data);
+            });
+
+             $(document).on('change', '#clubLocalityList', function () {
+                var localityId = $(this).val();
+                var regionId = $('#clubRegionList').val();
+                refreshListClubs(regionId, localityId);
+             });
+
+            $(document).on('click', '#newClubLocality', function () {
+                $('#newClubLocalityForm').show();
+                $('#clubLocalities').hide();
+                $('#clubLocality').focus();
+                $('#clubLocality').keyup(function () {
+                    if ($(this).val() != '') {
+
+                        $('#addClubLocality').prop('disabled', false);
+                    }
+                    else {
+                        $('#addClubLocality').prop('disabled', true);
+                    }
+                });
             });
 
             $('#toListClubLocality').click(function () {
@@ -311,6 +294,35 @@
                 });
             });
 
+             $('#toListClub').click(function () {
+                $('#newClubForm').hide();
+                $('#club').val('');
+                $('#AddClub').prop('disabled', true);
+                $('#clubs').show();
+            });
+
+            $(document).on('click', '#addClubLocality', function () {
+                $('#newClubLocalityForm').hide();
+                $('#clubLocalities').show();
+                var clubLocality = $('#clubLocality').val();
+                var clubRegionId = $('#clubRegionId').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AddNewLocality", "Judge")',
+                    dataType: 'json',
+                    data: { id: clubRegionId, name: clubLocality },
+                    success: function (response) {
+                        alert(response.responseText);
+                        $('#clubLocality').val('');
+                        refreshClubListLocality(id);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
             $(document).on('click', '#addClub', function () {
                 var regionClubId = $('#clubRegionList').val();
                 var localityClubId = $('#clubLocalityList').val();
@@ -331,18 +343,7 @@
                         alert(response.responseText);
                     }
                 });
-            });
-
-            $('#toListClub').click(function () {
-                $('#newClubForm').hide();
-                $('#club').val('');
-                $('#AddClub').prop('disabled', true);
-                $('#clubs').show();
-            });
-
-            $('#switch1').click(function () {
-                $('#clubSelect').toggle("slow");
-            });
+            });           
 
             $('#switch2').click(function () {
                 if ($('#email, #phoneNum').prop('disabled')) {

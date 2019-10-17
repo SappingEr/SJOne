@@ -13,13 +13,13 @@ namespace SJOne.Models
 
         [Required(ErrorMessage = "Выберите населённый пункт.")]
         [Display(Name = "Населённый пункт")]
-
         public long ClubLocalityId { get; set; }
         public IEnumerable<SelectListItem> ClubLocalities { get; set; }
 
-        [Display(Name = "Клуб")]
-        public long? ClubId { get; set; }
         
+        [Required(ErrorMessage = "Выберите клуб.")]
+        [Display(Name = "Спортивный клуб")]
+        public long? ClubId { get; set; }        
         public IEnumerable<SelectListItem> Clubs { get; set; }
 
         public string Message { get; set; }
