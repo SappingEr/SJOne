@@ -36,43 +36,49 @@
 
 @{
     var message = Model.Message;
-    if (message != null)
-    {
-        <div class="alert alert-light">
-            <strong>@message</strong> <button type="button" id="clearFilter" class="btn btn-link">Сбросить фильтр</button>
-
-        </div>
-    }
 }
 
+@if (Model.Athletes == null && Model.MainJudgeAthletesCount >= 1)
+{
+    <div class="alert alert-light">
+        <strong>@message</strong> <button type="button" id="clearFilter" class="btn btn-link">Сбросить фильтр</button>
+    </div>
+}
+
+else if (Model.Athletes == null && Model.MainJudgeAthletesCount == 0)
+{
+    <div> <strong>@message</strong></div>
 
 
-<table class="table table-hover table-sm">
-    <tbody>
-        @foreach (var item in Model.Athletes)
-        {
-            var startNumber = item.StartNumbersUser.FirstOrDefault();
+}
 
-            <tr>
-                <td>
-                    <span class="badge badge-info">
-                        @startNumber.Number
-                    </span>
-                </td>
-                <td>
-                    @Html.DisplayFor(i => item.Surname) @Html.DisplayFor(i => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(i => item.DOB)
-                </td>
-                <td>
-                    <button id="@startNumber.Id" type="button" class="btn-sm btn-primary addToAssist"><span class="octicon octicon-arrow-right"></span></button>
-                </td>
-            </tr>
+else if (Model.Athletes.Count() > 0 && Model.MainJudgeAthletesCount >= 1)
+{
+    <table class="table table-hover table-sm">
+        <tbody>
+            @foreach (var item in Model.Athletes)
+            {
+                var startNumber = item.StartNumbersUser.FirstOrDefault();
 
-        }
-    </tbody>
-</table>
+                <tr>
+                    <td>
+                        <span class="badge badge-info">
+                            @startNumber.Number
+                        </span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(i => item.Surname) @Html.DisplayFor(i => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(i => item.DOB)
+                    </td>
+                    <td>
+                        <button id="@startNumber.Id" type="button" class="btn-sm btn-primary addToAssist"><span class="octicon octicon-arrow-right"></span></button>
+                    </td>
+                </tr>
 
-
+            }
+        </tbody>
+    </table>
+}
 

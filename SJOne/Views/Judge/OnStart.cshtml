@@ -1,19 +1,147 @@
-﻿@model SJOne.Models.StartViewModel
+﻿@model SJOne.Models.JudgeViewModels.OnStartViewModel
 
 @{
     ViewBag.Title = "На Старт";
 }
 
-@if (User.Identity.Name == Model.Judge.UserName && User.IsInRole("Judge"))
-{
-    <div class="panel panel-default">
-        <div class="panel-heading">@Model.Judge.Name @Model.Judge.Surname</div>
-        <div class="panel-body">
-            @foreach (var j in Model.Judges)
-            {
-                @j.Name @j.Surname
-            }
+<div class="text-center jumbotron bg-warning">
+    <h1>На старт!</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @if (User.IsInRole("Judge") && User.Identity.Name == Model.MainJudgeUserName)
+        {
+            <div id="info">
+                <h2 id="mainJudge">@Model.MainJudgeNS</h2>
+                <h4>Количество судей <span class="badge badge-secondary">@Model.JudgeCount</span></h4>
+            </div>
+
+            <div id="start">
+                <br />
+                <button class="btn-lg btn-block btn-success" type="button">! СТАРТ !</button>
+            </div>
+        }
+
+        else
+        {
+
+            <h2 id="judge">@Model.UserNS</h2>
+            <hr />
+            <h4>Главный судья <span class="badge badge-secondary">@Model.MainJudgeNS</span></h4>
+            <h4>Количество судей <span class="badge badge-secondary">@Model.JudgeCount</span></h4>
+        }
+
+        <br />
+
+        <div>
+            <button id="status" class="btn-lg btn-success" type="button">Подтвердить готовность</button>
         </div>
     </div>
-}
 
+
+    <div class="col-md-6">
+        <div id="users">
+            <h4>Судьи Онлайн:</h4>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script>
+        $(function () {
+            $('#start').hide();
+
+            var onStart = $.connection.onStartHub;
+
+            onStart.client.onNewUserConnected = function (id, userSN) {
+                AddUser(id, userSN);
+            }
+
+            onStart.client.onUserDisconnected = function (id) {
+                $('#' + id).remove();
+            }
+
+            onStart.client.onConnected = function (id, userSN, allUsers) {
+
+                $('#hId').val(id);
+                $('#hId').text(userSN);
+                for (i = 0; i < allUsers.length; i++) {
+                    AddUser(allUsers[i].ConnectionId, allUsers[i].UserNS, allUsers[i].Readiness);
+                }
+            }
+
+            onStart.client.addStatusReadiness = function (id, readiness) {
+                if (readiness === true) {
+                    $('#' + id).toggleClass('text-danger text-success');
+                }
+            }
+
+            onStart.client.addStartButton = function (start) {
+                if (start === true) {
+                    $('#start').show();
+                    $('#info').hide();
+                }
+            }
+
+            onStart.client.redirectToHandTiming = function (redirect) {
+                    if (redirect === true) {
+                         var url = "@Url.Action("Contact", "Home")";
+                         window.location.href = url;
+                    }
+                    else alert("Ошибка переадресации!");
+            }
+
+            $.connection.hub.start()
+                .done(function () {
+
+                    var mainJudge = $('#mainJudge').text();
+                    var judge = $('#judge').text();
+
+                    if (judge !== "") {
+                        onStart.server.connect(judge);
+                    }
+                    else if (mainJudge !== "") {
+                         var count = Number(@Model.JudgeCount);
+                        onStart.server.connect(mainJudge);
+                        onStart.server.userCount(count);
+                    }                  
+
+                    $('#status').click(function () {
+                        var readines = true;
+                        onStart.server.sendStatus(readines);
+                        $('#status').hide();
+                    })
+
+                    $('#start').click(function () {
+                        var redirect = true;
+                        onStart.server.redirect(redirect,);
+                    })
+                })
+                .fail(function () {
+                   alert("Не удалось установить соединение");
+                });
+        });
+
+
+        function AddUser(id, userSN, readiness) {
+            if (readiness === true) {
+                $("#users").append('<p class="text-success" id="' + id + '"><b>' + userSN + '</b></p>');
+            }
+            else {
+                 $("#users").append('<p class="text-danger" id="' + id + '"><b>' + userSN + '</b></p>');
+            }
+
+
+        }
+    </script>
+}

@@ -231,7 +231,6 @@ E:\Repos\SJOne\SJOne\bin\System.Web.WebPages.Deployment.xml
 E:\Repos\SJOne\SJOne\bin\System.Web.WebPages.Razor.xml
 E:\Repos\SJOne\SJOne\bin\System.Web.Optimization.xml
 E:\Repos\SJOne\SJOne\obj\Debug\SJOne.csprojAssemblyReference.cache
-E:\Repos\SJOne\SJOne\obj\Debug\SJOne.csproj.CoreCompileInputs.cache
 E:\Repos\SJOne\SJOne\obj\Debug\SJOne.csproj.CopyComplete
 E:\Repos\SJOne\SJOne\obj\Debug\SJOne.dll
 E:\Repos\SJOne\SJOne\obj\Debug\SJOne.pdb
@@ -245,3 +244,9 @@ E:\Repos\SJOne\SJOne\bin\System.Buffers.xml
 E:\Repos\SJOne\SJOne\bin\System.Memory.xml
 E:\Repos\SJOne\SJOne\bin\System.Numerics.Vectors.xml
 E:\Repos\SJOne\SJOne\bin\System.Runtime.CompilerServices.Unsafe.xml
+E:\Repos\SJOne\SJOne\bin\Microsoft.AspNet.SignalR.Core.dll
+E:\Repos\SJOne\SJOne\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+E:\Repos\SJOne\SJOne\bin\Microsoft.AspNet.SignalR.Core.pdb
+E:\Repos\SJOne\SJOne\bin\Microsoft.AspNet.SignalR.Core.xml
+E:\Repos\SJOne\SJOne\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+E:\Repos\SJOne\SJOne\bin\Microsoft.AspNet.SignalR.SystemWeb.xml

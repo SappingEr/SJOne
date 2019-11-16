@@ -25,7 +25,7 @@ namespace SJOne.Controllers
                 infoModel.Email = user.Email;
                 infoModel.Name = user.Name;
                 infoModel.Surname = user.Surname;
-                infoModel.Locality = user.Locality.Name;
+                infoModel.Locality = user.Locality.Name + " " + user.Locality.Region.Name;
                 infoModel.Club = user.SportClub.Name;
                 infoModel.DOB = user.DOB;
                 infoModel.Gender = user.Gender.ToString();                

@@ -1,8 +1,12 @@
-﻿@using SJOne.Models.Filters
-@model SJOne.Models.JudgeViewModels.StartListSettingsViewModel
+﻿@model SJOne.Models.JudgeViewModels.StartListSettingsViewModel
 
 @{
     ViewBag.Title = "Список участников - распределение";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
 }
 
 
@@ -10,10 +14,8 @@
     <h2>Распределение стартового списка</h2>
 </div>
 
-<div>
-    @Html.Partial("_SearchUser", new UserFilter())
-</div>
 <br />
+
 <div class="row">
     <div class="col-md-6">
         <form>
@@ -25,8 +27,8 @@
                     <button id="clearFilter" class="btn btn-danger" type="button"><span class="octicon octicon-x"></span></button>
                 </div>
             </div>
-        </form>       
-       
+        </form>
+
         <div id="mainList">
             @Html.Action("StartList", new { id = Model.Id, judgeAssistId = Model.JudgeId })
         </div>
@@ -39,9 +41,9 @@
                     <span class="input-group-text">Помощник судьи: </span>
                 </div>
                 @Html.DropDownListFor(model => model.JudgeId, Model.Judges, new { @id = "judge", @class = "form-control" })
-                
+
             </div>
-        </form>       
+        </form>
 
         <div id="assistantList">
             @Html.Action("JudgeAssistantStartList", new { id = Model.Id, judgeId = Model.JudgeId })
@@ -55,6 +57,9 @@
     <script>
 
         $(document).ready(function () {
+
+            var form = $('#AjaxAntiForgeryForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
 
             function refreshFilter(filterLink) {
                 $.ajax({
@@ -155,7 +160,7 @@
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
-                    data: { id: @Model.Id, startNumberId: numId, judgeId: judge},
+                    data: { __RequestVerificationToken: token, id: @Model.Id, startNumberId: numId, judgeId: judge},
                     url: '@Url.Action("AddToJudgeAssist", "Judge")',
                     success: function () {
                         refreshMainList();
@@ -173,7 +178,7 @@
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
-                    data: { id: @Model.Id, startNumberId: numId},
+                    data: { __RequestVerificationToken: token, id: @Model.Id, startNumberId: numId},
                     url: '@Url.Action("AddToMainJudge", "Judge")',
                     success: function () {
                         refreshMainList();

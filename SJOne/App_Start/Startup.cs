@@ -29,7 +29,7 @@ using SJOne.Auth;
 [assembly: OwinStartup(typeof(Startup))]
 namespace SJOne.App_Start
 {
-    public partial class Startup
+    public static partial class Startup
     {
         public static void Configuration(IAppBuilder app)
         {
@@ -96,7 +96,9 @@ namespace SJOne.App_Start
                 Provider = new CookieAuthenticationProvider()
             });
 
-
+            {
+                app.MapSignalR();
+            }
         }
 
         public static void InitialData(ISessionFactory sessionFactory)

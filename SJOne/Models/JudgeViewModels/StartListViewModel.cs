@@ -19,7 +19,7 @@ namespace SJOne.Models.JudgeViewModels
 
         public int Items { get; set; }        
 
-        public IList<User> Athletes { get; set; } = new List<User>();  
+        public IEnumerable<User> Athletes { get; set; }  
         
         public string Message { get; set; }
     }

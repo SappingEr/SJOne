@@ -77,7 +77,7 @@ namespace SJOne.Models.Repositories
             return crit.List<User>();
         }        
 
-        public IList<User> StartList(int setFirst, int setMax, Race race, Judge mainJudge, UserFilter filter, FetchOptions options = null)
+        public IEnumerable<User> StartList(int setFirst, int setMax, Race race, Judge mainJudge, UserFilter filter, FetchOptions options = null)
         {
             var crit = session.CreateCriteria<User>()
                 .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)

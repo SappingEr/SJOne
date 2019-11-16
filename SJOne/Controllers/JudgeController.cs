@@ -29,6 +29,7 @@ namespace SJOne.Controllers
             this.clubRepository = clubRepository;
         }
 
+        [HttpGet]
         public ActionResult StartListSettings(long id, StartListSettingsViewModel startListModel)
         {
             var race = raceRepository.Get(id);
@@ -37,7 +38,7 @@ namespace SJOne.Controllers
                 startListModel.Id = id;
                 var ageGroups = race.AgeGroups;
 
-                if (ageGroups.Count() >= 1)
+                if (ageGroups.Count >= 1)
                 {
                     startListModel.AgeGroups = race.AgeGroups
                     .Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name });
@@ -58,7 +59,8 @@ namespace SJOne.Controllers
             }
             return HttpNotFound("Старт не найден");
         }
-
+        
+        [HttpGet]
         public ActionResult StartList(long id,
                                       long? ageGroupId,
                                       UserFilter userFilter,
@@ -67,7 +69,7 @@ namespace SJOne.Controllers
         {
             var race = raceRepository.Get(id);
             var mainJudge = race.MainJudgeRace;
-            int setMax = 5;
+            int setMax = 5;            
             startListModel.Id = id;
 
             if (setFirst < 0)
@@ -96,7 +98,7 @@ namespace SJOne.Controllers
 
             startListModel.AllAthletesCount = race.StartNumbersRace.Where(u => u.User != null).Count();
            
-            var mainJudgeAthletesCount = mainJudge.StartNumbersJudge.Count();
+            var mainJudgeAthletesCount = mainJudge.StartNumbersJudge.Count;
             
 
             if (mainJudgeAthletesCount >= 1)
@@ -110,14 +112,14 @@ namespace SJOne.Controllers
 
                 var athletes = userRepository.StartList(setFirst, setMax, race, mainJudge, userFilter);
 
-                if (athletes.Count() == 0)
+                if (!athletes.Any())
                 {
                     startListModel.Items = 0;
                     startListModel.SetFirst = setFirst;
-                    startListModel.Message = "Текущий список пуст.";
+                    startListModel.Message = "Cписок пуст.";
                 }
 
-                else if (athletes.Count() >= 1)
+                else
                 {
                     
                     
@@ -139,14 +141,16 @@ namespace SJOne.Controllers
                     }
 
                     startListModel.Items = items;
-                    startListModel.SetFirst = pageFirst;
-
-                    return PartialView(startListModel);
+                    startListModel.SetFirst = pageFirst;                   
                 }
-            }           
+                return PartialView(startListModel);
+
+            }
+            startListModel.Message = "Список распределён.";
             return PartialView(startListModel);
         }
 
+        [HttpGet]
         public ActionResult JudgeAssistantStartList(long id, long judgeId, JudgeAssistantStartListViewModel assistListModel)
         {
             var race = raceRepository.Get(id);
@@ -157,7 +161,8 @@ namespace SJOne.Controllers
             return PartialView(assistListModel);
         }
 
-        [HttpPost]
+        [HttpPost] 
+        [ValidateAntiForgeryToken]
         public ActionResult AddToJudgeAssist(long id, long startNumberId, long judgeId)
         {
             var race = raceRepository.Get(id);
@@ -176,6 +181,7 @@ namespace SJOne.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddToMainJudge(long id, long startNumberId)
         {
             var race = raceRepository.Get(id);
@@ -192,6 +198,7 @@ namespace SJOne.Controllers
             return Json(new { succcess = false, responseText = "Ошибка передачи стартового номера главному судье." });
         }
 
+        [HttpGet]
         public ActionResult MainRaceList(long id, JudgeRacesViewModel judgeModel)
         {
             var judgeMainRaces = userRepository.Get(id).Judge.MainRaces;
@@ -203,6 +210,7 @@ namespace SJOne.Controllers
             return RedirectToAction("Index", "Judge", new { id });
         }
 
+        [HttpGet]
         public ActionResult RaceList(long id, JudgeRacesViewModel judgeModel)
         {
             var judgeRaces = userRepository.Get(id).Judge.Races;
@@ -214,12 +222,21 @@ namespace SJOne.Controllers
             return RedirectToAction("Index", "Judge", new { id });
         }
 
+        [HttpGet]
+        public ActionResult FindAthlete(long id)
+        {
+            return View(new FindAthleteViewModel { Id = id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult FindAthlete(long id, UserFilter userFilter, FetchOptions options, FindAthleteViewModel athletesModel)
         {
             var race = raceRepository.Get(id);
             if (race != null)
             {
                 athletesModel.Id = id;
+
                 if (userFilter.Name != null || userFilter.Surname != null || userFilter.DOB != null)
                 {
                     var athletes = userRepository.Find(userFilter, options);
@@ -244,7 +261,7 @@ namespace SJOne.Controllers
             return HttpNotFound("Старт не найден");
         }
 
-
+        [HttpGet]
         public ActionResult Register(long id, long athleteId)
         {
             var race = raceRepository.Get(id);
@@ -295,6 +312,7 @@ namespace SJOne.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddNewAthlete(long id, AddAthleteViewModel addAthleteModel, AddSportClubViewModel sportClubModel)
         {
             var race = raceRepository.Get(id);
@@ -352,6 +370,7 @@ namespace SJOne.Controllers
             return HttpNotFound("Старт не найден");
         }
 
+        [HttpGet]
         public ActionResult AddSportClub(long regionId, long localityId, AddSportClubViewModel clubModel )
         {
             var region = regionRepository.Get(regionId);
@@ -375,6 +394,7 @@ namespace SJOne.Controllers
             return PartialView(clubModel);
         }
 
+        [HttpGet]
         public ActionResult LocalitiesDropDownList(long id, LocalityDropDownListViewModel localityModel)
         { 
             long localitySelect = 0;            
@@ -383,6 +403,7 @@ namespace SJOne.Controllers
             return PartialView(localityModel);
         }
 
+        [HttpGet]
         public ActionResult SportClubDropDownList(long id, long? localityId, SportClubDropDownListViewModel clubModel)
         {
             var localities = regionRepository.Get(id).Localities;            
@@ -402,6 +423,7 @@ namespace SJOne.Controllers
             return PartialView(clubModel);
         }
 
+        [HttpGet]
         public ActionResult AddNewSportClub(long id, long localityId, string name)
         {
             var region = regionRepository.Get(id);
@@ -428,10 +450,11 @@ namespace SJOne.Controllers
             return Json(new { succcess = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
         }
 
+        [HttpGet]
         public ActionResult AddNewLocality(long id, string name)
         {
             var region = regionRepository.Get(id);
-            if (region != null && name != null && name != "")
+            if (region != null && name != null && name.Length == 0)
             {
                 var localities = region.Localities.Select(i => i.Name.ToLower()).ToList();
 
@@ -462,27 +485,43 @@ namespace SJOne.Controllers
         //    return View(model); // Поменять на адрес кабинета.
         //}
 
-        //[HttpGet]
-        //public ActionResult OnStart(long id, StartViewModel model)
-        //{
-        //    var judge = judgeRepository.Get(id);
-        //    if (judge != null && User.IsInRole("Judge"))
-        //    {
-        //        var assistJudges = judge.Race.JudgesRace;
-        //        model.Judge = judge;
-        //        if (assistJudges.Count > 1)
-        //        {
-        //            assistJudges.Remove(judge);                   
-        //            model.Judges = assistJudges;                    
-        //        }
-        //        else
-        //        {
-        //            model.Judges = null;                    
-        //        }
-        //        return View(model);
-        //    }
-        //    return HttpNotFound();            
-        //}
+        [HttpGet]
+        [Authorize]
+        public ActionResult OnStart(long id, OnStartViewModel onStartModel)
+        {
+            var race = raceRepository.Get(id);
+            if (race != null)
+            {
+                var user = userRepository.GetCurrentUser();
+                onStartModel.RaceId = id;
+                onStartModel.JudgeId = user.Id;
+                var mainJudge = race.MainJudgeRace.User;
+                var judges = race.JudgesRace.ToList();               
+                if (judges.Any())
+                {
+                    if (judges.Contains(user.Judge) || mainJudge == user)
+                    {
+                        onStartModel.UserNS = user.Name + " " + user.Surname;
+                        onStartModel.JudgeCount = (judges.Count + 1).ToString();
+                    }
+                    else
+                    {
+                        return HttpNotFound("Судья не найден в списке.");
+                    }                    
+                }
+                else
+                {                    
+                    onStartModel.JudgeCount = "Нет помощников";
+                }
+
+                onStartModel.MainJudgeNS = mainJudge.Name + " " + mainJudge.Surname;
+                onStartModel.MainJudgeUserName = mainJudge.UserName;                         
+                
+                return View(onStartModel);
+            }           
+            
+            return HttpNotFound("Старт не найден");
+        }
 
         //[HttpPost]
         //public ActionResult OnStart(long id)
