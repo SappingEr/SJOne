@@ -14,7 +14,7 @@ namespace SJOne.Models.JudgeViewModels
         
         public Gender Gender { get; set; }
 
-        public string AgeGroupError { get; set; }
+        public string AgeGroupMessage { get; set; }
 
         public long AgeGroupId { get; set; }
 

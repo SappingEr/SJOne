@@ -2,7 +2,7 @@
 
 namespace SJOne.Models
 {
-    public enum Gender
+    public enum Gender : byte
     {
         [Display(Name = "Мужской")]       
         Male = 1,

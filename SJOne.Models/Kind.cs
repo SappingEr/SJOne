@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace SJOne.Models
 {
-    public enum Kind
+    public enum Kind : byte
     {
-        Run = 1,
-        HourRun,
-        Bicycle
+        Run = 1,        
+        Bicycle,
+        Swim,
+        Countdown
     }
 }

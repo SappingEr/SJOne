@@ -15,8 +15,8 @@ namespace SJOne.Models.Mapping
             Map(s => s.Number).Length(5);
             References(s => s.User).Cascade.All();
             References(s => s.Race); 
-            References(s => s.Judge).Cascade.SaveUpdate(); ;
-            HasMany(s => s.HandTimingsNumber);
+            References(s => s.Judge).Cascade.SaveUpdate();
+            HasMany(s => s.HandTimingsNumber).Cascade.SaveUpdate();
         }
     }
 }

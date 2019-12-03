@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SJOne.Models
 {
@@ -15,6 +17,14 @@ namespace SJOne.Models
         public virtual Kind Kind { get; set; }
 
         public virtual int LapCount { get; set; }
+
+        public virtual int CountdownTime { get; set; }        
+
+        [DataType(DataType.Time)]
+        public virtual DateTime? StartTime { get; set; }
+
+        [DataType(DataType.Time)]
+        public virtual DateTime? FinishTime { get; set; }
 
         public virtual Judge MainJudgeRace { get; set; }
 

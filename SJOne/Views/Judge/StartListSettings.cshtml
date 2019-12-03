@@ -20,7 +20,16 @@
     <div class="col-md-6">
         <form>
             <div class="input-group mb-3">
-                @Html.DropDownListFor(model => model.AgeGroupId, Model.AgeGroups, "-Возрастная группа-", new { @id = "ageGroup", @class = "form-control" })
+                @if (Model.AgeGroups != null)
+                {
+                    @Html.DropDownListFor(model => model.AgeGroupId, Model.AgeGroups, "-Возрастная группа-", new { @id = "ageGroup", @class = "form-control" })
+                }
+                else
+                {
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">@Model.AgeGroupMessage</span>
+                    </div>
+                }
 
                 @Html.EnumDropDownListFor(model => model.Gender, "-Пол-", new { @id = "gender", @class = "form-control" })
                 <div class="input-group-append">
@@ -34,7 +43,10 @@
         </div>
     </div>
 
+
+
     <div class="col-md-6">
+
         <form>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">

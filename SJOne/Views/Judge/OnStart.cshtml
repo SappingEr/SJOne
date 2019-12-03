@@ -114,7 +114,7 @@
                          var count = Number(@Model.JudgeCount);
                         onStart.server.connect(mainJudge);
                         onStart.server.userCount(count);
-                    }                  
+                    }
 
                     $('#status').click(function () {
                         var readines = true;
@@ -133,15 +133,8 @@
         });
 
 
-        function AddUser(id, userSN, readiness) {
-            if (readiness === true) {
-                $("#users").append('<p class="text-success" id="' + id + '"><b>' + userSN + '</b></p>');
-            }
-            else {
+        function AddUser(id, userSN) {
                  $("#users").append('<p class="text-danger" id="' + id + '"><b>' + userSN + '</b></p>');
-            }
-
-
         }
     </script>
 }

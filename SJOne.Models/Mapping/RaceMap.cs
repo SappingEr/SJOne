@@ -12,7 +12,10 @@ namespace SJOne.Models.Mapping
             Map(r => r.LapCount).Length(5);
             Map(r => r.Kind);
             Map(r => r.StartNumberCount).Length(5);
+            Map(r => r.CountdownTime);
             Map(r => r.AgeFromEvent);
+            Map(r => r.StartTime);
+            Map(r => r.FinishTime);
             References(r => r.SportEvent);
             References(r => r.MainJudgeRace).Cascade.SaveUpdate();
             HasManyToMany(r=>r.AgeGroups).Table("AgeGroup_Race")

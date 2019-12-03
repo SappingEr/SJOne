@@ -5,40 +5,63 @@
     ViewBag.Title = "HandTiming";
 }
 
-<h2>HandTiming</h2>
+<h2 id="demo"></h2>
 
 
 
-    <div class="col-md-2">
-        <button type="button" class="btn">Basic</button>
-    </div>
-
-
-
-
+<div class="col-md-2">
+    <button type="button" class="btn">Basic</button>
+</div>
 
 <hr />
 
-<div id="buttonList">
-    @{
-        @Html.Partial("ButtonList", @Model.Id);
-    }
+@section scripts {
 
-</div>
+    <script>
+
+        var startTime = new Date(@Model.StartTime);
+        var countdownTime = @Model.CountdownTime;
+
+        var totalTime = startTime.setMinutes(startTime.getMinutes() + countdownTime);
+
+        function leadZero(num) {
+            var s = "" + num;
+            if (s.length < 2) {
+                s = "0" + s;
+            }
+            return s;
+        }
+
+        function viewTime(time) {
+
+            var hours = leadZero(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            var minutes = leadZero(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+            var seconds = leadZero(Math.floor((time % (1000 * 60)) / 1000));
+
+            $('#demo').text(hours + " : " + minutes + " : " + seconds);
+        }
+
+        if (countdownTime != null) {
+            var timer = setInterval(function () {
+
+                var now = new Date().getTime();
+                var distance = totalTime - now;
+
+                viewTime(distance);
+
+                if (distance < 0) {
+                clearInterval(timer);
+                var url = "@Url.Action("Contact", "Home")";
+                         window.location.href = url;
+                }
+        }, 100);
+        }
 
 
-@section scripts{
-    <script type="text/javascript">
-    $(document).ready(function () {
-        $('.btn').click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("HandTiming", "Judge")',
-                data: { id: '@Model.Id', start: true }
-                
-            });
-        });
-    });
+
+
+
+
     </script>
 }
 
