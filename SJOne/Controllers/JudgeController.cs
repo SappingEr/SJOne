@@ -518,7 +518,7 @@ namespace SJOne.Controllers
                 onStartModel.MainJudgeUserName = mainJudge.UserName;
 
                 return View(onStartModel);
-            }
+            }           
 
             return HttpNotFound("Старт не найден");
         }
@@ -528,15 +528,15 @@ namespace SJOne.Controllers
         {
             var race = raceRepository.Get(id);
             if (race != null)
-            {
-                handTimingModel.Id = id;
+            {                
                 var user = userRepository.GetCurrentUser();
                 var mainJudge = race.MainJudgeRace;
                 var judge = race.JudgesRace.FirstOrDefault(j => j.Id == user.Id);
 
                 if (user != null && (mainJudge == user.Judge || judge == user.Judge))
                 {
-                    handTimingModel.Id = user.Id;
+                    handTimingModel.Id = id;
+                    handTimingModel.JudgeId = user.Id;
                     handTimingModel.UserName = user.UserName;
                 }
                 else
@@ -552,8 +552,8 @@ namespace SJOne.Controllers
                 }
                 else
                 {
-                    startTime = DateTime.UtcNow;                    
-                    var startNumbers = race.StartNumbersRace;
+                    startTime = DateTime.UtcNow;
+                    var startNumbers = race.StartNumbersRace.Where(sN => sN.User != null).ToList();                   
 
                     if (!startNumbers.Any(t => t.HandTimingsNumber == null))
                     {
@@ -562,7 +562,7 @@ namespace SJOne.Controllers
                             if (number.User != null && number.HandTimingsNumber.Count == 0)
                             {
                                 number.HandTimingsNumber.Add(new HandTiming { Judge = number.Judge, Lap = 0, TimeStamp = startTime });
-                            }
+                            }                            
                         }
 
                         raceRepository.InvokeInTransaction(() =>
@@ -578,7 +578,9 @@ namespace SJOne.Controllers
                 if (race.LapCount == 0) 
                 {                    
                     handTimingModel.CountdownTime = race.CountdownTime;
-                }              
+                }
+
+                handTimingModel.Id = id;
 
                 return View(handTimingModel);
             }
@@ -586,10 +588,24 @@ namespace SJOne.Controllers
             return HttpNotFound("Старт не найден");
         }
 
+        [HttpGet]
+        public ActionResult HT_ButtonList(long id, long judgeId, ButtonListViewModel buttonListModel)
+        {
+            var race = raceRepository.Get(id);
+            if (race != null)
+            {
+                var user = userRepository.Get(judgeId);
+                var mainJudge = race.MainJudgeRace;
+                var judge = race.JudgesRace.FirstOrDefault(j => j.Id == user.Id);
 
+                if (user != null && mainJudge == user.Judge)
+                {                    
+                    buttonListModel.StartNumbers = race.StartNumbersRace.OrderByDescending(sn => sn.HandTimingsNumber.Max(l => l.Lap));
+                }
+            }
+            return PartialView(buttonListModel);
 
-
-
+        }
         //[HttpPost]
         //public ActionResult HandTiming(long id, bool start)
         //{

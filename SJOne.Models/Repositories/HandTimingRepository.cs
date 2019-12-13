@@ -8,6 +8,7 @@ namespace SJOne.Models.Repositories
     {
         public HandTimingRepository(ISession session) : base(session)
         {
+
         }
     }
 }

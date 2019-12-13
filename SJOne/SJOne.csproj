@@ -509,7 +509,7 @@
     <Content Include="Views\Admin\UserList.cshtml" />
     <Content Include="Views\Admin\Status.cshtml" />
     <Content Include="Views\Admin\UserRoles.cshtml" />
-    <Content Include="Views\Judge\ButtonList.cshtml" />
+    <Content Include="Views\Judge\HT_ButtonList.cshtml" />
     <Content Include="Views\Judge\HandTiming.cshtml" />
     <Content Include="Views\Judge\OnStart.cshtml" />
     <Content Include="Views\SportEvent\CreateRace.cshtml" />

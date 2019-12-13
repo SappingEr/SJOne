@@ -7,7 +7,9 @@ namespace SJOne.Models
 {
     public class HandTimingViewModel
     {
-        public long Id { get; set; }         
+        public long Id { get; set; }
+        
+        public long JudgeId { get; set; }
 
         public string UserName { get; set; }
 

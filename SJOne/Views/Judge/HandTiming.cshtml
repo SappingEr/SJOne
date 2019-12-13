@@ -5,15 +5,40 @@
     ViewBag.Title = "HandTiming";
 }
 
-<h2 id="demo"></h2>
-
-
-
-<div class="col-md-2">
-    <button type="button" class="btn">Basic</button>
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn-sm btn-danger offset-md-10" data-toggle="modal" data-target="#stopTiming">
+        <span class="octicon octicon-stop"></span>
+    </button>
 </div>
 
+
+<h2 class="text-center" id="time"></h2>
+
+<div class="d-flex justify-content-center"><button type="button" class="btn-lg btn-warning  col-md-4">Добавить метку</button></div>
+
 <hr />
+
+@Html.Action("HT_ButtonList", new { id = Model.Id, judgeId = Model.JudgeId })
+
+
+
+<div class="modal fade" id="stopTiming">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Остановить судейство</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <a href="@Url.Action("StopRace")" class="btn btn-danger col mr-1" role="button">Остановить</a>
+                    <button type="button" class="btn btn-success col ml-1" data-dismiss="modal">Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section scripts {
 
@@ -21,15 +46,14 @@
 
         var startTime = new Date(@Model.StartTime);
         var countdownTime = @Model.CountdownTime;
-
         var totalTime = startTime.setMinutes(startTime.getMinutes() + countdownTime);
 
         function leadZero(num) {
-            var s = "" + num;
-            if (s.length < 2) {
-                s = "0" + s;
+            var i = "" + num;
+            if (i.length < 2) {
+                i = "0" + i;
             }
-            return s;
+            return i;
         }
 
         function viewTime(time) {
@@ -38,30 +62,34 @@
             var minutes = leadZero(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
             var seconds = leadZero(Math.floor((time % (1000 * 60)) / 1000));
 
-            $('#demo').text(hours + " : " + minutes + " : " + seconds);
+            $('#time').text(hours + " : " + minutes + " : " + seconds);
         }
 
-        if (countdownTime != null) {
+        if (countdownTime > 0) {
             var timer = setInterval(function () {
 
                 var now = new Date().getTime();
-                var distance = totalTime - now;
+                var difference = totalTime - now;
 
-                viewTime(distance);
+                viewTime(difference);
 
-                if (distance < 0) {
+                if (difference < 0) {
                 clearInterval(timer);
                 var url = "@Url.Action("Contact", "Home")";
                          window.location.href = url;
                 }
-        }, 100);
+            }, 1000);
         }
+        else {
+            var stopwatch = setInterval(function () {
 
+                var now = new Date().getTime();
+                var difference = now - startTime;
 
+                viewTime(difference);
 
-
-
-
+            },1000)
+        }
     </script>
 }
 

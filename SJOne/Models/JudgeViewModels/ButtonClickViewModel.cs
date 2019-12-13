@@ -15,7 +15,6 @@ namespace SJOne.Models
 
         public TimeSpan? TotalTime { get; set; }
 
-
         public virtual Judge Judge { get; set; }
     }
 }

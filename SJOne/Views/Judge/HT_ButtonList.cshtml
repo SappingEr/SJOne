@@ -1,0 +1,26 @@
+﻿@model SJOne.Models.ButtonListViewModel
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-md-8">
+        @foreach (var item in Model.StartNumbers)
+        {
+
+            <button type="button" class="btn-lg btn-primary ml-2 mb-2">
+                @item.Number
+                <span class="badge badge-light">
+                    @foreach (var hT in item.HandTimingsNumber)
+                    {
+                        @hT.Lap
+                    }
+                </span>
+            </button>            
+        }
+    </div>
+    <div class="col"></div>
+</div>
+
+
+
+
+
