@@ -40,8 +40,6 @@ namespace SJOne.Models.Repositories
             return session.Load<T>(id);
         }
 
-
-
         public virtual void Save(T entity)
         {
             session.Save(entity);
@@ -51,7 +49,7 @@ namespace SJOne.Models.Repositories
         {
             using (var tr = session.BeginTransaction())
             {
-                action.Invoke();
+                action.Invoke();                
                 tr.Commit();
             }
         }

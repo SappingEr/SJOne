@@ -1,11 +1,11 @@
-﻿using System.Web.Mvc;
-using SJOne.Models.Repositories;
-using SJOne.Models;
+﻿using SJOne.Models;
 using SJOne.Models.Filters;
 using SJOne.Models.JudgeViewModels;
-using System.Linq;
+using SJOne.Models.Repositories;
 using System;
 using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace SJOne.Controllers
 {
@@ -97,7 +97,7 @@ namespace SJOne.Controllers
 
             startListModel.AllAthletesCount = race.StartNumbersRace.Where(u => u.User != null).Count();
 
-            var mainJudgeAthletesCount = mainJudge.StartNumbersJudge.Where(i => i.Race.Id == id).Count();
+            var mainJudgeAthletesCount = mainJudge.StartNumbersJudge.Where(i => i.Race == race).Count();
 
 
             if (mainJudgeAthletesCount >= 1)
@@ -174,9 +174,9 @@ namespace SJOne.Controllers
                 {
                     startNumber.Judge = judgeAssist;
                 });
-                return Json(new { succcess = true });
+                return Json(new { success = true });
             }
-            return Json(new { succcess = false, responseText = "Ошибка передачи стартового номера помощнику судьи." });
+            return Json(new { success = false, responseText = "Ошибка передачи стартового номера помощнику судьи." });
 
         }
 
@@ -193,9 +193,9 @@ namespace SJOne.Controllers
                 {
                     startNumber.Judge = mainJudge;
                 });
-                return Json(new { succcess = true });
+                return Json(new { success = true });
             }
-            return Json(new { succcess = false, responseText = "Ошибка передачи стартового номера главному судье." });
+            return Json(new { success = false, responseText = "Ошибка передачи стартового номера главному судье." });
         }
 
         [HttpGet]
@@ -433,7 +433,7 @@ namespace SJOne.Controllers
                 var clubs = locality.LocalitySportClubs.Select(c => c.Name.ToLower()).ToList();
                 if (clubs.Contains(name.ToLower()))
                 {
-                    return Json(new { succcess = false, responseText = "Ошибка! " + name + " есть в списке!" });
+                    return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
                 }
 
                 if (name != null)
@@ -443,11 +443,11 @@ namespace SJOne.Controllers
                     {
                         regionRepository.Save(region);
                     });
-                    return Json(new { succcess = true, responseText = "Список спортивных клубов успешно обновлён." });
+                    return Json(new { success = true, responseText = "Список спортивных клубов успешно обновлён." });
                 }
-                return Json(new { succcess = false, responseText = "Ошибка! Введите клуб!" });
+                return Json(new { success = false, responseText = "Ошибка! Введите клуб!" });
             }
-            return Json(new { succcess = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
+            return Json(new { success = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
         }
 
         [HttpGet]
@@ -460,16 +460,16 @@ namespace SJOne.Controllers
 
                 if (localities.Contains(name.ToLower()))
                 {
-                    return Json(new { succcess = false, responseText = "Ошибка! " + name + " есть в списке!" });
+                    return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
                 }
 
                 regionRepository.InvokeInTransaction(() =>
                 {
                     region.Localities.Add(new Locality { Name = name });
                 });
-                return Json(new { succcess = true, responseText = "Список населённых пунктов успешно обновлён." });
+                return Json(new { success = true, responseText = "Список населённых пунктов успешно обновлён." });
             }
-            return Json(new { succcess = false, responseText = "Ошибка! Выберите регион и введите название нового населённого пункта." });
+            return Json(new { success = false, responseText = "Ошибка! Выберите регион и введите название нового населённого пункта." });
         }
 
         //public ActionResult AthleteList(long id, StartNumberListViewModel model)
@@ -518,7 +518,7 @@ namespace SJOne.Controllers
                 onStartModel.MainJudgeUserName = mainJudge.UserName;
 
                 return View(onStartModel);
-            }           
+            }
 
             return HttpNotFound("Старт не найден");
         }
@@ -528,7 +528,7 @@ namespace SJOne.Controllers
         {
             var race = raceRepository.Get(id);
             if (race != null)
-            {                
+            {
                 var user = userRepository.GetCurrentUser();
                 var mainJudge = race.MainJudgeRace;
                 var judge = race.JudgesRace.FirstOrDefault(j => j.Id == user.Id);
@@ -545,7 +545,7 @@ namespace SJOne.Controllers
                 }
 
                 DateTime startTime;
-               
+
                 if (race.StartTime.HasValue)
                 {
                     startTime = race.StartTime.Value;
@@ -553,7 +553,7 @@ namespace SJOne.Controllers
                 else
                 {
                     startTime = DateTime.UtcNow;
-                    var startNumbers = race.StartNumbersRace.Where(sN => sN.User != null).ToList();                   
+                    var startNumbers = race.StartNumbersRace.Where(sN => sN.User != null).ToList();
 
                     if (!startNumbers.Any(t => t.HandTimingsNumber == null))
                     {
@@ -561,9 +561,12 @@ namespace SJOne.Controllers
                         {
                             if (number.User != null && number.HandTimingsNumber.Count == 0)
                             {
-                                number.HandTimingsNumber.Add(new HandTiming { Judge = number.Judge, Lap = 0, TimeStamp = startTime });
-                            }                            
+                                number.HandTimingsNumber.Add(new HandTiming { Judge = number.Judge, Lap = 0, TimeStamp = startTime, StartNumber = number });
+                            }
                         }
+
+                        
+                       
 
                         raceRepository.InvokeInTransaction(() =>
                         {
@@ -572,11 +575,11 @@ namespace SJOne.Controllers
                         });
                     }
                 }
-                
+
                 handTimingModel.StartTime = (long)Math.Round(startTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds);
 
-                if (race.LapCount == 0) 
-                {                    
+                if (race.LapCount == 0)
+                {
                     handTimingModel.CountdownTime = race.CountdownTime;
                 }
 
@@ -594,49 +597,63 @@ namespace SJOne.Controllers
             var race = raceRepository.Get(id);
             if (race != null)
             {
-                var user = userRepository.Get(judgeId);
+                var currUser = userRepository.Get(judgeId);
                 var mainJudge = race.MainJudgeRace;
-                var judge = race.JudgesRace.FirstOrDefault(j => j.Id == user.Id);
+                var judge = race.JudgesRace.FirstOrDefault(j => j.Id == currUser.Id);
 
-                if (user != null && mainJudge == user.Judge)
-                {                    
-                    buttonListModel.StartNumbers = race.StartNumbersRace.OrderByDescending(sn => sn.HandTimingsNumber.Max(l => l.Lap));
+                if (currUser != null && judge == null)
+                {
+                    judge = mainJudge;
                 }
+
+                buttonListModel.HandTimings = judge.StartNumbersJudge.Where(r => r.Race == race)
+                    .Select(h => h.HandTimingsNumber.Last()).OrderByDescending(l => l.Lap)
+                    .Where(i => i.Lap <= race.LapCount);
             }
             return PartialView(buttonListModel);
-
         }
-        //[HttpPost]
-        //public ActionResult HandTiming(long id, bool start)
-        //{
-        //    handTimingRepository.InvokeInTransaction(() =>
-        //    {
-        //        var judge = judgeRepository.Get(id);
-        //        var startNumbers = judge.StartNumbersJudge;
-        //        var timeStart = DateTime.Now;
-        //        foreach (var sN in startNumbers)
-        //        {
-        //            HandTiming handTiming = new HandTiming { TimeStamp = timeStart };
-        //            handTiming.StartNumber = sN;
-        //            handTiming.Judge = judge;
-        //            handTimingRepository.Save(handTiming);
-        //        }
-        //    });
-        //    return RedirectToAction("ButtonList", "Judge");
-        //}
 
-        //public ActionResult ButtonList(long id, ButtonListViewModel buttonModel)
-        //{
-        //    var judge = judgeRepository.Get(id);            
-        //    buttonModel.HandTimings = judge.HandTimingsJudge.GroupBy(i => i.StartNumber)
-        //        .Select(gr => gr.Where(x => x.Lap == gr.Max(y => y.Lap)).First())
-        //        .OrderByDescending(t => t.Lap).ToList();
-        //    return PartialView(buttonModel);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddHandTiming(long raceId, long judgeId, int number)
+        {
+            var race = raceRepository.Get(raceId);
+            if (race != null)
+            {
+                var judge = userRepository.Get(judgeId).Judge;
+                var startNumber = race.StartNumbersRace.Where(n => n.Number == number).FirstOrDefault();
+                if (judge != null && startNumber != null)
+                {
+                    var startTime = race.StartTime;
+                    var handTiming = startNumber.HandTimingsNumber.Last();
+                    var lap = handTiming.Lap;
+                    var timingTimeStamp = handTiming.TimeStamp;
+                    var timeNow = DateTime.UtcNow;
+
+                    if (race.LapCount >= lap || race.CountdownTime > 0)
+                    {
+                        lap++;
+                        
+                        raceRepository.InvokeInTransaction(() => {
+                            startNumber.HandTimingsNumber.Add(new HandTiming
+                            {
+                                Lap = lap,
+                                LapTime = timeNow - timingTimeStamp,
+                                TotalTime = timeNow - startTime,
+                                TimeStamp = timeNow,
+                                Judge = judge
+                            });
+                        });                        
+                        return Json(new { success = true });
+                    }
 
 
-
-
+                    return Json(new { success = false, responseText = "Ошибка! Преышен лимит кругов." });
+                }
+                return Json(new { success = false, responseText = "Ошибка! Не найден судья/стартовый номер." });
+            }
+            return Json(new { success = false, responseText = "Ошибка! Не найдено событие." });
+        }
 
         //[HttpPost]
         //public ActionResult ButtonList(long id, bool start, ButtonClickViewModel model)

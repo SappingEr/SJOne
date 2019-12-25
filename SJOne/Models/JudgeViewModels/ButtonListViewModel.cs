@@ -7,6 +7,6 @@ namespace SJOne.Models
 {
     public class ButtonListViewModel
     {        
-        public IEnumerable<StartNumber> StartNumbers { get; set; }
+        public IEnumerable<HandTiming> HandTimings { get; set; }
     }
 }

@@ -256,7 +256,7 @@
     <Compile Include="Models\UserViewModels\ChangePassViewModel.cs" />
     <Compile Include="Models\UserViewModels\EditUserViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\ButtonListViewModel.cs" />
-    <Compile Include="Models\JudgeViewModels\ButtonClickViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\AddHandTimingViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\HandTimingViewModel.cs" />
     <Compile Include="Models\UserViewModels\InfoUserViewModel.cs" />
     <Compile Include="Models\AccountViewModels\LoginViewModel.cs" />

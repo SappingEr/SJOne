@@ -5,6 +5,11 @@
     ViewBag.Title = "HandTiming";
 }
 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
 <div class="d-flex justify-content-end">
     <button type="button" class="btn-sm btn-danger offset-md-10" data-toggle="modal" data-target="#stopTiming">
         <span class="octicon octicon-stop"></span>
@@ -14,11 +19,15 @@
 
 <h2 class="text-center" id="time"></h2>
 
-<div class="d-flex justify-content-center"><button type="button" class="btn-lg btn-warning  col-md-4">Добавить метку</button></div>
+<div id="extTiming" class="d-flex justify-content-center"><button type="button" class="btn-lg btn-warning  col-md-4">Добавить метку</button></div>
 
 <hr />
 
-@Html.Action("HT_ButtonList", new { id = Model.Id, judgeId = Model.JudgeId })
+<p class="text-center text-danger" id="error"></p>
+
+<div id="buttonList">
+    @Html.Action("HT_ButtonList", new { id = Model.Id, judgeId = Model.JudgeId })
+</div>
 
 
 
@@ -43,6 +52,9 @@
 @section scripts {
 
     <script>
+
+        var form = $('#AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
 
         var startTime = new Date(@Model.StartTime);
         var countdownTime = @Model.CountdownTime;
@@ -90,6 +102,50 @@
 
             },1000)
         }
+
+        $(document).on('click', '.btn-lg', function () {
+            var buttonId = this.id;
+            var judgeId = @Model.JudgeId;
+            var raceId = @Model.Id;           
+
+            if (buttonId !== "") {
+
+                if (buttonId === "extTiming") {
+                    alert(buttonId);
+                }
+
+
+                 $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { __RequestVerificationToken: token, raceId: raceId, judgeId: judgeId, number: buttonId},
+                    url: '@Url.Action("AddHandTiming", "Judge")',
+                     success: function (response) {
+
+                         if (response.success) {
+                             $.ajax({
+                            async: true,
+                            type: 'GET',
+                            url: '@Url.Action("HT_ButtonList")/' + raceId + '?judgeId=' + judgeId,
+                                 success: function (data) {
+
+                                     $('#buttonList').html(data);                                     
+                                     $('#error').text("");
+                                     $('#' + startNumber).prop("disabled", true).removeClass('btn-primary').addClass('btn-danger');
+
+                                 }
+                            });
+                         }
+
+                         else
+                         {
+                             $('#error').text(response.responseText);
+                         }
+                     }                     
+                });
+            }
+
+        });
     </script>
 }
 
