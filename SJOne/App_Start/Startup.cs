@@ -110,6 +110,15 @@ namespace SJOne.App_Start
             var adminRole = new Role { Name = "$Admin" };
             roleManager.Create(adminRole);
 
+            var user = new User { UserName = "admin" };
+
+            var create = userManager.Create(user, "12345");
+
+            if (create.Succeeded)
+            {
+                userManager.AddToRole(user.Id, adminRole.Name);
+            }
+
             string[] roles = new string[] { "User", "Admin", "Manager", "Judge", "JudgeAssist", "Trainer" };
 
             foreach (var item in roles)
@@ -118,14 +127,7 @@ namespace SJOne.App_Start
                 roleManager.Create(role);
             }
 
-            var user = new User { UserName = "admin" };
-
-            var create = userManager.Create(user, "12345");
-
-            if (create.Succeeded)
-            {
-                var result = userManager.AddToRoleAsync(user.Id, adminRole.Name);
-            }
+            
 
 
         }

@@ -37,8 +37,7 @@ namespace SJOne.Models
                         string.IsNullOrWhiteSpace(Name) &&
                         string.IsNullOrWhiteSpace(Surname) &&
                         string.IsNullOrWhiteSpace(DOB.ToString()) &&
-                        string.IsNullOrWhiteSpace(Gender) &&
-                        string.IsNullOrWhiteSpace(Locality) &&
+                        string.IsNullOrWhiteSpace(Gender) &&                        
                         string.IsNullOrWhiteSpace(Club);
     }
 }

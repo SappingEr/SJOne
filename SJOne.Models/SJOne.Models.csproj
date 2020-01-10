@@ -108,18 +108,14 @@
     <Compile Include="Filters\StartNumberFilter.cs" />
     <Compile Include="Filters\TagFilter.cs" />
     <Compile Include="Filters\UserFilter.cs" />
-    <Compile Include="Group.cs" />
     <Compile Include="Interfaces\IContent.cs" />
     <Compile Include="Interfaces\ITiming.cs" />
-    <Compile Include="Judge.cs" />
     <Compile Include="Mapping\AgeGroupMap.cs" />
     <Compile Include="Mapping\LocalityMap.cs" />
     <Compile Include="Mapping\EventFileMap.cs" />
     <Compile Include="Mapping\AutoTimingMap.cs" />
     <Compile Include="Mapping\EventPhoto.cs" />
-    <Compile Include="Mapping\GroupMap.cs" />
     <Compile Include="Mapping\HandTimingMap.cs" />
-    <Compile Include="Mapping\JudgeMap.cs" />
     <Compile Include="Mapping\ProtocolMap.cs" />
     <Compile Include="Mapping\RaceMap.cs" />
     <Compile Include="Mapping\RegionMap.cs" />
@@ -127,11 +123,7 @@
     <Compile Include="Mapping\SportClubMap.cs" />
     <Compile Include="Mapping\SportEventMap.cs" />
     <Compile Include="Mapping\StartNumberMap.cs" />
-    <Compile Include="Mapping\SubGroupMap.cs" />
     <Compile Include="Mapping\TagMap.cs" />
-    <Compile Include="Mapping\TrainerMap.cs" />
-    <Compile Include="Mapping\TrainerTimingMap.cs" />
-    <Compile Include="Mapping\TrainingMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Mapping\СountryMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -157,11 +149,7 @@
     <Compile Include="StartNumber.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="HandTiming.cs" />
-    <Compile Include="SubGroup.cs" />
     <Compile Include="Tag.cs" />
-    <Compile Include="Trainer.cs" />
-    <Compile Include="TrainerTiming.cs" />
-    <Compile Include="Training.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Country.cs" />
   </ItemGroup>

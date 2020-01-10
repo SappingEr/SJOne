@@ -23,5 +23,13 @@ namespace SJOne.Controllers
         public RoleManager RoleManager => HttpContext.GetOwinContext().Get<RoleManager>();
 
         public User CurrentUser => userRepository.GetCurrentUser(User);
+
+        [HttpGet]
+        public virtual ActionResult RedirectToBackUrl()
+        {
+            var backUrl = Request["ReturnUrl"];
+            var redirectUrl = !string.IsNullOrEmpty(backUrl) ? backUrl : Url.Action("Start");
+            return Redirect(redirectUrl);
+        }
     }
 }

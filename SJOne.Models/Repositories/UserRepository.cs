@@ -77,12 +77,12 @@ namespace SJOne.Models.Repositories
             return crit.List<User>();
         }        
 
-        public IEnumerable<User> StartList(int setFirst, int setMax, Race race, Judge mainJudge, UserFilter filter, FetchOptions options = null)
+        public IEnumerable<User> StartList(int setFirst, int setMax, Race race, User mainJudge, UserFilter filter, FetchOptions options = null)
         {
             var crit = session.CreateCriteria<User>()
                 .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
                 .Add(Restrictions.Eq("sN.Race", race))
-                .Add(Restrictions.Eq("sN.Judge", mainJudge));                                         
+                .Add(Restrictions.Eq("sN.User", mainJudge));                                         
             SetupFilter(filter, crit);
             SetupFetchOptions(crit, options);
             crit.SetFirstResult(setFirst).SetMaxResults(setMax);

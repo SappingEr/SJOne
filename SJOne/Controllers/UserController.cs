@@ -14,6 +14,7 @@ namespace SJOne.Controllers
             this.userRepository = userRepository;
         }
 
+        [HttpGet]
         public ActionResult Info(long id, InfoUserViewModel infoModel)
         {
             var user = userRepository.Get(id);
@@ -65,15 +66,14 @@ namespace SJOne.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditUserInfo(long id)
+        public ActionResult UserInfo(long id)
         {
             var user = userRepository.Get(id);
             if (user != null)
             {
                 return View(new EditUserViewModel
                 {
-                    Login = user.UserName,
-                    Email = user.Email,                    
+                                       
                     Name = user.Name,
                     Surname = user.Surname,
                     //City = user.City,
@@ -85,13 +85,13 @@ namespace SJOne.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditUserInfo(long id, EditUserViewModel userModel)
+        [ValidateAntiForgeryToken]
+        public ActionResult UserInfo(long id, EditUserViewModel userModel)
         {
             userRepository.InvokeInTransaction(() =>
             {
                 var user = userRepository.Get(id);
-                user.UserName = userModel.Login;
-                user.Email = userModel.Email;               
+                          
                 user.Name = userModel.Name;
                 user.Surname = userModel.Surname;
                 //user.City = userModel.City;

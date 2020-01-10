@@ -52,7 +52,7 @@ namespace SJOne.Controllers
                 var judgeId = judges.Select(j => j.Id).FirstOrDefault();
                 startListModel.JudgeId = judgeId;
                 startListModel.Judges = race.JudgesRace
-                    .Select(j => new SelectListItem { Value = j.Id.ToString(), Text = j.User.Surname + " " + j.User.Name });
+                    .Select(j => new SelectListItem { Value = j.Id.ToString(), Text = j.Surname + " " + j.Name });
 
                 return View(startListModel);
             }
@@ -120,11 +120,8 @@ namespace SJOne.Controllers
 
                 else
                 {
-
-
                     startListModel.SetMax = setMax;
                     startListModel.Athletes = athletes;
-
 
                     var items = setFirst + setMax;
                     var pageFirst = setFirst + 1;
@@ -153,7 +150,7 @@ namespace SJOne.Controllers
         public ActionResult JudgeAssistantStartList(long id, long judgeId, JudgeAssistantStartListViewModel assistListModel)
         {
             var race = raceRepository.Get(id);
-            var judge = userRepository.Get(judgeId).Judge;
+            var judge = userRepository.Get(judgeId);
             var athletes = race.StartNumbersRace.Where(j => j.Judge == judge);
             assistListModel.AssistantStartList = athletes;
             assistListModel.AthletesCount = athletes.Count();
@@ -201,10 +198,10 @@ namespace SJOne.Controllers
         [HttpGet]
         public ActionResult MainRaceList(long id, JudgeRacesViewModel judgeModel)
         {
-            var judgeMainRaces = userRepository.Get(id).Judge.MainRaces;
-            if (judgeMainRaces != null)
+            var mainJudgeRaces = userRepository.Get(id).MainJudgeRaces;
+            if (mainJudgeRaces != null)
             {
-                judgeModel.JudgeRaces = judgeMainRaces;
+                judgeModel.JudgeRaces = mainJudgeRaces;
                 return View(judgeModel);
             }
             return RedirectToAction("Index", "Judge", new { id });
@@ -213,7 +210,7 @@ namespace SJOne.Controllers
         [HttpGet]
         public ActionResult RaceList(long id, JudgeRacesViewModel judgeModel)
         {
-            var judgeRaces = userRepository.Get(id).Judge.Races;
+            var judgeRaces = userRepository.Get(id).JudgeRaces;
             if (judgeRaces != null)
             {
                 judgeModel.JudgeRaces = judgeRaces;
@@ -348,7 +345,7 @@ namespace SJOne.Controllers
                                     .Where(l => l.Id == addAthleteModel.LocalityId).Single(),
                         Email = addAthleteModel.Email,
                         PhoneNumber = addAthleteModel.PhoneNumber,
-                        Gender = addAthleteModel.Gender
+                        Gender = addAthleteModel.Gender                        
                     };
 
                     var clubId = sportClubModel.ClubId;
@@ -495,11 +492,11 @@ namespace SJOne.Controllers
                 var user = userRepository.GetCurrentUser();
                 onStartModel.RaceId = id;
                 onStartModel.JudgeId = user.Id;
-                var mainJudge = race.MainJudgeRace.User;
+                var mainJudge = race.MainJudgeRace;
                 var judges = race.JudgesRace.ToList();
                 if (judges.Any())
                 {
-                    if (judges.Contains(user.Judge) || mainJudge == user)
+                    if (judges.Contains(user) || mainJudge == user)
                     {
                         onStartModel.UserNS = user.Name + " " + user.Surname;
                         onStartModel.JudgeCount = (judges.Count + 1).ToString();
@@ -533,7 +530,7 @@ namespace SJOne.Controllers
                 var mainJudge = race.MainJudgeRace;
                 var judge = race.JudgesRace.FirstOrDefault(j => j.Id == user.Id);
 
-                if (user != null && (mainJudge == user.Judge || judge == user.Judge))
+                if (user != null && (mainJudge == user || judge == user))
                 {
                     handTimingModel.Id = id;
                     handTimingModel.JudgeId = user.Id;
@@ -564,9 +561,6 @@ namespace SJOne.Controllers
                                 number.HandTimingsNumber.Add(new HandTiming { Judge = number.Judge, Lap = 0, TimeStamp = startTime, StartNumber = number });
                             }
                         }
-
-                        
-                       
 
                         raceRepository.InvokeInTransaction(() =>
                         {
@@ -620,7 +614,7 @@ namespace SJOne.Controllers
             var race = raceRepository.Get(raceId);
             if (race != null)
             {
-                var judge = userRepository.Get(judgeId).Judge;
+                var judge = userRepository.Get(judgeId);
                 var startNumber = race.StartNumbersRace.Where(n => n.Number == number).FirstOrDefault();
                 if (judge != null && startNumber != null)
                 {
@@ -656,13 +650,15 @@ namespace SJOne.Controllers
         }
 
         //[HttpPost]
-        //public ActionResult ButtonList(long id, bool start, ButtonClickViewModel model)
+        //[ValidateAntiForgeryToken]
+        //public ActionResult AddExtTiming(long raceId, long judgeId, int number)
         //{
-        //    if (start == true)
+        //    var race = raceRepository.Get(raceId);
+        //    if (race != null)
         //    {
-        //        var TimeStart = DateTime.Now;
-        //        var sN = judgeRepository.;
+        //        var judge = userRepository.Get(judgeId).Judge;
         //    }
+
         //}
 
     }

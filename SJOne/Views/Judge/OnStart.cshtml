@@ -94,11 +94,12 @@
             }
 
             onStart.client.redirectToHandTiming = function (redirect) {
-                    if (redirect === true) {
-                         var url = "@Url.Action("Contact", "Home")";
-                         window.location.href = url;
-                    }
-                    else alert("Ошибка переадресации!");
+                var raceId = @Model.RaceId;
+                if (redirect === true) {
+                     var url = '@Url.Action("HandTiming", "judge")/' + raceId;
+                     window.location.href = url;
+                }
+                else alert("Ошибка переадресации!");
             }
 
             $.connection.hub.start()
@@ -131,7 +132,6 @@
                    alert("Не удалось установить соединение");
                 });
         });
-
 
         function AddUser(id, userSN) {
                  $("#users").append('<p class="text-danger" id="' + id + '"><b>' + userSN + '</b></p>');

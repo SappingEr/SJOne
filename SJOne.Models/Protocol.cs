@@ -10,6 +10,6 @@ namespace SJOne.Models
 
         public virtual byte[] ProtocolStream { get; set; }
 
-        public virtual Judge Judge { get; set; }
+        public virtual User Judge { get; set; }
     }
 }

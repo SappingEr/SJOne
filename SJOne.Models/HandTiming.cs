@@ -1,20 +1,15 @@
 ﻿using SJOne.Models.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SJOne.Models
 {
-    public class HandTiming: ITiming
+    public class HandTiming : ITiming
     {
-        public virtual long Id { get; set; }        
+        public virtual long Id { get; set; }
 
         public virtual int Lap { get; set; }
-        
-        public virtual TimeSpan? LapTime { get; set; }       
+
+        public virtual TimeSpan? LapTime { get; set; }
 
         public virtual TimeSpan? TotalTime { get; set; }
 
@@ -22,8 +17,8 @@ namespace SJOne.Models
 
         public virtual StartNumber StartNumber { get; set; }
 
-        public virtual Judge Judge { get; set; }
+        public virtual User Judge { get; set; }
 
-        
+
     }
 }

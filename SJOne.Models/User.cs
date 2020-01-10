@@ -45,23 +45,19 @@ namespace SJOne.Models
         public virtual DateTime RegistrationDate { get; set; }
 
         public virtual IList<StartNumber> StartNumbersUser { get; set; } = new List<StartNumber>();
-
-        public virtual IList<TrainerTiming> TrainerTimings { get; set; } = new List<TrainerTiming>();
-
-        public virtual IList<Role> Roles { get; set; } = new List<Role>();        
-
-        public virtual Training Training { get; set; }
-
-        public virtual Group Group { get; set; }
-
-        public virtual SubGroup SubGroup { get; set; }
-
-        public virtual Trainer Trainer { get; set; }       
-
-        public virtual Judge Judge { get; set; }
-
         
+        public virtual IList<Role> Roles { get; set; } = new List<Role>();
 
+        public virtual IList<Race> MainJudgeRaces { get; set; } = new List<Race>();
 
+        public virtual IList<Race> JudgeRaces { get; set; } = new List<Race>();
+
+        public virtual IList<StartNumber> StartNumbersJudge { get; set; } = new List<StartNumber>();
+
+        public virtual IList<HandTiming> HandTimingsJudge { get; set; } = new List<HandTiming>();
+
+        public virtual IList<AutoTiming> AutoTimingsJudge { get; set; } = new List<AutoTiming>();
+
+        public virtual IList<Protocol> Protocols { get; set; } = new List<Protocol>();
     }
 }

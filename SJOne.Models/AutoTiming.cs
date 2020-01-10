@@ -15,7 +15,7 @@ namespace SJOne.Models
 
         public virtual StartNumber StartNumber { get; set; }
 
-        public virtual Judge Judge { get; set; }
+        public virtual User Judge { get; set; }
 
         public virtual DateTime? TimeStamp { get; set; }
     }

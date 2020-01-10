@@ -12,7 +12,7 @@ namespace SJOne.Models
 
         public virtual int Number { get; set; }
 
-        public virtual Judge Judge { get; set; }
+        public virtual User Judge { get; set; }
 
         public virtual User User { get; set; }  
         

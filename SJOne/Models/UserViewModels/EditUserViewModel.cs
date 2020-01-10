@@ -9,37 +9,34 @@ namespace SJOne.Models
 {
     public class EditUserViewModel
     {
-        public long Id { get; set; }
-        
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
-        public string Login { get; set; }
-
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
-        [Display(Name = "Email")]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-
         [Display(Name = "Пол")]
-        public string Gender { get; set; }
+        [Required]
+        [Range(1, 2, ErrorMessage = "Выберите пол.")]
+        public Gender Gender { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
+        [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50).")]
         [Display(Name = "Имя")]
+        [Required(ErrorMessage = "Введите Имя.")]
         public string Name { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
+        [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50).")]
         [Display(Name = "Фамилия")]
+        [Required(ErrorMessage = "Введите Фамилию.")]
         public string Surname { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
-        [Display(Name = "Город")]
-        public string City { get; set; }
+        [Required(ErrorMessage = "Выберите регион.")]
+        [Display(Name = "Регион")]
+        public long RegionId { get; set; }
+        public IEnumerable<SelectListItem> Regions { get; set; }
 
-        [StringLength(50, ErrorMessage = "Превышено колическтво допустимых символов(не более 50)")]
-        [Display(Name = "Клуб")]
-        public string Club { get; set; }
+        [Required(ErrorMessage = "Выберите населённый пункт.")]
+        [Display(Name = "Населённый пункт")]
+        public long LocalityId { get; set; }
+        public IEnumerable<SelectListItem> Localities { get; set; }
 
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Укажите дату рождения.")]
         public DateTime? DOB { get; set; }
     }
 }

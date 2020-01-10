@@ -19,16 +19,19 @@ namespace SJOne.Models.Mapping
             Map(u => u.DOB).Nullable();
             Map(u => u.RegistrationDate);            
             References(u => u.SportClub).Cascade.SaveUpdate();
-            References(u => u.Locality).Cascade.SaveUpdate();            
-            References(u => u.Training);
-            References(u => u.Group);
-            References(u => u.SubGroup);
-            HasMany(u => u.StartNumbersUser).Inverse();            
+            References(u => u.Locality).Cascade.SaveUpdate();           
+            HasMany(u => u.StartNumbersUser).Inverse();
+            HasMany(u => u.MainJudgeRaces).Inverse();
+            HasMany(u => u.HandTimingsJudge);
+            HasMany(u => u.AutoTimingsJudge);
+            HasMany(u => u.StartNumbersJudge);
+            HasMany(u => u.Protocols);
+            HasManyToMany(u => u.JudgeRaces).Table("Judge_Race")
+                .ParentKeyColumn("Judge_id")
+                .ChildKeyColumn("Race_id");
             HasManyToMany(u => u.Roles).Table("User_Role")
                 .ParentKeyColumn("User_id")
-                .ChildKeyColumn("Role_id").Cascade.All().Inverse();
-            HasOne(u => u.Judge).Cascade.All().Constrained();
-            HasOne(u => u.Trainer).Cascade.All().Constrained();
+                .ChildKeyColumn("Role_id");            
         }
     }
 }

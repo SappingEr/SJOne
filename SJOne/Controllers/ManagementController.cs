@@ -155,7 +155,7 @@ namespace SJOne.Controllers
         public ActionResult AddJudge(long raceId, long judgeId)
         {
             var race = raceRepository.Get(raceId);            
-            var judge = userRepository.Get(judgeId).Judge;
+            var judge = userRepository.Get(judgeId);
             if (race != null && judge != null)
             {
                 raceRepository.InvokeInTransaction(() =>

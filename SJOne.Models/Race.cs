@@ -26,7 +26,7 @@ namespace SJOne.Models
         [DataType(DataType.Time)]
         public virtual DateTime? FinishTime { get; set; }
 
-        public virtual Judge MainJudgeRace { get; set; }
+        public virtual User MainJudgeRace { get; set; }
 
         public virtual bool AgeFromEvent { get; set; }
 
@@ -34,7 +34,7 @@ namespace SJOne.Models
 
         public virtual IList<StartNumber> StartNumbersRace { get; set; } = new List<StartNumber>();       
 
-        public virtual IList<Judge> JudgesRace { get; set; } = new List<Judge>();
+        public virtual IList<User> JudgesRace { get; set; } = new List<User>();
 
         public virtual SportEvent SportEvent { get; set; }
     }

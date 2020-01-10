@@ -16,6 +16,7 @@ namespace SJOne.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
         public ActionResult Register()
         {
             if (!User.Identity.IsAuthenticated)
@@ -64,6 +65,7 @@ namespace SJOne.Controllers
 
 
         [AllowAnonymous]
+        [HttpGet]
         public ActionResult Login() => View();
 
         [HttpPost]
@@ -85,7 +87,7 @@ namespace SJOne.Controllers
                             SignInManager.SignOut();
                             return View(loginModel);
                         }
-                        return RedirectToAction("Start", "Home");
+                        return RedirectToBackUrl();
 
                     case SignInStatus.Failure:
                         ModelState.AddModelError("", "Неверный логин или пароль");
