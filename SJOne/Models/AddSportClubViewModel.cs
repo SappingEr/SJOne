@@ -6,6 +6,8 @@ namespace SJOne.Models
 {
     public class AddSportClubViewModel
     {
+        public long Id { get; set; }
+
         [Required(ErrorMessage = "Выберите регион.")]
         [Display(Name = "Регион")]
         public long ClubRegionId { get; set; }

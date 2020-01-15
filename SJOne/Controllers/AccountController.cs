@@ -26,7 +26,7 @@ namespace SJOne.Controllers
 
             else
             {
-                return RedirectToAction("Start", "Home");
+                return RedirectToBackUrl();
             }
         }
 
@@ -50,7 +50,7 @@ namespace SJOne.Controllers
                     });                    
                     
                     SignInManager.SignIn(user, false, false);
-                    return RedirectToAction("Start", "Home");
+                    return RedirectToAction("Gender", "User", new { user.Id });
                 }
                 else
                 {

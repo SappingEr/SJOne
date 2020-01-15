@@ -3,15 +3,23 @@ using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Web.Mvc;
 using SJOne.Models;
+using SJOne.Models.UserViewModels;
 using SJOne.Models.Repositories;
+using System.Linq;
 
 namespace SJOne.Controllers
 {
     public class UserController : BaseController
     {
-        public UserController(UserRepository userRepository) : base(userRepository)
+        private RegionRepository regionRepository;
+        private SportClubRepository clubRepository;
+
+        public UserController(UserRepository userRepository, RegionRepository regionRepository,
+            SportClubRepository clubRepository) : base(userRepository)
         {
             this.userRepository = userRepository;
+            this.regionRepository = regionRepository;
+            this.clubRepository = clubRepository;
         }
 
         [HttpGet]
@@ -29,7 +37,7 @@ namespace SJOne.Controllers
                 infoModel.Locality = user.Locality.Name + " " + user.Locality.Region.Name;
                 infoModel.Club = user.SportClub.Name;
                 infoModel.DOB = user.DOB;
-                infoModel.Gender = user.Gender.ToString();                
+                infoModel.Gender = user.Gender.ToString();
                 return View(infoModel);
             }
 
@@ -49,6 +57,7 @@ namespace SJOne.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadAvatar(AvatarViewModel avatarView, HttpPostedFileBase imageFile, long id)
         {
             if (imageFile != null)
@@ -66,39 +75,235 @@ namespace SJOne.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserInfo(long id)
+        public ActionResult Gender(long id)
         {
             var user = userRepository.Get(id);
             if (user != null)
             {
-                return View(new EditUserViewModel
-                {
-                                       
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    //City = user.City,
-                    //Club = user.Club,
-                    DOB = user.DOB
-                });
+                return View(new GenderViewModel { Id = id });
             }
             return HttpNotFound("Пользователь не найден");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UserInfo(long id, EditUserViewModel userModel)
+        public ActionResult Gender(GenderViewModel genderModel)
         {
+            var user = userRepository.Get(genderModel.Id);
+
             userRepository.InvokeInTransaction(() =>
             {
-                var user = userRepository.Get(id);
-                          
+                user.Gender = genderModel.Gender;
+            });
+            if (user.Name != null && user.Surname != null)
+            {
+                return RedirectToAction("Info", new { genderModel.Id });
+            }
+            else
+            {
+                return RedirectToAction("Data", new { genderModel.Id });
+            }            
+        }
+
+
+        [HttpGet]
+        public ActionResult Data(long id)
+        {
+            var user = userRepository.Get(id);
+            
+            if (user != null)
+            {
+                EditUserViewModel model = new EditUserViewModel();
+
+                if (user.Name != null && user.Surname != null && user.DOB != null)
+                {
+                    model.Id = id;
+                    model.Name = user.Name;
+                    model.Surname = user.Surname;
+                    model.DOB = user.DOB;
+                    return View(model);
+                }
+                else
+                {
+                    model.Id = id;
+                    return View(model);
+                }
+            }
+
+            return HttpNotFound("Пользователь не найден");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Data(EditUserViewModel userModel)
+        {
+            var user = userRepository.Get(userModel.Id);
+            userRepository.InvokeInTransaction(() =>
+            {
                 user.Name = userModel.Name;
                 user.Surname = userModel.Surname;
-                //user.City = userModel.City;
-                //user.Club = userModel.Club;
                 user.DOB = userModel.DOB;
             });
-            return RedirectToAction("Info", new { id });
+
+            if (user.Locality != null)
+            {
+                return RedirectToAction("Info", new { userModel.Id });
+            }
+            else
+            {
+                return RedirectToAction("Locality", new { userModel.Id });
+            }            
+
+        }
+
+        [HttpGet]
+        public ActionResult Locality(long id)
+        {
+            var user = userRepository.Get(id);
+            if (user != null)
+            {
+                LocalityViewModel model = new LocalityViewModel { Id = id };
+
+                if (user.Locality == null)
+                {
+                    model.Regions = regionRepository.FindAll()
+                        .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name });                    
+                }
+                else
+                {
+                    var localityId = user.Locality.Id;
+                    var region = user.Locality.Region;
+                    var regionId = region.Id;
+                    model.LocalityId = localityId;
+                    model.RegionId = regionId;
+
+                    model.Regions = regionRepository.FindAll()
+                    .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.RegionId.Equals(regionId) });
+                    model.Localities = region.Localities
+                        .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });
+                }
+
+                return View(model);
+            }
+
+            return HttpNotFound("Пользователь не найден");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Locality(LocalityViewModel localityModel)
+        {
+            var user = userRepository.Get(localityModel.Id);
+
+            userRepository.InvokeInTransaction(() =>
+            {
+                user.Locality = regionRepository.Get(localityModel.RegionId).Localities
+                                    .Where(l => l.Id == localityModel.LocalityId).FirstOrDefault();
+            });
+
+            if (localityModel.Club == true )
+            {
+                return RedirectToAction("Club", new { localityModel.Id });
+            }
+            else
+            {
+                return RedirectToAction("Info", new { localityModel.Id });
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult Club(long id)
+        {
+            var user = userRepository.Get(id);
+            if (user != null)
+            {
+                AddSportClubViewModel model = new AddSportClubViewModel { Id = id };
+
+                var localityId = user.Locality.Id;
+                var region = user.Locality.Region;
+                var regionId = region.Id;
+                model.ClubRegionId = regionId;
+                model.ClubLocalityId = localityId;
+
+                model.ClubRegions = regionRepository.FindAll()
+                   .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.ClubRegionId.Equals(regionId) });
+
+                model.ClubLocalities = region.Localities
+                   .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.ClubLocalityId.Equals(localityId) });
+
+                var locality = region.Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+
+                model.Clubs = locality.LocalitySportClubs
+                    .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+
+                return PartialView(model);
+            }
+
+            return HttpNotFound("Пользователь не найден");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Club(AddSportClubViewModel clubViewModel)
+        {
+            var user = userRepository.Get(clubViewModel.Id);
+
+            userRepository.InvokeInTransaction(() =>
+            {
+                user.SportClub = clubRepository.Get(Convert.ToInt64(clubViewModel.ClubId));
+            });
+
+            return RedirectToAction("Info", new { clubViewModel.Id });
+        }
+
+        [HttpGet]
+        public ActionResult AddNewSportClub(long id, long localityId, string name)
+        {
+            var region = regionRepository.Get(id);
+            var locality = region.Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+            if (region != null && locality != null)
+            {
+                var clubs = locality.LocalitySportClubs.Select(c => c.Name.ToLower()).ToList();
+                if (clubs.Contains(name.ToLower()))
+                {
+                    return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
+                }
+
+                if (name != null)
+                {
+                    locality.LocalitySportClubs.Add(new SportClub { Name = name });
+                    regionRepository.InvokeInTransaction(() =>
+                    {
+                        regionRepository.Save(region);
+                    });
+                    return Json(new { success = true, responseText = "Список спортивных клубов успешно обновлён." });
+                }
+                return Json(new { success = false, responseText = "Ошибка! Введите клуб!" });
+            }
+            return Json(new { success = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
+        }
+
+        [HttpGet]
+        public ActionResult AddNewLocality(long id, string name)
+        {
+            var region = regionRepository.Get(id);
+            if (region != null && name != null && name.Length == 0)
+            {
+                var localities = region.Localities.Select(i => i.Name.ToLower()).ToList();
+
+                if (localities.Contains(name.ToLower()))
+                {
+                    return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
+                }
+
+                regionRepository.InvokeInTransaction(() =>
+                {
+                    region.Localities.Add(new Locality { Name = name });
+                });
+                return Json(new { success = true, responseText = "Список населённых пунктов успешно обновлён." });
+            }
+            return Json(new { success = false, responseText = "Ошибка! Выберите регион и введите название нового населённого пункта." });
         }
 
         //[HttpGet]

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SJOne.Models
+namespace SJOne.Models.UserViewModels
 {
     public class ChangePassViewModel
     {

@@ -1,4 +1,4 @@
-﻿@model SJOne.Models.EditUserViewModel
+﻿@model SJOne.Models.UserViewModels.EditUserViewModel
 
 @{
     ViewBag.Title = "Информация о пользователе (редактирование)";
@@ -33,15 +33,7 @@
                         @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
                     </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Gender)
-                    <div>
-                        @Html.EnumDropDownListFor(model => model.Gender, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                </div>                
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.DOB)
@@ -49,35 +41,7 @@
                         @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
                     </div>
-                </div>
-
-                <div id="localities" class="form-group">
-
-                    @Html.LabelFor(model => model.LocalityId)
-                    <div class="input-group">
-                        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @id = "localityList", @class = "selectpicker", @data_live_search = "true" })
-                        @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
-                        <div class="input-group-append">
-                            <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div id="newLocalityForm" style="visibility:hidden">
-                    <div class="form-group offset-1">
-                        <label>Новый населённый пункт</label>
-                        <div class="input-group">
-                            <input type="text" name="Locality" id="locality" class="form-control" />
-                            <div class="input-group-append">
-                                <button id="addLocality" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
-                            </div>
-                            <div class="input-group-append">
-                                <button id="toListLocality" class="btn btn-outline-info" type="button"><span class="octicon octicon-x"></span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div>               
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -85,7 +49,8 @@
                     </div>
                 </div>
             </div>
-        }
+
+         }
 
     </div>
 

@@ -341,8 +341,8 @@ namespace SJOne.Controllers
                         Surname = textInfo.ToTitleCase(addAthleteModel.Surname),
                         DOB = addAthleteModel.DOB,
                         RegistrationDate = DateTime.Now.Date,
-                        Locality = regionRepository.Get(addAthleteModel.RegionId).Localities.ToList()
-                                    .Where(l => l.Id == addAthleteModel.LocalityId).Single(),
+                        Locality = regionRepository.Get(addAthleteModel.RegionId).Localities
+                                    .Where(l => l.Id == addAthleteModel.LocalityId).FirstOrDefault(),
                         Email = addAthleteModel.Email,
                         PhoneNumber = addAthleteModel.PhoneNumber,
                         Gender = addAthleteModel.Gender                        
@@ -420,54 +420,7 @@ namespace SJOne.Controllers
             return PartialView(clubModel);
         }
 
-        [HttpGet]
-        public ActionResult AddNewSportClub(long id, long localityId, string name)
-        {
-            var region = regionRepository.Get(id);
-            var locality = region.Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
-            if (region != null && locality != null)
-            {
-                var clubs = locality.LocalitySportClubs.Select(c => c.Name.ToLower()).ToList();
-                if (clubs.Contains(name.ToLower()))
-                {
-                    return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
-                }
-
-                if (name != null)
-                {
-                    locality.LocalitySportClubs.Add(new SportClub { Name = name });
-                    regionRepository.InvokeInTransaction(() =>
-                    {
-                        regionRepository.Save(region);
-                    });
-                    return Json(new { success = true, responseText = "Список спортивных клубов успешно обновлён." });
-                }
-                return Json(new { success = false, responseText = "Ошибка! Введите клуб!" });
-            }
-            return Json(new { success = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
-        }
-
-        [HttpGet]
-        public ActionResult AddNewLocality(long id, string name)
-        {
-            var region = regionRepository.Get(id);
-            if (region != null && name != null && name.Length == 0)
-            {
-                var localities = region.Localities.Select(i => i.Name.ToLower()).ToList();
-
-                if (localities.Contains(name.ToLower()))
-                {
-                    return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
-                }
-
-                regionRepository.InvokeInTransaction(() =>
-                {
-                    region.Localities.Add(new Locality { Name = name });
-                });
-                return Json(new { success = true, responseText = "Список населённых пунктов успешно обновлён." });
-            }
-            return Json(new { success = false, responseText = "Ошибка! Выберите регион и введите название нового населённого пункта." });
-        }
+        
 
         //public ActionResult AthleteList(long id, StartNumberListViewModel model)
         //{

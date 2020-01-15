@@ -41,6 +41,7 @@ namespace SJOne.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Status(long id, StatusViewModel statusItem)
         {
             var user = userRepository.Get(id);

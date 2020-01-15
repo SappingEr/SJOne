@@ -258,6 +258,7 @@
     <Compile Include="Models\JudgeViewModels\ButtonListViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\AddHandTimingViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\HandTimingViewModel.cs" />
+    <Compile Include="Models\UserViewModels\GenderViewModel.cs" />
     <Compile Include="Models\UserViewModels\InfoUserViewModel.cs" />
     <Compile Include="Models\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\JudgeRacesViewModel.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Models\AdminViewModels\StatusViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\StartListSettingsViewModel.cs" />
     <Compile Include="Models\AdminViewModels\UserRolesViewModel.cs" />
+    <Compile Include="Models\UserViewModels\LocalityViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App_Data\TestBase.mdf" />
     <Content Include="App_Data\TestBase_log.ldf">
@@ -518,8 +520,8 @@
     <Content Include="Views\Shared\_ExtendedSearchUser.cshtml" />
     <Content Include="Views\Judge\FindAthlete.cshtml" />
     <Content Include="Views\Judge\AddNewAthlete.cshtml" />
-    <Content Include="Views\LocalitiesDropDownList.cshtml" />
-    <Content Include="Views\SportClubDropDownList.cshtml" />
+    <Content Include="Views\Shared\LocalitiesDropDownList.cshtml" />
+    <Content Include="Views\Shared\SportClubDropDownList.cshtml" />
     <Content Include="Views\Judge\StartListSettings.cshtml" />
     <Content Include="Views\Judge\StartList.cshtml" />
     <Content Include="Views\Judge\JudgeAssistantStartList.cshtml" />
@@ -540,6 +542,7 @@
       <DependentUpon>SJ_Base.mdf</DependentUpon>
     </Content>
     <Content Include="Views\Management\JudgeList.cshtml" />
+    <Content Include="Views\User\Gender.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Pic\avatar.png" />
@@ -570,7 +573,7 @@
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\User\UploadAvatar.cshtml" />
-    <Content Include="Views\User\UserInfo.cshtml" />
+    <Content Include="Views\User\Data.cshtml" />
     <Content Include="Views\User\Info.cshtml" />
     <Content Include="Views\Race\StartList.cshtml" />
     <Content Include="Views\Shared\SortLink.cshtml" />

@@ -1,0 +1,39 @@
+﻿@model SJOne.Models.UserViewModels.GenderViewModel
+
+@{
+    ViewBag.Title = "Пол";
+}
+
+<div class="card col-sm-4 mx-auto">
+    <div class="card-body">
+        <h2 class="card-title text-center">Пол</h2>
+
+        <hr />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gender)
+                <div>
+                    @Html.EnumDropDownListFor(model => model.Gender, new { @class = "form-control", @aria_describedby = "genderHelp" })
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                    <small id="genderHelp" class="form-text text-muted">
+                        *Укажите пол
+                    </small>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Далее</button>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
