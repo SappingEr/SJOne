@@ -1,0 +1,153 @@
+﻿@model SJOne.Models.UserViewModels.LocalityViewModel
+
+@{
+    ViewBag.Title = "Населённый пункт";
+}
+
+<div class="card col-md-4 mx-auto">
+    <div class="card-body">
+        <h2 class="card-title text-center">Населённый пункт</h2>
+        <hr />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RegionId)
+                <div>
+                    @Html.DropDownListFor(model => model.RegionId, Model.Regions, "Выберите регион", new { @id = "regionList", @class = "selectpicker", @data_live_search = "true" })
+                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div id="localities" class="form-group">
+                @Html.Hidden("LocalityId", null)
+            </div>
+
+            <div id="newLocalityForm" style="display:none">
+                <div class="form-group">
+                    <label>Новый населённый пункт</label>
+                    <div class="input-group">
+                        <input type="text" name="Locality" id="locality" class="form-control" />
+                        <div class="input-group-append">
+                            <button id="addLocality" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
+                        </div>
+                        <div class="input-group-append">
+                            <button id="toListLocality" class="btn btn-outline-info" type="button"><span class="octicon octicon-x"></span></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="form-group form-check">
+
+                @Html.EditorFor(model => model.Club, new { htmlAttributes = new { @aria_describedby = "clubHelp" } })
+                @Html.LabelFor(model => model.Club)
+                <small id="clubHelp" class="form-text text-muted">
+                    *Отметьте этот пункт, если состоите в спортивном клубе.
+                </small>
+
+            </div>
+
+            <hr />
+
+            <div class="d-flex justify-content-end">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap-select")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(function () {
+                $('.selectpicker').selectpicker();
+            });
+
+
+            function refreshListLocality(regionId) {
+                 $.ajax({
+                      type: 'GET',
+                      url: '@Url.Action("LocalitiesDropDownList", "User")/' + regionId,
+                      success: function (data) {
+                          $('#localities').html(data);
+                      }
+                 });
+            }
+
+            $('#regionList').change(function () {
+                var regionId = $(this).val();
+                refreshListLocality(regionId);
+            });
+
+            $(document).on('click', '#newLocality', function () {
+                $('#newLocalityForm').show();
+                $('#localities').hide();
+                $('#locality').focus();
+                $('#locality').keyup(function () {
+                    if ($(this).val() != '') {
+                        $('#addLocality').prop('disabled', false);
+                    }
+                    else {
+                        $('#addLocality').prop('disabled', true);
+                    }
+                });
+            });
+
+            $('#addLocality').click(function () {
+                $('#newLocalityForm').hide();
+                $('#localities').show();
+                var locality = $('#locality').val();
+                var regionId = $('#regionList').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AddNewLocality", "User")',
+                    dataType: 'json',
+                    data: { id: regionId, name: locality },
+                    success: function (response) {
+                        alert(response.responseText);
+                        $('#locality').val('');
+                        refreshListLocality(regionId);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            $('#toListLocality').click(function () {
+                $('#newLocalityForm').hide();
+                $('#locality').val('');
+                $('#addLocality').prop('disabled', true);
+                $('#localities').show();
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+}

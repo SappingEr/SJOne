@@ -102,7 +102,7 @@ namespace SJOne.Controllers
             else
             {
                 return RedirectToAction("Data", new { genderModel.Id });
-            }            
+            }
         }
 
 
@@ -110,7 +110,7 @@ namespace SJOne.Controllers
         public ActionResult Data(long id)
         {
             var user = userRepository.Get(id);
-            
+
             if (user != null)
             {
                 EditUserViewModel model = new EditUserViewModel();
@@ -152,7 +152,7 @@ namespace SJOne.Controllers
             else
             {
                 return RedirectToAction("Locality", new { userModel.Id });
-            }            
+            }
 
         }
 
@@ -167,20 +167,16 @@ namespace SJOne.Controllers
                 if (user.Locality == null)
                 {
                     model.Regions = regionRepository.FindAll()
-                        .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name });                    
+                        .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name });
                 }
+
                 else
                 {
-                    var localityId = user.Locality.Id;
-                    var region = user.Locality.Region;
-                    var regionId = region.Id;
-                    model.LocalityId = localityId;
+                    var regionId = user.Locality.Region.Id;
                     model.RegionId = regionId;
 
                     model.Regions = regionRepository.FindAll()
-                    .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.RegionId.Equals(regionId) });
-                    model.Localities = region.Localities
-                        .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.LocalityId.Equals(localityId) });
+                        .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.RegionId.Equals(regionId) });
                 }
 
                 return View(model);
@@ -201,7 +197,7 @@ namespace SJOne.Controllers
                                     .Where(l => l.Id == localityModel.LocalityId).FirstOrDefault();
             });
 
-            if (localityModel.Club == true )
+            if (localityModel.Club == true)
             {
                 return RedirectToAction("Club", new { localityModel.Id });
             }
@@ -255,6 +251,68 @@ namespace SJOne.Controllers
             });
 
             return RedirectToAction("Info", new { clubViewModel.Id });
+        }        
+
+        [HttpGet]
+        public ActionResult AddNewLocality(long id, string name)
+        {
+            var region = regionRepository.Get(id);
+            if (region != null && name != null && name.Length == 0)
+            {
+                var localities = region.Localities.Select(i => i.Name.ToLower()).ToList();
+
+                if (localities.Contains(name.ToLower()))
+                {
+                    return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
+                }
+
+                regionRepository.InvokeInTransaction(() =>
+                {
+                    region.Localities.Add(new Locality { Name = name });
+                });
+                return Json(new { success = true, responseText = "Список населённых пунктов успешно обновлён." });
+            }
+            return Json(new { success = false, responseText = "Ошибка! Выберите регион и введите название нового населённого пункта." });
+        }
+
+        [HttpGet]
+        public ActionResult SportClub(long id)
+        {
+            var user = userRepository.Get(id);
+            if (user != null)
+            {
+                AddSportClubViewModel model = new AddSportClubViewModel { Id = id };
+                var region = user.Locality.Region;
+                if (region != null)
+                {
+                    var regionId = region.Id;
+                    var localityId = user.Locality.Id;
+                    model.ClubRegionId = regionId;
+                    model.ClubLocalityId = localityId;
+
+                    model.ClubRegions = regionRepository.FindAll()
+                       .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.ClubRegionId.Equals(regionId) });
+
+                    model.ClubLocalities = region.Localities
+                       .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.ClubLocalityId.Equals(localityId) });
+
+                    var locality = region.Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+
+                    model.Clubs = locality.LocalitySportClubs
+                        .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+                }
+
+
+            }
+
+            return HttpNotFound("Пользователь не найден");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SportClub()
+        {
+
         }
 
         [HttpGet]
@@ -283,29 +341,6 @@ namespace SJOne.Controllers
             }
             return Json(new { success = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
         }
-
-        [HttpGet]
-        public ActionResult AddNewLocality(long id, string name)
-        {
-            var region = regionRepository.Get(id);
-            if (region != null && name != null && name.Length == 0)
-            {
-                var localities = region.Localities.Select(i => i.Name.ToLower()).ToList();
-
-                if (localities.Contains(name.ToLower()))
-                {
-                    return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
-                }
-
-                regionRepository.InvokeInTransaction(() =>
-                {
-                    region.Localities.Add(new Locality { Name = name });
-                });
-                return Json(new { success = true, responseText = "Список населённых пунктов успешно обновлён." });
-            }
-            return Json(new { success = false, responseText = "Ошибка! Выберите регион и введите название нового населённого пункта." });
-        }
-
         //[HttpGet]
         //public ActionResult ChangePassword(long id)
         //{
@@ -331,5 +366,36 @@ namespace SJOne.Controllers
         //    }                      
         //    return View(changeModel);
         //}
+
+
+        [HttpGet]
+        public ActionResult LocalitiesDropDownList(long id, LocalitiesDropDownListViewModel localityModel)
+        {
+            long localitySelect = 0;
+            localityModel.Localities = regionRepository.Get(id).Localities
+                .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = localityModel.LocalityId.Equals(localitySelect) });
+            return PartialView(localityModel);
+        }
+
+        [HttpGet]
+        public ActionResult SportClubDropDownList(long id, long? localityId, SportClubDropDownListViewModel clubModel)
+        {
+            var localities = regionRepository.Get(id).Localities;
+
+            if (localityId == null)
+            {
+                var clubs = localities.FirstOrDefault().LocalitySportClubs.ToList();
+                if (clubs != null)
+                {
+                    clubModel.Clubs = clubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+                }
+
+                return PartialView(clubModel);
+            }
+            var clubsLocality = localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+            clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+            return PartialView(clubModel);
+        }
+
     }
 }

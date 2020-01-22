@@ -4,10 +4,10 @@ using System.Web.Mvc;
 
 namespace SJOne.Models
 {
-    public class LocalityDropDownListViewModel
+    public class LocalitiesDropDownListViewModel
     {  
-        public long LocalityId { get; set; }          
-
+        public long LocalityId { get; set; }
+        
         [Display(Name = "Населённый пункт")]        
         public IEnumerable<SelectListItem> Localities { get; set; }
     }

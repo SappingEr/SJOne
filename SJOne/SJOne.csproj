@@ -242,7 +242,7 @@
     <Compile Include="Models\EventViewModels\EventRaceListViewModel.cs" />
     <Compile Include="Models\EventViewModels\SportEventListViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\AddAthleteViewModel.cs" />
-    <Compile Include="Models\LocalityDropDownListViewModel.cs" />
+    <Compile Include="Models\LocalitiesDropDownListViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\FindAthleteViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\JudgeListViewModel.cs" />
     <Compile Include="Models\ManagementViewModels\RaceSettingsViewModel.cs" />
@@ -543,6 +543,7 @@
     </Content>
     <Content Include="Views\Management\JudgeList.cshtml" />
     <Content Include="Views\User\Gender.cshtml" />
+    <Content Include="Views\User\Locality.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Pic\avatar.png" />

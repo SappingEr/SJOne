@@ -15,10 +15,9 @@ namespace SJOne.Models.UserViewModels
 
         [Required(ErrorMessage = "Выберите населённый пункт.")]
         [Display(Name = "Населённый пункт")]
-        public long LocalityId { get; set; }
-        public IEnumerable<SelectListItem> Localities { get; set; }
+        public long LocalityId { get; set; }       
 
-        [Display(Name = "Спортивный клуб")]
+        [Display(Name = "Я состою в спортивном клубе")]
         public bool Club { get; set; }
     }
 }

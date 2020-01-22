@@ -33,14 +33,12 @@
                 </div>
             </div>
 
-            <div id="logRemember" class="form-group" style="display:none">
-                <div>
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.RememberMe)
-                        @Html.LabelFor(model => model.RememberMe)
-                    </div>
-                </div>
+
+            <div id="logRemember" class="form-group form-check" style="display:none">
+                @Html.LabelFor(model => model.RememberMe)
+                @Html.EditorFor(model => model.RememberMe)
             </div>
+
 
             <div id="logButton" class="form-group" style="display:none">
                 <div>

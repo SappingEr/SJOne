@@ -392,7 +392,7 @@ namespace SJOne.Controllers
         }
 
         [HttpGet]
-        public ActionResult LocalitiesDropDownList(long id, LocalityDropDownListViewModel localityModel)
+        public ActionResult LocalitiesDropDownList(long id, LocalitiesDropDownListViewModel localityModel)
         {
             long localitySelect = 0;
             localityModel.Localities = regionRepository.Get(id).Localities
