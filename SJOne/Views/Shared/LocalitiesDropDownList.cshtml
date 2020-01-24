@@ -5,14 +5,14 @@
 
 @Html.LabelFor(model => model.Localities)
     <div class="input-group">
-        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker", @data_live_search = "true", @aria_describedby = "localityHelp" })
+        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker", @data_live_search = "true", data_width = "80%", @aria_describedby = "localityHelp" })
         @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
         <div class="input-group-append">
             <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
         </div>        
     </div>
     <small id="localityHelp" class="form-text text-muted">
-        *Если населенного пункта нет в списке, Вы можете добавить его самостоятельно.
+        *Выберите населённый пункт из списка.Если названия нет в списке, Вы можете добавить его самостоятельно.
     </small>
 
 <script>

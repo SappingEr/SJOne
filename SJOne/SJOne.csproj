@@ -544,6 +544,7 @@
     <Content Include="Views\Management\JudgeList.cshtml" />
     <Content Include="Views\User\Gender.cshtml" />
     <Content Include="Views\User\Locality.cshtml" />
+    <Content Include="Views\User\SportClub.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Pic\avatar.png" />

@@ -417,23 +417,9 @@ namespace SJOne.Controllers
             }
             var clubsLocality = localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
             clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+
             return PartialView(clubModel);
-        }
-
-        
-
-        //public ActionResult AthleteList(long id, StartNumberListViewModel model)
-        //{
-        //    var judge = judgeRepository.Get(id);
-        //    if (judge != null)
-        //    {
-        //        model.StartNumbers = startNumberRepository.JudgeAthletesList(judge);
-        //        model.NumCount = model.StartNumbers.Count;
-        //        model.Id = id;
-        //        return View(model);
-        //    }
-        //    return View(model); // Поменять на адрес кабинета.
-        //}
+        }       
 
         [HttpGet]
         [Authorize]

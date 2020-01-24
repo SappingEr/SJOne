@@ -4,12 +4,12 @@
     ViewBag.Title = "Населённый пункт";
 }
 
-<div class="card col-md-4 mx-auto">
+<div class="card col-lg-4 mx-auto">
     <div class="card-body">
         <h2 class="card-title text-center">Населённый пункт</h2>
         <hr />
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "AjaxAntiForgeryForm" }))
         {
             @Html.AntiForgeryToken()
 
@@ -18,20 +18,23 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.RegionId)
                 <div>
-                    @Html.DropDownListFor(model => model.RegionId, Model.Regions, "Выберите регион", new { @id = "regionList", @class = "selectpicker", @data_live_search = "true" })
+                    @Html.DropDownListFor(model => model.RegionId, Model.Regions, "Выберите регион", new { @id = "regionList", @aria_describedby = "regionHelp", @class = "selectpicker", @data_live_search = "true" })
                     @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                 </div>
+                <small id="regionHelp" class="form-text text-muted">
+                    *Выберите регион из списка.
+                </small>
             </div>
 
             <div id="localities" class="form-group">
-                @Html.Hidden("LocalityId", null)
+
             </div>
 
             <div id="newLocalityForm" style="display:none">
                 <div class="form-group">
                     <label>Новый населённый пункт</label>
                     <div class="input-group">
-                        <input type="text" name="Locality" id="locality" class="form-control" />
+                        <input type="text" name="Locality" id="locality" class="form-control" aria-describedby="newLocalityHelp" />
                         <div class="input-group-append">
                             <button id="addLocality" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
                         </div>
@@ -39,6 +42,9 @@
                             <button id="toListLocality" class="btn btn-outline-info" type="button"><span class="octicon octicon-x"></span></button>
                         </div>
                     </div>
+                    <small id="newLocalityHelp" class="form-text text-muted">
+                        *Введите название нового населённого пункта.
+                    </small>
 
                 </div>
             </div>
@@ -77,6 +83,8 @@
                 $('.selectpicker').selectpicker();
             });
 
+            var form = $('#AjaxAntiForgeryForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
 
             function refreshListLocality(regionId) {
                  $.ajax({
@@ -117,7 +125,7 @@
                     type: 'POST',
                     url: '@Url.Action("AddNewLocality", "User")',
                     dataType: 'json',
-                    data: { id: regionId, name: locality },
+                    data: { __RequestVerificationToken: token, id: regionId, name: locality },
                     success: function (response) {
                         alert(response.responseText);
                         $('#locality').val('');
