@@ -10,9 +10,9 @@ namespace SJOne.Models
     {
         public long Id { get; set; }
 
-        [DataType(DataType.Upload)]
-        [Display(Name = "Фото")]
-        [Required]
+        public bool Delete { get; set; }
+
+        [DataType(DataType.Upload)]        
         public byte[] Avatar { get; set; }
     }
 }

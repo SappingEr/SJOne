@@ -4,7 +4,7 @@
 
 @Html.LabelFor(model => model.ClubId)
 <div class="input-group">
-    @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Выберите клуб -", new { @class = "selectpicker", @data_live_search = "true", data_width = "80%" })
+    @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Выберите клуб -", new { @id = "clubList", @class = "selectpicker", @data_live_search = "true", data_width = "80%" })
     <div class="input-group-append">
         <button id="newClub" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
     </div>

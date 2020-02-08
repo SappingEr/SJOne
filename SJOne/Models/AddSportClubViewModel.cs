@@ -21,7 +21,7 @@ namespace SJOne.Models
         
         [Required(ErrorMessage = "Выберите клуб.")]
         [Display(Name = "Спортивный клуб")]
-        public long? ClubId { get; set; }        
+        public long ClubId { get; set; }        
         public IEnumerable<SelectListItem> Clubs { get; set; }
 
         public string Message { get; set; }

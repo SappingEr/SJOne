@@ -3,17 +3,17 @@
 
 
 
-@Html.LabelFor(model => model.Localities)
-    <div class="input-group">
-        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new { @class = "selectpicker", @data_live_search = "true", data_width = "80%", @aria_describedby = "localityHelp" })
-        @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
-        <div class="input-group-append">
-            <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
-        </div>        
+@Html.LabelFor(model => model.LocalityId)
+<div class="input-group">
+    @Html.DropDownListFor(model => model.LocalityId, Model.Localities, "- Населённый пункт -", new { @class = "selectpicker", @data_live_search = "true", data_width = "80%", @aria_describedby = "localityHelp" })
+    <div class="input-group-append">
+        <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
     </div>
-    <small id="localityHelp" class="form-text text-muted">
-        *Выберите населённый пункт из списка.Если названия нет в списке, Вы можете добавить его самостоятельно.
-    </small>
+</div>
+<small id="localityHelp" class="form-text text-muted">
+    *Выберите населённый пункт из списка.Если нужного названия нет, Вы можете добавить его самостоятельно.
+</small>
+@Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
 
 <script>
     $(function () {

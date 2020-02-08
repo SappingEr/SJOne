@@ -345,7 +345,7 @@ namespace SJOne.Controllers
                                     .Where(l => l.Id == addAthleteModel.LocalityId).FirstOrDefault(),
                         Email = addAthleteModel.Email,
                         PhoneNumber = addAthleteModel.PhoneNumber,
-                        Gender = addAthleteModel.Gender                        
+                        Gender = addAthleteModel.Gender
                     };
 
                     var clubId = sportClubModel.ClubId;
@@ -419,7 +419,7 @@ namespace SJOne.Controllers
             clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
 
             return PartialView(clubModel);
-        }       
+        }
 
         [HttpGet]
         [Authorize]
@@ -566,8 +566,9 @@ namespace SJOne.Controllers
                     if (race.LapCount >= lap || race.CountdownTime > 0)
                     {
                         lap++;
-                        
-                        raceRepository.InvokeInTransaction(() => {
+
+                        raceRepository.InvokeInTransaction(() =>
+                        {
                             startNumber.HandTimingsNumber.Add(new HandTiming
                             {
                                 Lap = lap,
@@ -576,7 +577,7 @@ namespace SJOne.Controllers
                                 TimeStamp = timeNow,
                                 Judge = judge
                             });
-                        });                        
+                        });
                         return Json(new { success = true });
                     }
 

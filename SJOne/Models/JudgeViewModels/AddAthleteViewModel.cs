@@ -28,7 +28,7 @@ namespace SJOne.Models.JudgeViewModels
         [StringLength(12, ErrorMessage = "Превышено количество допустимых символов(не более 12).")]
         [Display(Name = "Номер телефона")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"\+7[0-9]{10}", ErrorMessage = "Введите номер без пробелов.")]
+        [RegularExpression(@"\+7[0-9]{10}", ErrorMessage = "Введите номер без пробелов и дефисов.")]
         public string PhoneNumber { get; set; }
 
         [StringLength(50, ErrorMessage = "Превышено количество допустимых символов(не более 50).")]

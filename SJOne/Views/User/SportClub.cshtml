@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Спортивный клуб";
-}
+}    
 
 <div class="card col-lg-4 mx-auto">
     <div class="card-body">
@@ -19,7 +19,7 @@
                 <div>
                     @Html.DropDownListFor(model => model.ClubRegionId, Model.ClubRegions, new { @id = "clubRegionList", @class = "selectpicker", @data_live_search = "true" })
                     @Html.ValidationMessageFor(model => model.ClubRegionId, "", new { @class = "text-danger" })
-                </div>                
+                </div>
             </div>
 
             <div id="clubLocalities" class="form-group">
@@ -81,6 +81,12 @@
                 </div>
             </div>
 
+            <hr />
+
+            <div class="d-flex justify-content-end">
+                <input id="submit" type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+
         }
 
     </div>
@@ -93,19 +99,23 @@
     <script>
         $(document).ready(function () {
 
+            $('#submit').prop('disabled', true);
+
             $(function () {
                 $('.selectpicker').selectpicker();
             });
 
-            var form = $('#AjaxAntiForgeryForm');
+             var form = $('#AjaxAntiForgeryForm');
             var token = $('input[name="__RequestVerificationToken"]', form).val();
 
             function refreshClubListLocality(clubRegionId) {
                  $.ajax({
                       type: 'GET',
-                      url: '@Url.Action("LocalitiesDropDownList", "User")/' + clubRegionId,
-                      success: function (data) {
-                          $('#clubLocalities').html(data);
+                      url: '@Url.Action("ClubLocalitiesDropDownList", "User")/' + clubRegionId,
+                     success: function (data) {
+                         $('#newClubLocalityForm').hide();
+                         $('#clubLocalities').html(data);
+                         $('#clubLocalities').show();                         
                       }
                  });
             }
@@ -115,17 +125,18 @@
                      type: 'GET',
                      url: '@Url.Action("SportClubDropDownList", "User")/' + regionClubId + '?localityId=' + localityClubId,
                      success: function (data) {
+                         $('#newClubForm').hide();
                          $('#clubs').html(data);
+                         $('#clubs').show();
                      }
                  });
             }
 
             $(document).on('change', '#clubRegionList', function () {
                 var clubRegionId = $(this).val();
-                var clubLocalityId = null;
+                var clubLocalityId = 0;
                 refreshClubListLocality(clubRegionId);
-                refreshListClubs(clubRegionId, clubLocalityId);
-                $('#clubLocalities').html(data);
+                refreshListClubs(clubRegionId, clubLocalityId);                
             });
 
              $(document).on('change', '#clubLocalityList', function () {
@@ -134,7 +145,7 @@
                 refreshListClubs(regionId, localityId);
              });
 
-            $(document).on('click', '#newClubLocality', function () {
+            $(document).on('click', '#newClubLocality, #newLocality', function () {
                 $('#newClubLocalityForm').show();
                 $('#clubLocalities').hide();
                 $('#clubLocality').focus();
@@ -154,6 +165,19 @@
                 $('#clubLocality').val('');
                 $('#toAddClubLocality').prop('disabled', true);
                 $('#clubLocalities').show();
+            });
+
+            $(document).on('change', '#clubList', function () {
+                var sportClub = $(this).val();
+                if (sportClub > 0) {
+
+                    $('#submit').prop('disabled', false);
+
+                }
+                else {
+                    $('#submit').prop('disabled', true);
+                }
+               
             });
 
 
@@ -182,7 +206,7 @@
                 $('#newClubLocalityForm').hide();
                 $('#clubLocalities').show();
                 var clubLocality = $('#clubLocality').val();
-                var clubRegionId = $('#clubRegionId').val();
+                var clubRegionId = $('#clubRegionList').val();
 
                 $.ajax({
                     type: 'POST',
@@ -192,7 +216,7 @@
                     success: function (response) {
                         alert(response.responseText);
                         $('#clubLocality').val('');
-                        refreshClubListLocality(id);
+                        refreshClubListLocality(clubRegionId);
                     },
                     error: function (response) {
                         alert(response.responseText);
@@ -210,23 +234,23 @@
                     dataType: 'json',
                     data: { __RequestVerificationToken: token, id: regionClubId, localityId: localityClubId, name: club },
                     success: function (response) {
-                        alert(response.responseText);
-                        $('#club').val('');
-                        refreshListClubs(regionId, localityId);
+                        alert(response.responseText);                        
+                        refreshListClubs(regionClubId, localityClubId);
                         $('#newClubForm').hide();
                         $('#clubs').show();
+                        $('#club').val('');
                     },
                     error: function (response) {
                         alert(response.responseText);
                     }
                 });
             });
+
+            
         });
 
 
     </script>
-
-
 
 }
 

@@ -1,0 +1,65 @@
+﻿@model SJOne.Models.UserViewModels.EmailViewModel
+
+@{
+    ViewBag.Title = "Email";
+}
+
+<div class="card col-sm-4 mx-auto">
+    <div class="card-body">
+
+        <h2 class="card-title text-center">Email</h2>
+
+        @using (Html.BeginForm())
+        {
+
+            @Html.AntiForgeryToken()
+
+            <hr />
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+
+                @if (Model.Email == null)
+                {
+                    <div class="col-6">
+                        <a class="btn btn-secondary" href="@Url.Action("Info", "User", new { id = Model.Id })">
+                            Назад
+                            <span class="octicon octicon-trashcan"></span>
+                        </a>
+                    </div>
+
+                }
+
+                else
+                {
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger">Удалить <span class="octicon octicon-trashcan"></span></button>
+                    </div>
+
+                }
+
+                <div class="col-6 d-flex justify-content-end">
+                    <input type="submit" value="Подтвердить" class="btn btn-primary" />
+                </div>
+
+            </div>
+
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

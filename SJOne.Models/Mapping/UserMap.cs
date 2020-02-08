@@ -17,9 +17,7 @@ namespace SJOne.Models.Mapping
             Map(u => u.Name).Length(50);
             Map(u => u.Surname).Length(50);                        
             Map(u => u.DOB).Nullable();
-            Map(u => u.RegistrationDate);            
-            References(u => u.SportClub).Cascade.SaveUpdate();
-            References(u => u.Locality).Cascade.SaveUpdate();           
+            Map(u => u.RegistrationDate);
             HasMany(u => u.StartNumbersUser).Inverse();
             HasMany(u => u.MainJudgeRaces).Inverse();
             HasMany(u => u.HandTimingsJudge);
@@ -29,6 +27,8 @@ namespace SJOne.Models.Mapping
             HasManyToMany(u => u.JudgeRaces).Table("Judge_Race")
                 .ParentKeyColumn("Judge_id")
                 .ChildKeyColumn("Race_id");
+            References(u => u.SportClub).Cascade.SaveUpdate();
+            References(u => u.Locality).Cascade.SaveUpdate();            
             HasManyToMany(u => u.Roles).Table("User_Role")
                 .ParentKeyColumn("User_id")
                 .ChildKeyColumn("Role_id");            

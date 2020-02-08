@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SJOne.Models.UserViewModels
 {
@@ -12,32 +8,23 @@ namespace SJOne.Models.UserViewModels
 
         public byte[] Avatar { get; set; }
 
+        public string Data { get; set; }
+
+        [Display(Name = "Пол")]
+        public Gender Gender { get; set; }
+
+        [Display(Name = "Населённый пункт")]
+        public string Locality { get; set; }
+
+        [Display(Name = "Спортивный клуб")]
+        public string Club { get; set; }
+
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Display(Name = "Имя")]
-        public string Name { get; set; }
+        [Display(Name = "Номер телефона")]
+        public string PhoneNumber { get; set; }
 
-        [Display(Name = "Фамилия")]
-        public string Surname { get; set; }
-
-        [Display(Name = "Дата рождения")]
-        public virtual DateTime? DOB { get; set; }
-
-        [Display(Name = "Пол")]
-        public string Gender { get; set; }
-
-        [Display(Name = "Город")]
-        public string Locality { get; set; }
-
-        [Display(Name = "Клуб")]
-        public string Club { get; set; }
-
-        public bool EmptyProp => string.IsNullOrWhiteSpace(Email) &&
-                        string.IsNullOrWhiteSpace(Name) &&
-                        string.IsNullOrWhiteSpace(Surname) &&
-                        string.IsNullOrWhiteSpace(DOB.ToString()) &&
-                        string.IsNullOrWhiteSpace(Gender) &&                        
-                        string.IsNullOrWhiteSpace(Club);
+        public bool EmptyProp { get; set; }
     }
 }

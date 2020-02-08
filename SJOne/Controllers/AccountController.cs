@@ -46,7 +46,7 @@ namespace SJOne.Controllers
                     userRepository.InvokeInTransaction(() =>
                     {
                         user.RegistrationDate = DateTime.Now.Date;
-                        user.Status = Status.Active;
+                        user.Status = Status.Active;                        
                     });                    
                     
                     SignInManager.SignIn(user, false, false);

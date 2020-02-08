@@ -27,41 +27,67 @@ namespace SJOne.Controllers
         public ActionResult Info(long id, InfoUserViewModel infoModel)
         {
             var user = userRepository.Get(id);
-            var currentUserId = User.Identity.GetUserId();
-            if (user != null && id.ToString() == currentUserId)
+            
+            if (user != null)
             {
-                infoModel.Id = id;
-                infoModel.Avatar = user.Avatar;
-                infoModel.Email = user.Email;
-                infoModel.Name = user.Name;
-                infoModel.Surname = user.Surname;
-                infoModel.Locality = user.Locality.Name + " " + user.Locality.Region.Name;
-                infoModel.Club = user.SportClub.Name;
-                infoModel.DOB = user.DOB;
-                infoModel.Gender = user.Gender.ToString();
+                if (user.Name == null && user.Surname ==null && user.Gender == 0)
+                {
+                    infoModel.EmptyProp = true;
+                }
+
+                else
+                {
+                    infoModel.Id = id;
+                    infoModel.Gender = user.Gender;
+                    infoModel.Avatar = user.Avatar;
+                    infoModel.Data = user.Name + " " + user.Surname + " " + Convert.ToDateTime(user.DOB).ToString("d");
+                    if (user.Locality != null)
+                    {
+                        infoModel.Locality = user.Locality.Name + " | " + user.Locality.Region.Name;
+                    }
+                    else
+                    {
+                        infoModel.Locality = "Укажите населённый пункт";
+                    }
+
+                    if (user.SportClub != null)
+                    {
+                        infoModel.Club = user.SportClub.Name;
+                    }
+                    else
+                    {
+                        infoModel.Club = "Нет клуба";
+                    }
+                    infoModel.Email = user.Email;
+                    infoModel.PhoneNumber = user.PhoneNumber;
+                }
+                
                 return View(infoModel);
             }
-
-            return HttpNotFound();
+            return HttpNotFound("Пользователь не найден");
         }
 
         [HttpGet]
-        public ActionResult UploadAvatar(AvatarViewModel avatarView, long id)
+        public ActionResult UploadAvatar(AvatarViewModel model, long id)
         {
             var user = userRepository.Get(id);
             if (user != null)
             {
-                avatarView.Id = id;
-                return PartialView(avatarView);
+                if (user.Avatar != null)
+                {
+                    model.Delete = true;
+                }
+                model.Id = id;
+                return View(model);
             }
             return HttpNotFound();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadAvatar(AvatarViewModel avatarView, HttpPostedFileBase imageFile, long id)
+        public ActionResult UploadAvatar(long id, AvatarViewModel avatarView, HttpPostedFileBase imageFile)
         {
-            if (imageFile != null)
+            if (ModelState.IsValid && imageFile != null)
             {
                 avatarView.Avatar = new byte[imageFile.ContentLength];
                 imageFile.InputStream.Read(avatarView.Avatar, 0, imageFile.ContentLength);
@@ -72,7 +98,22 @@ namespace SJOne.Controllers
                 });
                 return RedirectToAction("Info", new { id });
             }
+
+            ModelState.AddModelError("", "Выберите файл!");
+
             return View(avatarView);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteAvatar(long id)
+        {
+            var user = userRepository.Get(id);
+            userRepository.InvokeInTransaction(() =>
+            {
+                user.Avatar = null;
+            });
+
+            return RedirectToAction("Info", new { id });
         }
 
         [HttpGet]
@@ -92,18 +133,23 @@ namespace SJOne.Controllers
         {
             var user = userRepository.Get(genderModel.Id);
 
-            userRepository.InvokeInTransaction(() =>
+            if (ModelState.IsValid)
             {
-                user.Gender = genderModel.Gender;
-            });
-            if (user.Name != null && user.Surname != null)
-            {
-                return RedirectToAction("Info", new { genderModel.Id });
+                userRepository.InvokeInTransaction(() =>
+                {
+                    user.Gender = genderModel.Gender;
+                });
+                if (user.Name != null && user.Surname != null)
+                {
+                    return RedirectToAction("Info", new { genderModel.Id });
+                }
+                else
+                {
+                    return RedirectToAction("Data", new { genderModel.Id });
+                }
             }
-            else
-            {
-                return RedirectToAction("Data", new { genderModel.Id });
-            }
+
+            return View(genderModel);
         }
 
 
@@ -130,7 +176,6 @@ namespace SJOne.Controllers
                     return View(model);
                 }
             }
-
             return HttpNotFound("Пользователь не найден");
         }
 
@@ -139,22 +184,27 @@ namespace SJOne.Controllers
         public ActionResult Data(EditUserViewModel userModel)
         {
             var user = userRepository.Get(userModel.Id);
-            userRepository.InvokeInTransaction(() =>
-            {
-                user.Name = userModel.Name;
-                user.Surname = userModel.Surname;
-                user.DOB = userModel.DOB;
-            });
 
-            if (user.Locality != null)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Info", new { userModel.Id });
-            }
-            else
-            {
-                return RedirectToAction("Locality", new { userModel.Id });
+                userRepository.InvokeInTransaction(() =>
+                {
+                    user.Name = userModel.Name;
+                    user.Surname = userModel.Surname;
+                    user.DOB = userModel.DOB;
+                });
+
+                if (user.Locality != null)
+                {
+                    return RedirectToAction("Info", new { userModel.Id });
+                }
+                else
+                {
+                    return RedirectToAction("Locality", new { userModel.Id });
+                }
             }
 
+            return View(userModel);
         }
 
         [HttpGet]
@@ -172,11 +222,19 @@ namespace SJOne.Controllers
                 }
                 else
                 {
-                    var regionId = user.Locality.Region.Id;
+                    var region = user.Locality.Region;
+                    var regionId = region.Id;
                     model.RegionId = regionId;
 
                     model.Regions = regionRepository.FindAll()
                         .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name, Selected = model.RegionId.Equals(regionId) });
+
+                    model.Localities = region.Localities.Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name });
+                }
+
+                if (user.SportClub == null)
+                {
+                    model.AddClub = true;
                 }
 
                 return View(model);
@@ -194,7 +252,7 @@ namespace SJOne.Controllers
             userRepository.InvokeInTransaction(() =>
             {
                 user.Locality = regionRepository.Get(localityModel.RegionId).Localities
-                                    .Where(l => l.Id == localityModel.LocalityId).FirstOrDefault();
+                                .Where(l => l.Id == localityModel.LocalityId).FirstOrDefault();
             });
 
             if (localityModel.Club == true)
@@ -206,7 +264,7 @@ namespace SJOne.Controllers
                 return RedirectToAction("Info", new { localityModel.Id });
             }
 
-        }       
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -233,7 +291,7 @@ namespace SJOne.Controllers
 
                     return Json(new { success = true, responseText = "Список населённых пунктов успешно обновлён." });
                 }
-                
+
             }
             return Json(new { success = false, responseText = "Ошибка! Выберите регион и введите название нового населённого пункта." });
         }
@@ -242,7 +300,8 @@ namespace SJOne.Controllers
         public ActionResult SportClub(long id)
         {
             var user = userRepository.Get(id);
-            if (user != null)
+            var locality = user.Locality;
+            if (user != null && locality != null)
             {
                 AddSportClubViewModel model = new AddSportClubViewModel { Id = id };
 
@@ -250,7 +309,7 @@ namespace SJOne.Controllers
                 if (region != null)
                 {
                     var regionId = region.Id;
-                    var localityId = user.Locality.Id;
+                    var localityId = locality.Id;
                     model.ClubRegionId = regionId;
                     model.ClubLocalityId = localityId;
 
@@ -260,8 +319,6 @@ namespace SJOne.Controllers
                     model.ClubLocalities = region.Localities
                        .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = model.ClubLocalityId.Equals(localityId) });
 
-                    var locality = region.Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
-
                     model.Clubs = locality.LocalitySportClubs
                         .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
 
@@ -269,7 +326,7 @@ namespace SJOne.Controllers
                 }
                 return RedirectToAction("Locality", new { model.Id });
             }
-            return HttpNotFound("Пользователь не найден");
+            return HttpNotFound("Не найден пользователь или населённый пункт");
         }
 
         [HttpPost]
@@ -278,9 +335,9 @@ namespace SJOne.Controllers
         {
             var user = userRepository.Get(clubModel.Id);
 
-            userRepository.InvokeInTransaction(() => 
+            userRepository.InvokeInTransaction(() =>
             {
-                user.SportClub = clubRepository.Get(clubModel.ClubRegionId);
+                user.SportClub = clubRepository.Get(clubModel.ClubId);
             });
 
             return RedirectToAction("Info", new { clubModel.Id });
@@ -314,6 +371,108 @@ namespace SJOne.Controllers
             return Json(new { success = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
         }
 
+        [HttpGet]
+        public ActionResult LocalitiesDropDownList(long id, LocalitiesDropDownListViewModel localityModel)
+        {
+            localityModel.Localities = regionRepository.Get(id).Localities
+                .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name });
+            return PartialView(localityModel);
+        }
+
+        [HttpGet]
+        public ActionResult ClubLocalitiesDropDownList(long id, LocalitiesDropDownListViewModel localityModel)
+        {
+            localityModel.Localities = regionRepository.Get(id).Localities
+                .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name });
+            return PartialView(localityModel);
+        }
+
+        [HttpGet]
+        public ActionResult SportClubDropDownList(long id, long localityId, SportClubDropDownListViewModel clubModel)
+        {
+            var localities = regionRepository.Get(id).Localities;
+
+            if (localityId == 0)
+            {
+                var clubs = localities.FirstOrDefault().LocalitySportClubs.ToList();
+                if (clubs != null)
+                {
+                    clubModel.Clubs = clubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+                }
+
+                return PartialView(clubModel);
+            }
+            var clubsLocality = localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+            clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+            return PartialView(clubModel);
+        }
+
+        [HttpGet]
+        public ActionResult Email(long id)
+        {
+            var user = userRepository.Get(id);
+
+            if (user != null)
+            {
+                return View(new EmailViewModel {Id = id, Email = user.Email });
+            }
+
+            return HttpNotFound("Пользователь не найден");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Email(EmailViewModel emailModel)
+        {
+            var user = userRepository.Get(emailModel.Id);
+
+            userRepository.InvokeInTransaction(() =>
+            {
+                user.Email = emailModel.Email;
+            });
+
+            return RedirectToAction("Info", new { emailModel.Id });
+        }
+
+        [HttpGet]
+        public ActionResult Phone(long id)
+        {
+            var user = userRepository.Get(id);
+
+            if (user != null)
+            {
+                var model = new PhoneNumberViewModel { Id = id };
+
+                if (user.PhoneNumber == null)
+                {
+                    model.PhoneNumber = "+7";
+                }
+
+                else
+                {
+                    model.PhoneNumber = user.PhoneNumber;
+                }
+                
+                return View(model);
+            }
+
+            return HttpNotFound("Пользователь не найден");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Phone(PhoneNumberViewModel numberModel)
+        {
+            var user = userRepository.Get(numberModel.Id);
+
+            userRepository.InvokeInTransaction(() =>
+            {
+                user.PhoneNumber = numberModel.PhoneNumber;
+            });
+
+            return RedirectToAction("Info", new { numberModel.Id });
+        }
+
         //[HttpGet]
         //public ActionResult ChangePassword(long id)
         //{
@@ -339,36 +498,5 @@ namespace SJOne.Controllers
         //    }                      
         //    return View(changeModel);
         //}
-
-
-        [HttpGet]
-        public ActionResult LocalitiesDropDownList(long id, LocalitiesDropDownListViewModel localityModel)
-        {
-            long localitySelect = 0;
-            localityModel.Localities = regionRepository.Get(id).Localities
-                .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = localityModel.LocalityId.Equals(localitySelect) });
-            return PartialView(localityModel);
-        }
-
-        [HttpGet]
-        public ActionResult SportClubDropDownList(long id, long? localityId, SportClubDropDownListViewModel clubModel)
-        {
-            var localities = regionRepository.Get(id).Localities;
-
-            if (localityId == null)
-            {
-                var clubs = localities.FirstOrDefault().LocalitySportClubs.ToList();
-                if (clubs != null)
-                {
-                    clubModel.Clubs = clubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
-                }
-
-                return PartialView(clubModel);
-            }
-            var clubsLocality = localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
-            clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
-            return PartialView(clubModel);
-        }
-
     }
 }

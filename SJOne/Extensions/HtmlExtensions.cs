@@ -1,5 +1,7 @@
 ﻿using SJOne.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
@@ -40,5 +42,32 @@ namespace SJOne.Extensions
                 LinkText = linkText
             });
         }
+
+        public static string DisplayName(this Enum value)
+        {
+            Type enumType = value.GetType();
+            var enumValue = Enum.GetName(enumType, value);
+            string outString;
+
+            if (enumValue == null)
+            {
+                outString = "Ошибка. Значение не найдено";
+            }
+            else
+            {
+                MemberInfo member = enumType.GetMember(enumValue)[0];
+
+                var attrs = member.GetCustomAttributes(typeof(DisplayAttribute), false);
+                outString = ((DisplayAttribute)attrs[0]).Name;
+
+                if (((DisplayAttribute)attrs[0]).ResourceType != null)
+                {
+                    outString = ((DisplayAttribute)attrs[0]).GetName();
+                }
+            }           
+
+            return outString;
+        }
+
     }
 }
