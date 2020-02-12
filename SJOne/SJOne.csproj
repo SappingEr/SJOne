@@ -287,6 +287,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\octicons.svg" />
     <Content Include="Content\octicons.css" />
+    <Content Include="Content\Pic\Google.png" />
+    <Content Include="Content\Pic\VK.png" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Content\fonts\octicons.woff" />
@@ -550,6 +552,7 @@
     <Content Include="Views\User\SportClub.cshtml" />
     <Content Include="Views\User\Email.cshtml" />
     <Content Include="Views\User\Phone.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Pic\avatar.png" />
@@ -578,7 +581,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
-    <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\User\UploadAvatar.cshtml" />
     <Content Include="Views\User\Data.cshtml" />
     <Content Include="Views\User\Info.cshtml" />

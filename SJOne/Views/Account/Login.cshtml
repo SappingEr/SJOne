@@ -4,57 +4,70 @@
     ViewBag.Title = "Вход";
 }
 
+<div class="row">
 
-<div class="card col-sm-4 mx-auto">
-    <div class="card-body">
-        <h2 class="card-title text-center">Вход</h2>
-        <hr />
+    <div class="col"></div>
 
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+    <div class="card col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-1">
+        <div class="card-body">
+            <h2 class="card-title text-center">Вход</h2>
+            <hr />
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Login, htmlAttributes: new { @class = "label", style = "display: none" })
-                <div class="justify-content-center">
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Login, htmlAttributes: new { @class = "lab", style = "display: none" })
                     @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
-                </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "label", style = "display: none" })
-                <div>
+                </div>
+
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "lab", style = "display: none" })
                     @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
 
-            <div id="logRemember" class="form-group form-check" style="display:none">
-                @Html.LabelFor(model => model.RememberMe)
-                @Html.EditorFor(model => model.RememberMe)
-            </div>
-
-
-            <div id="logButton" class="form-group" style="display:none">
-                <div>
-                    <button type="submit" class="btn btn-primary"><span class="octicon octicon-log-in"></span> Войти</button> |
-                    @Html.ActionLink("Зарегистрироваться", "Register")
+                <div id="logRemember" class="form-group form-check" style="display:none">
+                    @Html.EditorFor(model => model.RememberMe)
+                    @Html.LabelFor(model => model.RememberMe)
                 </div>
+
+
+                <div id="logButton" class="form-group" style="display:none">
+
+                    <button type="submit" class="btn btn-success btn-block">Войти <span class="octicon octicon-log-in"></span></button>
+
+                </div>
+            }
+
+            <hr />
+
+            <a href="@Url.Action("Register", "Account")" class="btn btn-light btn-block" role="button">Регистрация</a>
+
+            <a href="@Url.Action("ForgotPassword", "Account")" class="btn btn-link btn-block" role="button">Я не помню пароль</a>
+
+            <hr />
+            <div id="loginLinks">
+                <h4>Войти с помощью:</h4>
+                <a href="#" class="card-link"><img src="~/Content/Pic/Google.png" height="45" /></a>
+                <a href="#" class="card-link"><img src="~/Content/Pic/VK.png" height="40" /></a>
             </div>
-        }
 
-        <hr />
 
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
-
+        </div>
     </div>
+
+    <div class="col"></div>
+
 </div>
+
+
 
 
 
@@ -68,8 +81,8 @@
         $(document).ready(function () {
 
             $('.form-control').focus(function () {
-                $('.label').show();
-                $('#logButton, #logRemember').show(1000);
+                $('.lab').show();
+                $('#logButton, #logRemember, #loginLinks').show(1000);
             });
 
         });

@@ -112,8 +112,8 @@
                 $('.selectpicker').selectpicker();
             });
 
-            var form = $('#AjaxAntiForgeryForm');
-            var token = $('input[name="__RequestVerificationToken"]', form).val();
+            let form = $('#AjaxAntiForgeryForm');
+            let token = $('input[name="__RequestVerificationToken"]', form).val();
 
             function refreshListLocality(regionId) {
                  $.ajax({
@@ -128,7 +128,7 @@
             }
 
             $('#regionList').change(function () {
-                var regionId = $(this).val();
+                let regionId = $(this).val();
                 refreshListLocality(regionId);
             });
 
@@ -138,7 +138,7 @@
                 $('#submit').prop('disabled', true);
                 $('#locality').focus();
                 $('#locality').keyup(function () {
-                    if ($(this).val() != '') {
+                    if ($(this).val().length > 0) {
                         $('#addLocality').prop('disabled', false);
                     }
                     else {
@@ -151,8 +151,8 @@
                 $('#newLocalityForm').hide();
                 $('#localities').show();
                 $('#submit').prop('disabled', false);
-                var locality = $('#locality').val();
-                var regionId = $('#regionList').val();
+                let locality = $('#locality').val();
+                let regionId = $('#regionList').val();
 
                 $.ajax({
                     type: 'POST',

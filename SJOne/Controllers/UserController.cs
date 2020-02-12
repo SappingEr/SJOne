@@ -27,10 +27,10 @@ namespace SJOne.Controllers
         public ActionResult Info(long id, InfoUserViewModel infoModel)
         {
             var user = userRepository.Get(id);
-            
+
             if (user != null)
             {
-                if (user.Name == null && user.Surname ==null && user.Gender == 0)
+                if (user.Name == null && user.Surname == null && user.Gender == 0)
                 {
                     infoModel.EmptyProp = true;
                 }
@@ -61,7 +61,7 @@ namespace SJOne.Controllers
                     infoModel.Email = user.Email;
                     infoModel.PhoneNumber = user.PhoneNumber;
                 }
-                
+
                 return View(infoModel);
             }
             return HttpNotFound("Пользователь не найден");
@@ -414,7 +414,7 @@ namespace SJOne.Controllers
 
             if (user != null)
             {
-                return View(new EmailViewModel {Id = id, Email = user.Email });
+                return View(new EmailViewModel { Id = id, Email = user.Email });
             }
 
             return HttpNotFound("Пользователь не найден");
@@ -443,16 +443,8 @@ namespace SJOne.Controllers
             {
                 var model = new PhoneNumberViewModel { Id = id };
 
-                if (user.PhoneNumber == null)
-                {
-                    model.PhoneNumber = "+7";
-                }
+                model.PhoneNumber = user.PhoneNumber;
 
-                else
-                {
-                    model.PhoneNumber = user.PhoneNumber;
-                }
-                
                 return View(model);
             }
 
@@ -473,30 +465,37 @@ namespace SJOne.Controllers
             return RedirectToAction("Info", new { numberModel.Id });
         }
 
-        //[HttpGet]
-        //public ActionResult ChangePassword(long id)
-        //{
-        //    var user = userRepository.Load(id);
-        //    if (user != null)
-        //    {
-        //        return PartialView(new ChangePassViewModel());
-        //    }
-        //    return HttpNotFound();
-        //}
+        [HttpGet]
+        public ActionResult ChangePassword(long id)
+        {
+            var user = userRepository.Load(id);
+            if (user != null)
+            {
+                return View(new ChangePassViewModel { Id = id });
+            }
+            return HttpNotFound();
+        }
 
-        //[HttpPost]        
-        //public ActionResult ChangePassword(long id, ChangePassViewModel changeModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = userRepository.Load(id);
-        //        var changePass = UserManager.ChangePasswordAsync(user.Id, changeModel.Password, changeModel.NewPassword);
-        //        if (changePass.Result.Succeeded)
-        //        {
-        //            return RedirectToAction("Info", new { id });
-        //        }
-        //    }                      
-        //    return View(changeModel);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePassViewModel changeModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = userRepository.Load(changeModel.Id);
+                var changePass = UserManager.ChangePasswordAsync(user.Id, changeModel.Password, changeModel.NewPassword);
+                if (changePass.Result.Succeeded)
+                {
+                    return RedirectToAction("Info", new { changeModel.Id });
+                }
+
+                ModelState.AddModelError("", "Произошла ошибка при смене пароля. Попробуйте ещё раз.");
+
+                return View(changeModel);
+
+            }
+
+            return View(changeModel);
+        }
     }
 }

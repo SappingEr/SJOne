@@ -4,62 +4,106 @@
     ViewBag.Title = "Email";
 }
 
-<div class="card col-sm-4 mx-auto">
-    <div class="card-body">
+<div class="row">
 
-        <h2 class="card-title text-center">Email</h2>
+    <div class="col"></div>
 
-        @using (Html.BeginForm())
-        {
+    <div class="card col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-1">
+        <div class="card-body">
 
-            @Html.AntiForgeryToken()
+            <h2 class="card-title text-center">Email</h2>
 
-            <hr />
+            @using (Html.BeginForm())
+            {
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.AntiForgeryToken()
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Email)
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
+                <hr />
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Email)
+                    <div class="input-group mb-3">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @id = "email", @class = "form-control", autofocus = "autofocus", @aria_describedby = "mailHelp" } })
+                        <div class="input-group-append">
+                            <button id="deleteBtn" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delEmail" >
+                                <span class="octicon octicon-trashcan"></span>
+                            </button>
+                        </div>
+                    </div>
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    <small id="mailHelp" class="form-text text-muted">
+                        *Введите Email в формате: some@mail.com
+                    </small>
                 </div>
-            </div>
 
-            <hr />
+                <hr />
 
-            <div class="row">
-
-                @if (Model.Email == null)
-                {
-                    <div class="col-6">
-                        <a class="btn btn-secondary" href="@Url.Action("Info", "User", new { id = Model.Id })">
-                            Назад
-                            <span class="octicon octicon-trashcan"></span>
+                <div class="row">
+                    <div class="col mb-2">
+                        <a class="btn btn-secondary btn-block" href="@Url.Action("Info", "User", new { id = Model.Id })">
+                            Отмена
                         </a>
                     </div>
 
-                }
-
-                else
-                {
-                    <div class="col-6">
-                        <button type="button" class="btn btn-danger">Удалить <span class="octicon octicon-trashcan"></span></button>
+                    <div class="col">
+                        <input id="submit" type="submit" value="Подтвердить" class="btn btn-primary btn-block" disabled />
                     </div>
-
-                }
-
-                <div class="col-6 d-flex justify-content-end">
-                    <input type="submit" value="Подтвердить" class="btn btn-primary" />
                 </div>
 
+            }
+
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
+<div class="modal fade" id="delEmail">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Удалить Email?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-
-        }
-
+            <div class="modal-body">
+                <div class="row">
+                    <a href="@Url.Action("DeleteEmail", "User", new { id = Model.Id}, null)" class="btn btn-danger col mr-1" role="button">Удалить</a>
+                    <button type="button" class="btn btn-success col ml-1" data-dismiss="modal">Отмена </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            let email = $('#email').val();
+
+            if (email.length > 0) {
+
+                $('#deleteBtn').prop('disabled', false);
+            }
+            else {
+                $('#deleteBtn').prop('disabled', true);
+            }
+
+            $('#email').keyup(function myfunction() {
+                if ($(this).val() != '') {
+                    $('#deleteBtn, #submit').prop('disabled', false);
+                }
+                else {
+                    $('#deleteBtn, #submit').prop('disabled', true);
+                }
+            })
+        });
+
+    </script>
+
 }

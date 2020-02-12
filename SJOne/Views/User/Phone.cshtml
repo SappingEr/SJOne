@@ -1,10 +1,14 @@
 ﻿@model SJOne.Models.UserViewModels.PhoneNumberViewModel
 
 @{
-    ViewBag.Title = "Phone";
+    ViewBag.Title = "Номер телефона";
 }
 
-    <div class="card col-sm-4 mx-auto">
+<div class="row">
+
+    <div class="col"></div>
+
+    <div class="card col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-1">
         <div class="card-body">
 
             <h2 class="card-title text-center">Номер телефона</h2>
@@ -18,47 +22,92 @@
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="form-group">
+                <div class="form-group col">
                     @Html.LabelFor(model => model.PhoneNumber)
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                    <div class="input-group mb-3">
+                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @id = "phone", @class = "form-control", autofocus = "autofocus", @aria_describedby = "phoneHelp" } })
+
+                        <div class="input-group-append">
+                            <button id="deleteBtn" class="btn btn-danger" type="button" data-toggle="modal" data-target="#delPhone" disabled>
+                                <span class="octicon octicon-trashcan"></span>
+                            </button>
+                        </div>
                     </div>
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                    <small id="phoneHelp" class="form-text text-muted">
+                        *Введите номер в формате: +7XXXXXXXXXX
+                    </small>
                 </div>
 
                 <hr />
 
                 <div class="row">
-
-                    @if (Model.PhoneNumber == null)
-                    {
-                        <div class="col-6">
-                            <a class="btn btn-secondary" href="@Url.Action("Info", "User", new { id = Model.Id })">
-                                Назад
-                                <span class="octicon octicon-trashcan"></span>
-                            </a>
-                        </div>
-
-                    }
-
-                    else
-                    {
-                        <div class="col-6">
-                            <button type="button" class="btn btn-danger">Удалить <span class="octicon octicon-trashcan"></span></button>
-                        </div>
-
-                    }
-
-                    <div class="col-6 d-flex justify-content-end">
-                        <input type="submit" value="Подтвердить" class="btn btn-primary" />
+                    <div class="col mb-2">
+                        <a class="btn btn-secondary btn-block" href="@Url.Action("Info", "User", new { id = Model.Id })">
+                            Отмена
+                        </a>
                     </div>
 
+                    <div class="col">
+                        <input id="submit" type="submit" value="Подтвердить" class="btn btn-primary btn-block" disabled />
+                    </div>
                 </div>
             }
 
         </div>
     </div>
+    <div class="col"></div>
+</div>
+
+
+
+
+<div class="modal fade" id="delPhone">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Удалить Номер?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <a href="@Url.Action("DeletePhone", "User")" class="btn btn-danger col mr-1" role="button">Удалить</a>
+                    <button type="button" class="btn btn-success col ml-1" data-dismiss="modal">Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            let phone = $('#phone').val();
+
+            if (phone.length > 0) {
+
+                $('#deleteBtn').prop('disabled', false);
+            }
+            else {
+
+                $('#deleteBtn').prop('disabled', true);
+            }
+
+            $('#phone').keyup(function myfunction() {
+                if ($(this).val() != '') {
+                    $('#deleteBtn, #submit').prop('disabled', false);
+                }
+                else {
+                    $('#deleteBtn, #submit').prop('disabled', true);
+                }
+            })
+        });
+
+    </script>
+
+
 }

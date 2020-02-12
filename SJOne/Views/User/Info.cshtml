@@ -23,7 +23,7 @@
 else
 {
     <div class="row">
-        <div class="col-md-3 mb-2" style="width:200px">
+        <div class="col-lg-3 mb-2" style="width:200px">
 
             @if (Model.Avatar != null)
             {
@@ -37,9 +37,10 @@ else
             {
                 <a class="uploadView" href="@Url.Action("UploadAvatar", "User", new { id = Model.Id })"><img src="~/Content/Pic/avatar.png" class="img-thumbnail" /></a>
             }
+
         </div>
 
-        <div class="col-md-6 mb-2">
+        <div class="col-lg-6 mb-2">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
@@ -76,12 +77,15 @@ else
                     </dl>
 
                     <hr />
+
+                    @Html.ActionLink("Сменить пароль", "ChangePassword", new { @id = Model.Id }, null)
+
                 </div>
             </div>
 
         </div>
 
-        <div class="col-md-3">
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-body">
 
@@ -94,7 +98,7 @@ else
                         {
 
                             <dd>
-                                @Html.ActionLink(Model.Email, "Email", new { @id = Model.Id }, null)                                
+                                @Html.ActionLink(Model.Email, "Email", new { @id = Model.Id }, null)
                             </dd>
                         }
                         else
@@ -111,7 +115,7 @@ else
                         @if (Model.PhoneNumber != null)
                         {
                             <dd>
-                                @Html.ActionLink(Model.PhoneNumber, "Phone", new { @id = Model.Id }, null)                                
+                                @Html.ActionLink(Model.PhoneNumber, "Phone", new { @id = Model.Id }, null)
                             </dd>
                         }
                         else
@@ -120,13 +124,50 @@ else
                                 @Html.ActionLink("Введите номер", "Phone", new { @id = Model.Id }, null)
                             </dd>
                         }
+
+                        <dt class="mb-2">
+                            Получать рузультаты
+                        </dt>
+
+                        <dd>
+                            <div class="custom-control custom-switch mb-2">
+                                <input type="checkbox" class="custom-control-input" id="switch1" disabled>
+                                <label class="custom-control-label" for="switch1">По Email</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="switch2" disabled>
+                                <label class="custom-control-label" for="switch2">По СМС</label>
+                            </div>
+                        </dd>
                     </dl>
+
+                    <button id="delAccount" type="button" class="btn btn-link" data-toggle="modal" data-target="#delAcc">
+                        Удалить учётную запись
+                    </button>
 
                 </div>
             </div>
         </div>
     </div>
 }
+
+<div class="modal fade" id="delAcc">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Удалить учётную запись?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <a href="@Url.Action("DeleteEmail", "User", new { id = Model.Id}, null)" class="btn btn-danger col mr-1" role="button">Удалить</a>
+                    <button type="button" class="btn btn-success col ml-1" data-dismiss="modal">Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
