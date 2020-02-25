@@ -24,11 +24,21 @@ namespace SJOne.Controllers
 
         public ActionResult UserList(UserListViewModel userModel, UserFilter userFilter, FetchOptions options)
         {
-            userModel.Users = userRepository.Find(userFilter, options);
+            var users = userRepository.Find(userFilter, options);
+
+            if (User.IsInRole("$Admin"))
+            {
+                userModel.Users = users;
+            }
+            else
+            {
+                userModel.Users = users.Where(u => u.UserName != "admin");
+            }
+            
             return View(userModel);
         }
 
-        [HttpGet]
+        [HttpGet]       
         public ActionResult Status(long id)
         {
             var user = userRepository.Get(id);
@@ -55,17 +65,18 @@ namespace SJOne.Controllers
             return RedirectToAction("UserList", "Admin");
         }
 
-        public ActionResult UserRoles(long id, UserRolesViewModel userRolesMod)
+        public ActionResult UserRoles(long id, UserRolesViewModel rolesModel)
         {
-            var user = UserManager.FindById(id);
+            var user = userRepository.Get(id);
             if (user != null)
             {
-                userRolesMod.Id = user.Id;
-                userRolesMod.UserName = user.UserName;
-                userRolesMod.UserRoles = UserManager.GetRoles(user.Id);
-                return View(userRolesMod);
+                rolesModel.Id = user.Id;
+                rolesModel.UserName = user.UserName;
+                rolesModel.Data = user.Name + " " + user.Surname;
+                rolesModel.UserRoles = UserManager.GetRoles(user.Id);
+                return View(rolesModel);
             }
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("UserList", "Admin");
         }
 
         [HttpGet]

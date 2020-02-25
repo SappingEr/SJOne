@@ -91,8 +91,18 @@
 
             <hr />
 
-            <div class="d-flex justify-content-end">
-                <input id="submit" type="submit" value="Сохранить" class="btn btn-primary" />
+            <div class="row">
+
+                <div class="col mb-2">
+                    <a class="btn btn-secondary btn-block" href="@Request.UrlReferrer">
+                        Назад
+                    </a>
+                </div>
+
+                <div class="col">
+                    <input id="submit" type="submit" value="Сохранить" class="btn btn-primary btn-block" />
+                </div>
+
             </div>
 
         }

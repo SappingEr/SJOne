@@ -435,6 +435,20 @@ namespace SJOne.Controllers
         }
 
         [HttpGet]
+        public ActionResult DeleteEmail(long id)
+        {
+            {
+                var user = userRepository.Get(id);
+                userRepository.InvokeInTransaction(() =>
+                {
+                    user.Email = null;
+                });
+
+                return RedirectToAction("Info", new { id });
+            }
+        }
+
+        [HttpGet]
         public ActionResult Phone(long id)
         {
             var user = userRepository.Get(id);
@@ -463,6 +477,20 @@ namespace SJOne.Controllers
             });
 
             return RedirectToAction("Info", new { numberModel.Id });
+        }
+
+        [HttpGet]
+        public ActionResult DeletePhone(long id)
+        {
+            {
+                var user = userRepository.Get(id);
+                userRepository.InvokeInTransaction(() =>
+                {
+                    user.PhoneNumber = null;
+                });
+
+                return RedirectToAction("Info", new { id });
+            }
         }
 
         [HttpGet]

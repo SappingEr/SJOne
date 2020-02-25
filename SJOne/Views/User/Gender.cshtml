@@ -4,36 +4,54 @@
     ViewBag.Title = "Пол";
 }
 
-<div class="card col-sm-4 mx-auto">
-    <div class="card-body">
-        <h2 class="card-title text-center">Пол</h2>
+<div class="row">
 
-        <hr />
+    <div class="col"></div>
 
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+    <div class="card col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-1">
+        <div class="card-body">
+            <h2 class="card-title text-center">Пол</h2>
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <hr />
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Gender)
-                <div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Gender)
                     @Html.EnumDropDownListFor(model => model.Gender, new { @class = "form-control", @aria_describedby = "genderHelp" })
                     @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                     <small id="genderHelp" class="form-text text-muted">
                         *Укажите пол
                     </small>
                 </div>
-            </div>
 
-            <hr />
+                <hr />
 
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary">Далее</button>
-            </div>
-        }
+                <div class="row">
+
+                    <div class="col">
+                        <a class="btn btn-secondary btn-block" href="@Url.Action("Info", "User", new { id = Model.Id })">
+                            Отмена
+                        </a>
+                    </div>
+
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary btn-block">Далее</button>
+                    </div>
+
+                </div>
+                
+
+            }
+        </div>
     </div>
+
+    <div class="col"></div>
+
 </div>
 
 @section Scripts {

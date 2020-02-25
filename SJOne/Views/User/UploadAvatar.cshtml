@@ -1,56 +1,65 @@
 ﻿@model SJOne.Models.AvatarViewModel
 
-<div class="card col-sm-4 mx-auto">
-    <div class="card-body">
-        <h2 class="card-title text-center">Фотография</h2>
-        <hr />
 
-        @using (Html.BeginForm("UploadAvatar", "User", FormMethod.Post, new {enctype="multipart/form-data"}))
-        {
-            @Html.AntiForgeryToken()
+<div class="row">
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="col"></div>
 
-            <div>
+    <div class="card col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-1">
+        <div class="card-body">
+            <h2 class="card-title text-center">Фотография</h2>
+            <hr />
+
+            @using (Html.BeginForm("UploadAvatar", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                 <div>
-                    <input type="file" name="imageFile" accept="image/jpeg" />
-                </div>
-
-                <hr />
-
-                <div class="row">
-
-                    @if (Model.Delete == true)
-                    {
-                        <div class="col-6">
-                            <a class="btn btn-danger" href="@Url.Action("DeleteAvatar", "User", new { id = Model.Id })">
-                                Удалить
-                                <span class="octicon octicon-trashcan"></span>
-                            </a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-6">
-                            <a class="btn btn-danger" href="@Url.Action("Info", "User", new { id = Model.Id })">
-                                Отмена                                
-                            </a>
-                        </div>
-                    }
-
-
-
-                    <div class="col-6 d-flex justify-content-end">
-                        <input type="submit" value="Сохранить" class="btn btn-success" />
+                    <div>
+                        <input type="file" name="imageFile" accept="image/jpeg" />
                     </div>
 
+                    <hr />
+
+                    <div class="row">
+
+                        @if (Model.Delete == true)
+                        {
+                            <div class="col mb-2">
+                                <a class="btn btn-danger btn-block" href="@Url.Action("DeleteAvatar", "User", new { id = Model.Id })">
+                                    Удалить
+                                    <span class="octicon octicon-trashcan"></span>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col mb-2">
+                                <a class="btn btn-secondary btn-block" href="@Url.Action("Info", "User", new { id = Model.Id })">
+                                    Отмена
+                                </a>
+                            </div>
+                        }
+
+
+
+                        <div class="col">
+                            <input type="submit" value="Сохранить" class="btn btn-success btn-block" />
+                        </div>
+
+                    </div>
                 </div>
-            </div>
 
 
-        }
+            }
+        </div>
     </div>
+
+    <div class="col"></div>
 </div>
 
-@Scripts.Render("~/bundles/jqueryval")
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

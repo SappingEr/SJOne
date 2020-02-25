@@ -160,8 +160,13 @@ else
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <a href="@Url.Action("DeleteEmail", "User", new { id = Model.Id}, null)" class="btn btn-danger col mr-1" role="button">Удалить</a>
-                    <button type="button" class="btn btn-success col ml-1" data-dismiss="modal">Отмена </button>
+                    <div class="col">
+                        <a href="@Url.Action("DeleteUser", "Account", new { id = Model.Id}, null)" class="btn btn-danger" role="button">Удалить</a>
+                    </div>
+
+                    <div class="col">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Отмена </button>
+                    </div>                   
                 </div>
             </div>
         </div>

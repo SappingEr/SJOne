@@ -7,98 +7,100 @@
     ViewBag.Title = "Администрирование";
 }
 
-<h2>Список пользователей</h2>
+<div class="modal fade" id="statusModal">
+    <div id="statusList" class="modal-dialog modal-sm">
+    </div>
+</div>
+
+<div class="jumbotron bg-info">
+    <h1>Список пользователей</h1>
+</div>
 
 @Html.Partial("_SearchUser", new UserFilter())
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.SortLink("Логин", "UserName", "UserList", "Admin", null)
-            </th>
-            <th>
-                @Html.SortLink("Имя", "Name", "UserList", "Admin", null)
-            </th>
-            <th>
-                @Html.SortLink("Email", "Email", "UserList", "Admin", null)
-            </th>
-            <th>
-                @Html.SortLink("Дата регистрации", "RegistrationDate", "UserList", "Admin", null)
-            </th>
-            <th>
-                Статус
-            </th>
-            <th>
-                Роли
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model.Users)
-        {
+<div class="table-responsive-md">
+    <table class="table table-hover">
+        <thead class="thead-dark">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RegistrationDate)
-                </td>
-
-                <td>
-                    <div id="modDialog" class="modal fade">
-                        <div id="dialogContent" class="modal-dialog"></div>
-                    </div>
-                    @Html.ActionLink(item.Status.ToString(), "Status", "Admin", new { id = item.Id }, new { @class = "userProp" })
-                </td>
-                <td>
-
-                    @foreach (var role in item.Roles)
-                    {
-                        <div>@Html.DisplayFor(r => role.Name)</div>
-                    }
-
-                </td>
-                <td>
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-primary btn-dropdown-toggle btn-sm" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-cog "></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="@Url.Action("UserRoles", "Admin", new { id = item.Id })">
-                                    <span class="glyphicon glyphicon-edit"></span> Менеджер ролей
-                                </a>
-                            </li>
-                            <li>
-                                <a class="userProp" href="@Url.Action("Edit", "Admin", new { id = item.Id })">
-                                    <span class="glyphicon glyphicon-pencil"></span> Изменить данные
-                                </a>
-                            </li>
-                            <li>
-                                <a class="userProp" href="@Url.Action("Delete", "Admin", new { id = item.Id })">
-                                    <span class="glyphicon glyphicon-trash"></span> Удалить
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-
-
-
+                <th>
+                    @Html.SortLink("Логин", "UserName", "UserList", "Admin", null)
+                </th>
+                <th>
+                    @Html.SortLink("Имя", "Name", "UserList", "Admin", null)
+                </th>
+                <th>
+                    @Html.SortLink("Email", "Email", "UserList", "Admin", null)
+                </th>
+                <th>
+                    @Html.SortLink("Дата регистрации", "RegistrationDate", "UserList", "Admin", null)
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+                    Роли
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegistrationDate)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink(item.Status.ToString(), "Status", "Admin", new { id = item.Id }, new { @class = "status", @data_target = "#statusModal" })
+                    </td>
+                    <td>
+
+                        @foreach (var role in item.Roles)
+                        {
+                            <div>@Html.DisplayFor(r => role.Name)</div>
+                        }
+
+                    </td>
+                    <td>
+                        <div class="dropdown dropleft">
+                            <button type="button" class="btn btn-dark dropdown-toggle btn-sm" data-toggle="dropdown">
+                                <span class="octicon octicon-gear"></span>
+                            </button>
+                            <div class="dropdown-menu">
+
+                                <a class="dropdown-item" href="@Url.Action("UserRoles", "Admin", new { id = item.Id })">
+                                    <span class="octicon octicon-key"></span> Менеджер ролей
+                                </a>
+
+
+                                <a class="dropdown-item" href="@Url.Action("Edit", "Admin", new { id = item.Id })">
+                                    <span class="octicon octicon-pencil"></span> Изменить данные
+                                </a>
+
+
+                                <a class="dropdown-item" href="@Url.Action("DeleteUser", "Account", new { id = item.Id })">
+                                    <span class="octicon octicon-trashcan"></span> Удалить
+                                </a>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 @section scripts
 {
@@ -106,15 +108,15 @@
 
         $(function () {
             $.ajaxSetup({ cache: false });
-            $(".userProp").click(function (e) {
-
+            $('.status').click(function (e) {
                 e.preventDefault();
                 $.get(this.href, function (data) {
-                    $('#dialogContent').html(data);
-                    $('#modDialog').modal('show');
+                    $('#statusList').html(data);
+                    $('#statusModal').modal('show');
                 });
             });
         })
+
     </script>
 }
 

@@ -11,6 +11,8 @@ namespace SJOne.Models
 
         public string UserName { get; set; }
 
-        public IList<string> UserRoles { get; set; } = new List<string>(); 
+        public string Data { get; set; }
+
+        public IEnumerable<string> UserRoles { get; set; }
     }
 }

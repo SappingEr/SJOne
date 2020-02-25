@@ -25,9 +25,9 @@ namespace SJOne.Controllers
         public User CurrentUser => userRepository.GetCurrentUser(User);
 
         [HttpGet]
-        public virtual ActionResult RedirectToBackUrl()
+        public ActionResult RedirectToBackUrl()
         {
-            var backUrl = Request["ReturnUrl"];
+            var backUrl = Request.UrlReferrer.ToString();
             var redirectUrl = !string.IsNullOrEmpty(backUrl) ? backUrl : Url.Action("Start");
             return Redirect(redirectUrl);
         }

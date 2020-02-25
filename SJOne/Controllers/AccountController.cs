@@ -26,7 +26,7 @@ namespace SJOne.Controllers
 
             else
             {
-                return RedirectToBackUrl();
+                return RedirectToAction("Start", "Home");
             }
         }
 
@@ -87,7 +87,7 @@ namespace SJOne.Controllers
                             SignInManager.SignOut();
                             return View(loginModel);
                         }
-                        return RedirectToBackUrl();
+                        return RedirectToAction("Start", "Home");
 
                     case SignInStatus.Failure:
                         ModelState.AddModelError("", "Неверный логин или пароль");

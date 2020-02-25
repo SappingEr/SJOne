@@ -2,30 +2,53 @@
 
 @{
 
-    ViewBag.Title = "UserRoles";
+    ViewBag.Title = Model.UserName;
 }
 
-<h3>@Html.DisplayFor(model => model.UserName)</h3>
-<div id="modDialog" class="modal fade">
-    <div id="dialogContent" class="modal-dialog"></div>
+<h3>@Html.DisplayFor(model => model.Data)</h3>
+
+
+
+<div id="rolesModal" class="modal fade">
+    <div id="rolesList" class="modal-dialog modal-sm"></div>   
 </div>
 
-<a class="modCon btn btn-primary btn-sm" href="@Url.Action("AddRoles", "Admin", new { id = Model.Id })">
-    <span class="glyphicon glyphicon-pencil"></span> Добавить роли
+<a id="roles" data-target="#rolesModal" class="btn btn-primary btn-sm" href="@Url.Action("AddRoles", "Admin", new { id = Model.Id })">
+    <span class="octicon octicon-pencil"></span> Добавить роли
 </a>
+
 <hr />
 
-@foreach (var item in Model.UserRoles)
-{
-    <dl class="dl-horizontal">
-        <dt>@item</dt>
-        <dd>
-            <a class="btn btn-danger btn-sm" href="@Url.Action("DeleteRole", "Admin", new { id = Model.Id, role = item })">
-                <span class="glyphicon glyphicon-trash"></span>
-            </a>           
-        </dd>
-    </dl>
-}
+<div class="row">
+
+    <div class="col-2">
+
+        <table class="table table-borderless table-sm">
+            <tbody>
+
+                @foreach (var role in Model.UserRoles)
+                {
+                    <tr>
+                        <td>@role</td>
+                        <td>
+                            <a style="color:red" href="@Url.Action("DeleteRole", "Admin", new { id = Model.Id, role = role })">
+                                <span class="octicon octicon-trashcan"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+               
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="col"></div>
+
+</div>
+
 <p>
     @Html.ActionLink("Назад", "UserList", "Admin") к списку пользователей
 </p>
@@ -33,16 +56,16 @@
 
 @section scripts
 {
-    <script type="text/javascript">
+    <script>
 
         $(function () {
             $.ajaxSetup({ cache: false });
-            $(".modCon").click(function (e) {
+            $("#roles").click(function (e) {
 
                 e.preventDefault();
                 $.get(this.href, function (data) {
-                    $('#dialogContent').html(data);
-                    $('#modDialog').modal('show');
+                    $('#rolesList').html(data);
+                    $('#rolesModal').modal('show');
                 });
             });
         })
