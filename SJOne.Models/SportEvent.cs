@@ -8,6 +8,8 @@ namespace SJOne.Models
     {
         public virtual long Id { get; set; }
 
+        public virtual bool Show { get; set; }
+
         public virtual string EventName { get; set; }
 
         public virtual string Description { get; set; }

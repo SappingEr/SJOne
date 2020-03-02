@@ -27,6 +27,7 @@ namespace SJOne.Controllers
         public ActionResult CreateEvent() => View(new SportEventViewModel());
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateEvent(SportEventViewModel eventModel)
         {
             if (ModelState.IsValid)
@@ -35,30 +36,52 @@ namespace SJOne.Controllers
                 {
                     EventName = eventModel.EventName,
                     Description = eventModel.Description,
-                    EventDate = eventModel.EventDate
+                    EventDate = eventModel.EventDate,
+                    EndRegDate = eventModel.EndRegDate
                 };
 
-                var modelTags = eventModel.Tags.Where(t => t.Name != null).ToList();
+                //var modelTags = eventModel.Tags.Where(t => t.Name != null).ToList();
+                //List<Tag> modelTags = (from tag in eventModel.Tags
+                //                       select new Tag { Name = tag.Name.ToLower() }).ToList();
 
-                if (modelTags.Count > 0)
+                List<Tag> eventTags = new List<Tag>();
+                eventTags = eventModel.Tags.Where(t => t.Name != null).ToList();
+
+                if (eventTags.Count > 0)
                 {
-                    var allTags = tagRepository.FindAll();
-                    var tags = allTags.Select(i => i.Name).Intersect(modelTags.Select(t => t.Name)).ToList();
+                    List<Tag> tagsNamesToLower = (from tag in eventTags
+                                                  select new Tag { Name = tag.Name.ToLower() }).ToList();                    
+
+                    var modelTagNames = tagsNamesToLower.Select(t => t.Name).ToArray();
+
+                    var tags = tagRepository.TagsByNames(modelTagNames);
+
                     if (tags.Count > 0)
                     {
-                        sportEvent.Tags = tagRepository.TagsByNames(tags.ToArray());
-                        var newTagNames = modelTags.Select(t => t.Name).Except(tags);
-                        foreach (var i in newTagNames)
-                        {
-                            sportEvent.Tags.Add(new Tag { Name = i });
-                        }
-                    }
-                    else
-                    {
-                        sportEvent.Tags = modelTags;
+                        sportEvent.Tags = tags;
                     }
 
+                    if (eventTags.Count > tags.Count)
+                    {
+                        List<Tag> tagsByNames = new List<Tag>();
+
+                        List<Tag> newTags = new List<Tag>();
+
+                        tagsByNames.AddRange(from t in tags
+                                             let tag = tagsNamesToLower.Where(d => d.Name == t.Name).FirstOrDefault()
+                                             where tag != null
+                                             select tag);
+
+                        newTags = tagsNamesToLower.Except(tagsByNames).ToList();
+
+                        foreach (var newTag in newTags)
+                        {
+                            sportEvent.Tags.Add(newTag);
+                        }
+                    }
+                    
                 }
+
                 sportEventRepository.InvokeInTransaction(() =>
                 {
                     sportEventRepository.Save(sportEvent);
@@ -82,7 +105,7 @@ namespace SJOne.Controllers
                 return View(eventModel);
             }
             return HttpNotFound("Событие не обнаружено");
-        }        
+        }
 
         [HttpGet]
         public ActionResult CreateRace(long id) => View(new RaceViewModel { Id = id });
@@ -151,10 +174,10 @@ namespace SJOne.Controllers
             }
             return HttpNotFound("Старт не обнаружен!");
         }
-     
+
         public ActionResult AddJudge(long raceId, long judgeId)
         {
-            var race = raceRepository.Get(raceId);            
+            var race = raceRepository.Get(raceId);
             var judge = userRepository.Get(judgeId);
             if (race != null && judge != null)
             {

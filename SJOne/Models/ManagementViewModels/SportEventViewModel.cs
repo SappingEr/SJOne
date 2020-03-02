@@ -20,10 +20,15 @@ namespace SJOne.Models.ManagementViewModels
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Display(Name = "Дата")]
+        [Display(Name = "Дата проведения события")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Укажите дату события!")]
+        public DateTime EventDate { get; set; }
+
+        [Display(Name = "Дата окончания регистрации")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Введите дату события!")]
-        public DateTime EventDate { get; set; }
+        public DateTime EndRegDate { get; set; }
 
         public IList<Tag> Tags { get; set; }
     }

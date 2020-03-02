@@ -14,17 +14,17 @@ namespace SJOne.Controllers
 
     public class AdminController : BaseController
     {
-        
+
 
         public AdminController(UserRepository userRepository) : base(userRepository)
         {
-            this.userRepository = userRepository;            
+            this.userRepository = userRepository;
         }
 
-
+        [HttpGet]
         public ActionResult UserList(UserListViewModel userModel, UserFilter userFilter, FetchOptions options)
         {
-            var users = userRepository.Find(userFilter, options);
+            var users = userRepository.Find(userFilter, options);            
 
             if (User.IsInRole("$Admin"))
             {
@@ -34,11 +34,11 @@ namespace SJOne.Controllers
             {
                 userModel.Users = users.Where(u => u.UserName != "admin");
             }
-            
+
             return View(userModel);
         }
 
-        [HttpGet]       
+        [HttpGet]
         public ActionResult Status(long id)
         {
             var user = userRepository.Get(id);
@@ -96,39 +96,28 @@ namespace SJOne.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddRoles(SelectRolesViewModel model)
         {
-            var user = userRepository.Get(model.Id);
-            if (user != null)
-            {
-                if (model.RoleName.Contains("Judge"))
-                {
-                    //judgeRepository.InvokeInTransaction(() =>
-                    //{
-                    //    user.Judge.CountAthlete = 5;                      
-                    //});
+            var user = UserManager.FindById(model.Id);
+            UserManager.AddToRolesAsync(user.Id, model.RoleName);
+            UserManager.UpdateAsync(user);
+            return RedirectToAction("UserRoles", new { model.Id });
 
-                }
-                UserManager.AddToRolesAsync(user.Id, model.RoleName);
-                UserManager.UpdateAsync(user);
-                return RedirectToAction("UserRoles", new { model.Id });
-            }
-            return RedirectToAction("UserRoles", "Admin", new { model.Id });
+
         }
 
+
+        [HttpGet]
         public ActionResult DeleteRole(long id, string role)
         {
             var user = UserManager.FindById(id);
             if (role != "User")
-            {                
+            {
                 UserManager.RemoveFromRole(user.Id, role);
                 return RedirectToAction("UserRoles", "Admin", new { id });
             }
             return RedirectToAction("UserRoles", "Admin", new { id });
-
-
-
-
         }
     }
 }
