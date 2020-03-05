@@ -12,7 +12,9 @@ namespace SJOne.Models
 
         public virtual int StartNumberCount { get; set; }
 
-        public virtual decimal Distance { get; set; }
+        public virtual string Distance { get; set; }
+
+        public virtual UnitLength UnitLength { get; set; }
 
         public virtual Kind Kind { get; set; }
 

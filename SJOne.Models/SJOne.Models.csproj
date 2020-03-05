@@ -150,6 +150,7 @@
     <Compile Include="Status.cs" />
     <Compile Include="HandTiming.cs" />
     <Compile Include="Tag.cs" />
+    <Compile Include="UnitLength.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Country.cs" />
   </ItemGroup>

@@ -9,6 +9,7 @@ namespace SJOne.Models.Mapping
             Id(r => r.Id);
             Map(r => r.Name).Length(50);
             Map(r => r.Distance).Length(10);
+            Map(r => r.UnitLength);
             Map(r => r.LapCount).Length(5);
             Map(r => r.Kind);
             Map(r => r.StartNumberCount).Length(5);

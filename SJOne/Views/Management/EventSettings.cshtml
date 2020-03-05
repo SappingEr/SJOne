@@ -17,15 +17,16 @@
     </div>
 
     <div class="col-md-6">
-        <h2>@Html.DisplayFor(model => model.EventName)</h2>
+        <h1>@Html.DisplayFor(model => model.EventName)</h1>
+
         <hr />
 
-        <h4><span class="glyphicon glyphicon-time"></span> @Html.DisplayFor(model => model.EventDate)</h4>
+        <h4><span class="octicon octicon-clock"></span> @Html.DisplayFor(model => model.EventDate)</h4>
 
         @foreach (var tag in Model.Tags)
         {
-            <span class="label label-primary"> @tag.Name</span>
-        }        
+            <span class="badge badge-warning">#@tag.Name</span>           
+        }
 
         <div>
             <p>@Html.DisplayFor(model => model.Description)</p>
@@ -34,15 +35,18 @@
 
     <div class="col-md-3">
         <a class="btn btn-primary btn-block" href="@Url.Action("EditEvent", "Management", new { id = Model.Id })">
-            <span class="glyphicon glyphicon-edit"></span> Изменить событие
+            Изменить событие
+            <span class="octicon octicon-pencil"></span>
         </a>
         <br />
         <a class="btn btn-success btn-block" href="@Url.Action("CreateRace", "Management", new { id = Model.Id })">
-            <span class="glyphicon glyphicon-plus"></span> Соревнование
+            Добавить старт
+            <span class="octicon octicon-plus"></span>
         </a>
-
-        <a class="btn btn-default btn-block" href="@Url.Action("UploadEventFiles", "Management", new { id = Model.Id })">
-            <span class="glyphicon glyphicon-upload"></span> Документы
+        <br />
+        <a class="btn btn-light btn-block" href="@Url.Action("UploadEventFiles", "Management", new { id = Model.Id })">
+            Документы
+            <span class="octicon octicon-file-text"></span>
         </a>
     </div>
 </div>

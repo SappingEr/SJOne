@@ -2,6 +2,8 @@
 using SJOne.Models.Filters;
 using SJOne.Models.ManagementViewModels;
 using SJOne.Models.Repositories;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -38,11 +40,7 @@ namespace SJOne.Controllers
                     Description = eventModel.Description,
                     EventDate = eventModel.EventDate,
                     EndRegDate = eventModel.EndRegDate
-                };
-
-                //var modelTags = eventModel.Tags.Where(t => t.Name != null).ToList();
-                //List<Tag> modelTags = (from tag in eventModel.Tags
-                //                       select new Tag { Name = tag.Name.ToLower() }).ToList();
+                };               
 
                 List<Tag> eventTags = new List<Tag>();
                 eventTags = eventModel.Tags.Where(t => t.Name != null).ToList();
@@ -92,6 +90,7 @@ namespace SJOne.Controllers
             return View(eventModel);
         }
 
+        [HttpGet]
         public ActionResult EventSettings(long id, SportEventSettingsViewModel eventModel)
         {
             var sportEvent = sportEventRepository.Get(id);
@@ -104,53 +103,120 @@ namespace SJOne.Controllers
                 eventModel.Tags = sportEvent.Tags;
                 return View(eventModel);
             }
-            return HttpNotFound("Событие не обнаружено");
+            return HttpNotFound("Событие не найдено");
         }
 
         [HttpGet]
-        public ActionResult CreateRace(long id) => View(new RaceViewModel { Id = id });
+        public ActionResult CreateRace(long id)
+        {
+            var sportEvent = sportEventRepository.Get(id);
+            if (sportEvent != null)
+            {
+                return View(new RaceViewModel { Id = id });
+            }
+            return HttpNotFound("Событие не найдено");
+        }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateRace(long id, RaceViewModel raceModel)
         {
             var sportEvent = sportEventRepository.Get(id);
-            if (sportEvent != null && ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 Race race = new Race()
                 {
-                    Name = raceModel.Name,
-                    Distance = raceModel.Distance,
-                    LapCount = raceModel.LapCount
+                    Name = raceModel.Name,                    
+                    Kind = raceModel.Kind                    
                 };
+
+                if (raceModel.CountDownTime > 0)
+                {
+                    race.CountdownTime = raceModel.CountDownTime;
+                }
+                else
+                {
+                    race.Distance = raceModel.Distance;
+                    race.UnitLength = raceModel.UnitLength;
+                }
+
                 sportEvent.RacesEvent.Add(race);
+
                 sportEventRepository.InvokeInTransaction(() =>
                 {
                     sportEventRepository.Save(sportEvent);
                 });
                 return RedirectToAction("AddStartNumbers", "Management", new { race.Id });
             }
-            return View(raceModel);
+            return HttpNotFound("Событие не найдено");
         }
 
         [HttpGet]
         public ActionResult AddStartNumbers(long id) => View(new StartNumbersAddViewModel { Id = id });
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddStartNumbers(long id, StartNumbersAddViewModel numbersModel)
         {
-            var race = raceRepository.Get(id);
-            if (race != null && ModelState.IsValid)
+           
+            if (ModelState.IsValid)
             {
-                var sN = 0;
-                var startNumberCount = numbersModel.StartNumberCount;
-                race.StartNumberCount = startNumberCount;
-                IList<StartNumber> startNumbers = new List<StartNumber>();
-                for (int i = numbersModel.InitialStartNumber; sN < startNumberCount; i++, sN++)
+                var race = raceRepository.Get(id);
+
+                List<int> startNumbers = new List<int>();                
+
+                List<int> modelNumbers = new List<int>();
+                var initStartNumber = Convert.ToInt32(numbersModel.InitialStartNumber);
+                var finalStartNumber = Convert.ToInt32(numbersModel.FinalStartNumber);
+
+                for (int i = initStartNumber; i <= finalStartNumber; i++)
                 {
-                    startNumbers.Add(new StartNumber { Number = i, Race = race });
+                    modelNumbers.Add(i);
                 }
 
-                race.StartNumbersRace = startNumbers;
+                if ((numbersModel.From > 0 && numbersModel.From > 0) || numbersModel.ExNumbers != null)
+                {
+                    List<int> exRow = new List<int>();
+
+                    List<int> exNumbers = new List<int>();
+
+                    if (numbersModel.From > 0 && numbersModel.From > 0)
+                    {
+                        var exFrom = Convert.ToInt32(numbersModel.From);
+                        var exTo = Convert.ToInt32(numbersModel.To);
+
+                        for (int i = exFrom; i <= exTo; i++)
+                        {
+                            exRow.Add(i);
+                        }
+                    }
+
+                    if (numbersModel.ExNumbers != null)
+                    {
+                        exNumbers = numbersModel.ExNumbers.Split(',').Select(Int32.Parse).ToList();
+                    }
+
+                    var numbers = modelNumbers.Except(exRow);
+
+                    startNumbers = numbers.Except(exNumbers).ToList();
+                }
+                else
+                {
+                    startNumbers = modelNumbers;
+                }
+
+                int startNumberCount = startNumbers.Count;
+                race.StartNumberCount = startNumberCount;
+
+                IList<StartNumber> raceStartNumbers = new List<StartNumber>();
+
+                foreach (var i in startNumbers)
+                {
+                    raceStartNumbers.Add(new StartNumber { Number = i, Race = race });
+                }
+
+                race.StartNumbersRace = raceStartNumbers;
 
                 raceRepository.InvokeInTransaction(() =>
                 {
@@ -175,7 +241,8 @@ namespace SJOne.Controllers
             return HttpNotFound("Старт не обнаружен!");
         }
 
-        public ActionResult AddJudge(long raceId, long judgeId)
+        [HttpGet]
+        public ActionResult AddMainJudge(long raceId, long judgeId)
         {
             var race = raceRepository.Get(raceId);
             var judge = userRepository.Get(judgeId);
