@@ -3,7 +3,13 @@
 <div class="form-group">
     @Html.LabelFor(model => model.ClubRegionId)
     <div>
-        @Html.DropDownListFor(model => model.ClubRegionId, Model.ClubRegions, new { @id = "clubRegionList", @class = "selectpicker", @data_live_search = "true" })
+        @Html.DropDownListFor(model => model.ClubRegionId, Model.ClubRegions, new
+        {
+            @id = "clubRegionList",
+            @class = "selectpicker form-control",
+            @data_live_search = "true",
+            @data_size = "5"
+        })
         @Html.ValidationMessageFor(model => model.ClubRegionId, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -11,11 +17,21 @@
 <div id="clubLocalities" class="form-group">
     @Html.LabelFor(model => model.ClubLocalityId)
     <div class="input-group">
-        @Html.DropDownListFor(model => model.ClubLocalityId, Model.ClubLocalities, new { @id = "clubLocalityList", @class = "selectpicker", @data_live_search = "true" })
+        @Html.DropDownListFor(model => model.ClubLocalityId, Model.ClubLocalities, new
+        {
+            @id = "clubLocalityList",
+            @aria_describedby = "localityRegionHelp",
+            @class = "selectpicker form-control",
+            @data_live_search = "true",
+            @data_size = "5"
+        })
         <div class="input-group-append">
             <button id="newClubLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
         </div>
     </div>
+    <small id="localityRegionHelp" class="form-text text-muted">
+        *Выберите регион и населённый пункт, в котором находится Ваш клуб.
+    </small>
     @Html.ValidationMessageFor(model => model.ClubLocalityId, "", new { @class = "text-danger" })
 </div>
 
@@ -25,7 +41,7 @@
 
     <label>Новый населённый пункт</label>
     <div class="input-group">
-        <input type="text" name="Locality" id="clubLocality" class="form-control" />
+        <input type="text" name="Locality" id="clubLocality" class="form-control" style = "text-transform:capitalize"/>
         <div class="input-group-append">
             <button id="addClubLocality" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
         </div>
@@ -38,19 +54,29 @@
 <div id="clubs" class="form-group">
     @Html.LabelFor(model => model.ClubId)
     <div class="input-group">
-        @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Выберите клуб -", new { @id = "clubList", @class = "selectpicker", @data_live_search = "true" })
+        @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Выберите клуб -", new
+        {
+            @id = "clubList",
+            @aria_describedby = "clubHelp",
+            @class = "selectpicker form-control",
+            @data_live_search = "true",
+            @data_size = "5"
+        })
         <div class="input-group-append">
             <button id="newClub" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
         </div>
     </div>
     @Html.ValidationMessageFor(model => model.ClubId, "", new { @class = "text-danger" })
+    <small id="clubHelp" class="form-text text-muted">
+        *Выберите клуб из списка.Если нужного названия нет, Вы можете добавить его самостоятельно.
+    </small>
 </div>
 
 <div id="newClubForm">
     <div class="form-group">
         <label>Новый клуб</label>
         <div class="input-group">
-            <input type="text" name="Club" id="club" class="form-control" />
+            <input type="text" name="Club" id="club" class="form-control"/>
             <div class="input-group-append">
                 <button id="addClub" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
             </div>

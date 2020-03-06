@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Спортивный клуб";
-}    
+}
 
 <div class="card col-lg-4 mx-auto">
     <div class="card-body">
@@ -17,7 +17,13 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ClubRegionId)
                 <div>
-                    @Html.DropDownListFor(model => model.ClubRegionId, Model.ClubRegions, new { @id = "clubRegionList", @class = "selectpicker", @data_live_search = "true" })
+                    @Html.DropDownListFor(model => model.ClubRegionId, Model.ClubRegions, new
+                    {
+                        @id = "clubRegionList",
+                        @class = "selectpicker form-control",
+                        @data_live_search = "true",
+                        @data_size = "5"
+                    })
                     @Html.ValidationMessageFor(model => model.ClubRegionId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -25,7 +31,14 @@
             <div id="clubLocalities" class="form-group">
                 @Html.LabelFor(model => model.ClubLocalityId)
                 <div class="input-group">
-                    @Html.DropDownListFor(model => model.ClubLocalityId, Model.ClubLocalities, new { @id = "clubLocalityList", @aria_describedby = "localityRegionHelp", @class = "selectpicker", @data_live_search = "true", data_width = "80%" })
+                    @Html.DropDownListFor(model => model.ClubLocalityId, Model.ClubLocalities, new
+                    {
+                        @id = "clubLocalityList",
+                        @aria_describedby = "localityRegionHelp",
+                        @class = "selectpicker form-control",
+                        @data_live_search = "true",
+                        @data_size = "5"
+                    })
                     <div class="input-group-append">
                         <button id="newClubLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
                     </div>
@@ -58,12 +71,22 @@
             <div id="clubs" class="form-group">
                 @Html.LabelFor(model => model.ClubId)
                 <div class="input-group">
-                    @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Выберите клуб -", new { @id = "clubList", @class = "selectpicker", @data_live_search = "true", data_width = "80%" })
+                    @Html.DropDownListFor(model => model.ClubId, Model.Clubs, "- Выберите клуб -", new
+                    {
+                        @id = "clubList",
+                        @aria_describedby = "clubHelp",
+                        @class = "selectpicker form-control",
+                        @data_live_search = "true",
+                        @data_size = "5"
+                    })
                     <div class="input-group-append">
                         <button id="newClub" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
                     </div>
                 </div>
                 @Html.ValidationMessageFor(model => model.ClubId, "", new { @class = "text-danger" })
+                <small id="clubHelp" class="form-text text-muted">
+                    *Выберите клуб из списка.Если нужного названия нет, Вы можете добавить его самостоятельно.
+                </small>
             </div>
 
             <div id="newClubForm" style="display:none">
@@ -98,7 +121,7 @@
             </div>
 
 
-            
+
 
         }
 
@@ -128,7 +151,7 @@
                      success: function (data) {
                          $('#newClubLocalityForm').hide();
                          $('#clubLocalities').html(data);
-                         $('#clubLocalities').show();                         
+                         $('#clubLocalities').show();
                       }
                  });
             }
@@ -149,7 +172,7 @@
                 var clubRegionId = $(this).val();
                 var clubLocalityId = 0;
                 refreshClubListLocality(clubRegionId);
-                refreshListClubs(clubRegionId, clubLocalityId);                
+                refreshListClubs(clubRegionId, clubLocalityId);
             });
 
              $(document).on('change', '#clubLocalityList', function () {
@@ -163,34 +186,33 @@
                 $('#clubLocalities').hide();
                 $('#clubLocality').focus();
                 $('#clubLocality').keyup(function () {
-                    if ($(this).val() != '') {
+
+                     if ($(this).val().length > 0) {
 
                         $('#addClubLocality').prop('disabled', false);
-                    }
-                    else {
+                     }
+                     else {
                         $('#addClubLocality').prop('disabled', true);
-                    }
+                     }
                 });
             });
 
             $('#toListClubLocality').click(function () {
                 $('#newClubLocalityForm').hide();
                 $('#clubLocality').val('');
-                $('#toAddClubLocality').prop('disabled', true);
+                $('#addClubLocality').prop('disabled', true);
                 $('#clubLocalities').show();
             });
 
             $(document).on('change', '#clubList', function () {
                 var sportClub = $(this).val();
                 if (sportClub > 0) {
-
                     $('#submit').prop('disabled', false);
-
                 }
                 else {
                     $('#submit').prop('disabled', true);
                 }
-               
+
             });
 
 
@@ -211,7 +233,7 @@
              $('#toListClub').click(function () {
                 $('#newClubForm').hide();
                 $('#club').val('');
-                $('#AddClub').prop('disabled', true);
+                $('#addClub').prop('disabled', true);
                 $('#clubs').show();
             });
 
@@ -247,7 +269,7 @@
                     dataType: 'json',
                     data: { __RequestVerificationToken: token, id: regionClubId, localityId: localityClubId, name: club },
                     success: function (response) {
-                        alert(response.responseText);                        
+                        alert(response.responseText);
                         refreshListClubs(regionClubId, localityClubId);
                         $('#newClubForm').hide();
                         $('#clubs').show();
@@ -259,7 +281,7 @@
                 });
             });
 
-            
+
         });
 
 

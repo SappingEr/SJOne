@@ -3,8 +3,14 @@
 
 @Html.LabelFor(model => model.LocalityId)
 <div class="input-group">
-    @Html.DropDownListFor(model => model.LocalityId, Model.Localities, "- Населённый пункт -",
-    new { @id = "clubLocalityList", @class = "selectpicker", @data_live_search = "true", data_width = "80%", @aria_describedby = "clubLocalityHelp" })
+    @Html.DropDownListFor(model => model.LocalityId, Model.Localities, "- Населённый пункт -", new
+    {
+        @id = "clubLocalityList",
+        @class = "selectpicker form-control",
+        @data_live_search = "true",
+        @aria_describedby = "clubLocalityHelp",
+        @data_size = "5"
+    })
     <div class="input-group-append">
         <button id="newClubLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
     </div>

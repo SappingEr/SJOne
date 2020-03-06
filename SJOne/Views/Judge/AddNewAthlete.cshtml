@@ -10,7 +10,7 @@
     <h4>Регистрация</h4>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "AjaxAntiForgeryForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -18,65 +18,76 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="row">
+        <div class="col"></div>
         <div class="col-sm-6">
-            <div class="form-group offset-1">
+            <div class="form-group col-md-8">
                 @Html.LabelFor(model => model.Name)
-                <div>
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "text-transform: capitalize", autofocus = "autofocus" } })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "text-transform: capitalize", autofocus = "autofocus" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group offset-1">
+            <div class="form-group col-md-8">
                 @Html.LabelFor(model => model.Surname)
-                <div>
-                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control", style = "text-transform: capitalize" } })
-                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control", style = "text-transform: capitalize" } })
+                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group offset-1">
+            <div class="form-group col-md-5">
                 @Html.LabelFor(model => model.Gender)
-                <div>
-                    @Html.EnumDropDownListFor(model => model.Gender, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-                </div>
+                @Html.EnumDropDownListFor(model => model.Gender, "- Выберите пол -", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group offset-1">
+            <div class="form-group col-md-5">
                 @Html.LabelFor(model => model.DOB)
-                <div>
-                    @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group offset-1">
+            <div class="form-group col-md-7">
                 @Html.LabelFor(model => model.RegionId)
                 <div>
-                    @Html.DropDownListFor(model => model.RegionId, Model.Regions, new { @id = "regionList", @class = "selectpicker", @data_live_search = "true" })
+                    @Html.DropDownListFor(model => model.RegionId, Model.Regions, new
+                    {
+                        @id = "regionList",
+                        @class = "selectpicker form-control",
+                        @data_live_search = "true",
+                        @aria_describedby = "regionHelp",
+                        @data_size = "5"
+                    })
+                    <small id="regionHelp" class="form-text text-muted">
+                        *Выберите регион из списка.
+                    </small>
                     @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div id="localities" class="form-group offset-1">
-
+            <div id="localities" class="form-group col-md-7">
                 @Html.LabelFor(model => model.LocalityId)
                 <div class="input-group">
-                    @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new {@id = "localityList", @class = "selectpicker", @data_live_search = "true" })
-                    @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.LocalityId, Model.Localities, new
+                    {
+                        @id = "localityList",
+                        @aria_describedby = "localityHelp",
+                        @class = "selectpicker form-control",
+                        @data_live_search = "true",
+                        @data_size = "5"
+                    })
                     <div class="input-group-append">
                         <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
                     </div>
                 </div>
-
+                <small id="localityHelp" class="form-text text-muted">
+                    *Выберите населённый пункт из списка.Если нужного названия нет, Вы можете добавить его самостоятельно.
+                </small>
+                @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
             </div>
 
-            <div id="newLocalityForm">
-                <div class="form-group offset-1">
+            <div id="newLocalityForm" class="col-md-7">
+                <div class="form-group">
                     <label>Новый населённый пункт</label>
                     <div class="input-group">
-                        <input type="text" name="Locality" id="locality" class="form-control" />
+                        <input type="text" name="Locality" id="locality" class="form-control" style="text-transform:capitalize" />
                         <div class="input-group-append">
                             <button id="addLocality" class="btn btn-success" type="button" disabled><span class="octicon octicon-plus"></span></button>
                         </div>
@@ -84,21 +95,20 @@
                             <button id="toListLocality" class="btn btn-outline-info" type="button"><span class="octicon octicon-x"></span></button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <hr />
 
 
-            <div class="form-group offset-1 custom-control custom-switch">
+            <div class="form-group custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="switch1">
                 <label class="custom-control-label font-weight-bolder" for="switch1"> Клуб</label>
             </div>
 
 
 
-            <div id="clubSelect" class="offset-1">
+            <div id="clubSelect" class="col-md-7">
                 @Html.Action("AddSportClub", "Judge", new { regionId = Model.RegionId, localityId = Model.LocalityId })
             </div>
 
@@ -114,18 +124,18 @@
             <br />
 
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="switch2">
-                <label class="custom-control-label" for="switch2">Активировать формы</label>
+                <input type="checkbox" class="custom-control-input" id="forms">
+                <label class="custom-control-label" for="forms">Активировать формы</label>
             </div>
 
-            <div class="form-group offset-1">
+            <div class="form-group col-md-8">
                 @Html.LabelFor(model => model.Email)
                 <div>
                     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @id = "email", @class = "form-control", disabled = "disabled" } })
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="form-group offset-1">
+            <div class="form-group col-md-8">
                 @Html.LabelFor(model => model.PhoneNumber)
                 <div>
                     @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @id = "phoneNum", @class = "form-control", disabled = "disabled" } })
@@ -158,18 +168,57 @@
 
             $('#clubSelect, #newClubLocalityForm, #newClubForm, #newLocalityForm').hide();
 
+            let form = $('#AjaxAntiForgeryForm');
+            let token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            function refreshClubSelect() {
+                $.ajax({
+                      type: 'GET',
+                      url: '@Url.Action("AddSportClub", "Judge")',
+                      data: { regionId: @Model.RegionId, localityId: @Model.LocalityId },
+                      success: function (data) {
+                          $('#clubSelect').html(data);
+                          $('#newClubLocalityForm, #newClubForm, #newLocalityForm').hide();
+                      }
+                 });
+            }
+
             function refreshListLocality(regionId) {
                  $.ajax({
                       type: 'GET',
-                      url: '@Url.Action("LocalitiesDropDownList")/' + regionId,
-                      success: function (data) {
+                      url: '@Url.Action("LocalitiesDropDownList", "User")/' + regionId,
+                     success: function (data) {
                           $('#localities').html(data);
                       }
                  });
-            }            
+            }
+
+            function refreshClubListLocality(clubRegionId) {
+                 $.ajax({
+                      type: 'GET',
+                      url: '@Url.Action("ClubLocalitiesDropDownList", "User")/' + clubRegionId,
+                      success: function (data) {
+                         $('#newClubLocalityForm').hide();
+                         $('#clubLocalities').html(data);
+                         $('#clubLocalities').show();
+                      }
+                 });
+            }
+
+            function refreshListClubs(regionClubId, localityClubId) {
+                 $.ajax({
+                     type: 'GET',
+                     url: '@Url.Action("SportClubDropDownList", "User")/' + regionClubId + '?localityId=' + localityClubId,
+                     success: function (data) {
+                         $('#newClubForm').hide();
+                         $('#clubs').html(data);
+                         $('#clubs').show();
+                     }
+                 });
+            }
 
             $('#regionList').change(function () {
-                var regionId = $(this).val();
+                let regionId = $(this).val();
                 refreshListLocality(regionId);
             });
 
@@ -178,45 +227,44 @@
                 $('#localities').hide();
                 $('#locality').focus();
                 $('#locality').keyup(function () {
-                    if ($(this).val() != '') {
+                   if ($(this).val().length > 0) {
                         $('#addLocality').prop('disabled', false);
                     }
                     else {
                         $('#addLocality').prop('disabled', true);
                     }
                 });
-            });            
+            });
 
             $('#addLocality').click(function () {
                 $('#newLocalityForm').hide();
                 $('#localities').show();
-                var locality = $('#locality').val();
-                var regionId = $('#regionList').val();
+                let locality = $('#locality').val();
+                let regionId = $('#regionList').val();
 
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("AddNewLocality", "Judge")',
+                    url: '@Url.Action("AddNewLocality", "User")',
                     dataType: 'json',
-                    data: { id: regionId, name: locality },
+                    data: { __RequestVerificationToken: token, id: regionId, name: locality },
                     success: function (response) {
                         alert(response.responseText);
                         $('#locality').val('');
                         refreshListLocality(regionId);
+                        refreshClubSelect();
                     },
                     error: function (response) {
                         alert(response.responseText);
                     }
                 });
-            }); 
-            
+            });
+
             $('#toListLocality').click(function () {
                 $('#newLocalityForm').hide();
                 $('#locality').val('');
                 $('#addLocality').prop('disabled', true);
                 $('#localities').show();
-            });  
-
-
+            });
 
 
 
@@ -224,37 +272,16 @@
                 $('#clubSelect').toggle("slow");
             });
 
-            function refreshClubListLocality(clubRegionId) {
-                 $.ajax({
-                      type: 'GET',
-                      url: '@Url.Action("LocalitiesDropDownList")/' + clubRegionId,
-                      success: function (data) {
-                          $('#clubLocalities').html(data);
-                      }
-                 });
-            }
-
-            function refreshListClubs(regionClubId, localityClubId) {
-                 $.ajax({
-                     type: 'GET',
-                     url: '@Url.Action("SportClubDropDownList")/' + regionClubId + '?localityId=' + localityClubId,
-                     success: function (data) {
-                         $('#clubs').html(data);
-                     }
-                 });
-            }
 
             $(document).on('change', '#clubRegionList', function () {
-                var clubRegionId = $(this).val();
-                var clubLocalityId = null;
-                refreshClubListLocality(clubRegionId);
-                refreshListClubs(clubRegionId, clubLocalityId);
-                $('#clubLocalities').html(data);
+                let clubRegionId = $(this).val();               
+                $('#clubs').hide();                  
+                refreshClubListLocality(clubRegionId);                             
             });
 
              $(document).on('change', '#clubLocalityList', function () {
-                var localityId = $(this).val();
-                var regionId = $('#clubRegionList').val();
+                let localityId = $(this).val();
+                let regionId = $('#clubRegionList').val();
                 refreshListClubs(regionId, localityId);
              });
 
@@ -263,7 +290,7 @@
                 $('#clubLocalities').hide();
                 $('#clubLocality').focus();
                 $('#clubLocality').keyup(function () {
-                    if ($(this).val() != '') {
+                    if ($(this).val().length > 0) {
 
                         $('#addClubLocality').prop('disabled', false);
                     }
@@ -273,10 +300,10 @@
                 });
             });
 
-            $('#toListClubLocality').click(function () {
+            $(document).on('click', '#toListClubLocality', function () {            
                 $('#newClubLocalityForm').hide();
                 $('#clubLocality').val('');
-                $('#toAddClubLocality').prop('disabled', true);
+                $('#addClubLocality').prop('disabled', true);
                 $('#clubLocalities').show();
             });
 
@@ -286,7 +313,7 @@
                 $('#clubs').hide();
                 $('#club').focus();
                 $('#club').keyup(function () {
-                    if ($(this).val() != '') {
+                    if ($(this).val().length > 0) {
                         $('#addClub').prop('disabled', false);
                     }
                     else {
@@ -295,24 +322,24 @@
                 });
             });
 
-             $('#toListClub').click(function () {
+            $(document).on('click', '#toListClub', function () {
                 $('#newClubForm').hide();
                 $('#club').val('');
-                $('#AddClub').prop('disabled', true);
+                $('#addClub').prop('disabled', true);
                 $('#clubs').show();
             });
 
             $(document).on('click', '#addClubLocality', function () {
                 $('#newClubLocalityForm').hide();
                 $('#clubLocalities').show();
-                var clubLocality = $('#clubLocality').val();
-                var clubRegionId = $('#clubRegionId').val();
+                let clubLocality = $('#clubLocality').val();
+                let clubRegionId = $('#clubRegionList').val();
 
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("AddNewLocality", "Judge")',
+                    url: '@Url.Action("AddNewLocality", "User")',
                     dataType: 'json',
-                    data: { id: clubRegionId, name: clubLocality },
+                    data: { __RequestVerificationToken: token, id: clubRegionId, name: clubLocality },
                     success: function (response) {
                         alert(response.responseText);
                         $('#clubLocality').val('');
@@ -325,14 +352,14 @@
             });
 
             $(document).on('click', '#addClub', function () {
-                var regionClubId = $('#clubRegionList').val();
-                var localityClubId = $('#clubLocalityList').val();
-                var club = $('#club').val();
+                let regionClubId = $('#clubRegionList').val();
+                let localityClubId = $('#clubLocalityList').val();
+                let club = $('#club').val();
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("AddNewSportClub", "Judge")',
+                    url: '@Url.Action("AddNewSportClub", "User")',
                     dataType: 'json',
-                    data: { id: regionClubId, localityId: localityClubId, name: club },
+                    data: { __RequestVerificationToken: token, id: regionClubId, localityId: localityClubId, name: club },
                     success: function (response) {
                         alert(response.responseText);
                         $('#club').val('');
@@ -344,9 +371,9 @@
                         alert(response.responseText);
                     }
                 });
-            });           
+            });
 
-            $('#switch2').click(function () {
+            $('#forms').click(function () {
                 if ($('#email, #phoneNum').prop('disabled')) {
                     $('#email, #phoneNum').prop('disabled', false);
                 }

@@ -327,7 +327,6 @@ namespace SJOne.Controllers
                     return RedirectToAction("Contact", "Home");
                 }
 
-
                 var startNumbers = race.StartNumbersRace;
                 var freeNumbers = startNumbers.Where(i => i.User == null).ToList();
                 if (startNumbers.Count >= freeNumbers.Count)
@@ -368,12 +367,14 @@ namespace SJOne.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddSportClub(long regionId, long localityId, AddSportClubViewModel clubModel)
+        public ActionResult AddSportClub(long regionId, long localityId)
         {
             var region = regionRepository.Get(regionId);
+            AddSportClubViewModel clubModel = new AddSportClubViewModel();
 
             if (region != null)
             {
+                
                 clubModel.ClubRegionId = regionId;
                 clubModel.ClubLocalityId = localityId;
                 clubModel.ClubRegions = regionRepository.FindAll()
@@ -386,40 +387,40 @@ namespace SJOne.Controllers
                 clubModel.Clubs = locality.LocalitySportClubs
                     .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
                 return PartialView(clubModel);
-            }
+            }   
             clubModel.Message = "Во время загрузки списка клубов возникла ошибка.";
             return PartialView(clubModel);
         }
 
-        [HttpGet]
-        public ActionResult LocalitiesDropDownList(long id, LocalitiesDropDownListViewModel localityModel)
-        {
-            long localitySelect = 0;
-            localityModel.Localities = regionRepository.Get(id).Localities
-                .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = localityModel.LocalityId.Equals(localitySelect) });
-            return PartialView(localityModel);
-        }
+        //[HttpGet]
+        //public ActionResult LocalitiesDropDownList(long id, LocalitiesDropDownListViewModel localityModel)
+        //{
+        //    long localitySelect = 0;
+        //    localityModel.Localities = regionRepository.Get(id).Localities
+        //        .Select(l => new SelectListItem { Value = l.Id.ToString(), Text = l.Name, Selected = localityModel.LocalityId.Equals(localitySelect) });
+        //    return PartialView(localityModel);
+        //}
 
-        [HttpGet]
-        public ActionResult SportClubDropDownList(long id, long? localityId, SportClubDropDownListViewModel clubModel)
-        {
-            var localities = regionRepository.Get(id).Localities;
+        //[HttpGet]
+        //public ActionResult SportClubDropDownList(long id, long? localityId, SportClubDropDownListViewModel clubModel)
+        //{
+        //    var localities = regionRepository.Get(id).Localities;
 
-            if (localityId == null)
-            {
-                var clubs = localities.FirstOrDefault().LocalitySportClubs.ToList();
-                if (clubs != null)
-                {
-                    clubModel.Clubs = clubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
-                }
+        //    if (localityId == null)
+        //    {
+        //        var clubs = localities.FirstOrDefault().LocalitySportClubs.ToList();
+        //        if (clubs != null)
+        //        {
+        //            clubModel.Clubs = clubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+        //        }
 
-                return PartialView(clubModel);
-            }
-            var clubsLocality = localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
-            clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+        //        return PartialView(clubModel);
+        //    }
+        //    var clubsLocality = localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
+        //    clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
 
-            return PartialView(clubModel);
-        }
+        //    return PartialView(clubModel);
+        //}
 
         [HttpGet]
         [Authorize]
@@ -588,18 +589,5 @@ namespace SJOne.Controllers
             }
             return Json(new { success = false, responseText = "Ошибка! Не найдено событие." });
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult AddExtTiming(long raceId, long judgeId, int number)
-        //{
-        //    var race = raceRepository.Get(raceId);
-        //    if (race != null)
-        //    {
-        //        var judge = userRepository.Get(judgeId).Judge;
-        //    }
-
-        //}
-
     }
 }

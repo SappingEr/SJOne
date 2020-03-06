@@ -18,12 +18,19 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.RegionId)
                 <div>
-                    @Html.DropDownListFor(model => model.RegionId, Model.Regions, "- Регион -", new { @id = "regionList", @aria_describedby = "regionHelp", @class = "selectpicker", @data_live_search = "true" })
+                    @Html.DropDownListFor(model => model.RegionId, Model.Regions, "- Регион -", new
+                    {
+                        @id = "regionList",
+                        @aria_describedby = "regionHelp",
+                        @class = "selectpicker form-control",
+                        @data_live_search = "true",
+                        @data_size = "5"
+                    })
                 </div>
+                @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                 <small id="regionHelp" class="form-text text-muted">
                     *Выберите регион из списка.
                 </small>
-                @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
             </div>
 
             if (Model.Localities == null)
@@ -41,15 +48,21 @@
                 <div id="localities" class="form-group">
                     @Html.LabelFor(model => model.LocalityId)
                     <div class="input-group">
-                        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, "- Населённый пункт -", new { @class = "selectpicker", @data_live_search = "true", data_width = "80%", @aria_describedby = "localityHelp" })
+                        @Html.DropDownListFor(model => model.LocalityId, Model.Localities, "- Населённый пункт -", new
+                        {
+                            @class = "selectpicker form-control",
+                            @data_live_search = "true",
+                            @aria_describedby = "localityHelp",
+                            @data_size = "5"
+                        })
                         <div class="input-group-append">
                             <button id="newLocality" class="btn btn-secondary" type="button"><span class="octicon octicon-pencil"></span></button>
                         </div>
                     </div>
+                    @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
                     <small id="localityHelp" class="form-text text-muted">
                         *Выберите населённый пункт из списка.Если нужного названия нет, Вы можете добавить его самостоятельно.
                     </small>
-                    @Html.ValidationMessageFor(model => model.LocalityId, "", new { @class = "text-danger" })
                 </div>
             }
 
@@ -85,7 +98,6 @@
                     <small id="clubHelp" class="form-text text-muted">
                         *Отметьте этот пункт, если состоите в спортивном клубе.
                     </small>
-
                 </div>
             }
 

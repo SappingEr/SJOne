@@ -271,11 +271,12 @@ namespace SJOne.Controllers
         public ActionResult AddNewLocality(long id, string name)
         {
             var region = regionRepository.Get(id);
+
             if (region != null && name != null && name.Length >= 0)
             {
-                var localities = region.Localities.Select(i => i.Name.ToLower()).ToList();
+                var localities = region.Localities.Where(l => l.Name.ToLower().Contains(name.ToLower())).ToList();
 
-                if (localities.Contains(name.ToLower()))
+                if (localities.Count > 0)
                 {
                     return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
                 }
@@ -348,27 +349,29 @@ namespace SJOne.Controllers
         public ActionResult AddNewSportClub(long id, long localityId, string name)
         {
             var region = regionRepository.Get(id);
+
             var locality = region.Localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
-            if (region != null && locality != null)
+
+            if (region != null && locality != null && name.Length >= 0)
             {
-                var clubs = locality.LocalitySportClubs.Select(c => c.Name.ToLower()).ToList();
-                if (clubs.Contains(name.ToLower()))
+                var clubs = locality.LocalitySportClubs.Where(c => c.Name.ToLower().Contains(name.ToLower())).ToList();
+
+                if (clubs.Count > 0)
                 {
                     return Json(new { success = false, responseText = "Ошибка! " + name + " есть в списке!" });
                 }
-
-                if (name != null)
+                else
                 {
                     locality.LocalitySportClubs.Add(new SportClub { Name = name });
+
                     regionRepository.InvokeInTransaction(() =>
                     {
                         regionRepository.Save(region);
                     });
                     return Json(new { success = true, responseText = "Список спортивных клубов успешно обновлён." });
-                }
-                return Json(new { success = false, responseText = "Ошибка! Введите клуб!" });
+                }               
             }
-            return Json(new { success = false, responseText = "Ошибка! Не найден населенный пункт и регион." });
+            return Json(new { success = false, responseText = "Ошибка! Выберите регион, населённый пункт и введите название клуба." });
         }
 
         [HttpGet]
@@ -388,20 +391,10 @@ namespace SJOne.Controllers
         }
 
         [HttpGet]
-        public ActionResult SportClubDropDownList(long id, long localityId, SportClubDropDownListViewModel clubModel)
-        {
+        public ActionResult SportClubDropDownList(long id, long localityId)
+        {            
             var localities = regionRepository.Get(id).Localities;
-
-            if (localityId == 0)
-            {
-                var clubs = localities.FirstOrDefault().LocalitySportClubs.ToList();
-                if (clubs != null)
-                {
-                    clubModel.Clubs = clubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
-                }
-
-                return PartialView(clubModel);
-            }
+            SportClubDropDownListViewModel clubModel = new SportClubDropDownListViewModel();           
             var clubsLocality = localities.Where(l => l.Id.Equals(localityId)).FirstOrDefault();
             clubModel.Clubs = clubsLocality.LocalitySportClubs.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
             return PartialView(clubModel);
