@@ -135,6 +135,7 @@ namespace SJOne.Controllers
         public ActionResult StartList(long id,
                                       long? ageGroupId,
                                       UserFilter userFilter,
+                                      FetchOptions options,
                                       StartListViewModel startListModel,
                                       int setFirst = 0)
         {
@@ -181,7 +182,9 @@ namespace SJOne.Controllers
                     setFirst -= setMax;
                 }
 
-                var athletes = userRepository.StartList(setFirst, setMax, race, mainJudge, userFilter);
+                //var athletes = userRepository.StartList(setFirst, setMax, race, mainJudge, userFilter);
+                var athletes = mainJudge.StartNumbersJudge.Where(i => i.Race == race).Select(a => a.User);
+
 
                 if (!athletes.Any())
                 {

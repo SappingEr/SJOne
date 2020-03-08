@@ -81,8 +81,9 @@ namespace SJOne.Models.Repositories
         {
             var crit = session.CreateCriteria<User>()
                 .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
-                .Add(Restrictions.Eq("sN.Race", race))
-                .Add(Restrictions.Eq("sN.User", mainJudge));                                         
+                .Add(Restrictions.Eq("sN.User", mainJudge))
+                .Add(Restrictions.Eq("sN.Race", race));
+                
             SetupFilter(filter, crit);
             SetupFetchOptions(crit, options);
             crit.SetFirstResult(setFirst).SetMaxResults(setMax);
