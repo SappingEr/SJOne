@@ -234,6 +234,7 @@
     <Compile Include="Hubs\OnStartHub.cs" />
     <Compile Include="Models\AddSportClubViewModel.cs" />
     <Compile Include="Models\AdminViewModels\UserListViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\JudgeListSettingsViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\OnStartViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\StartListViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\JudgeAssistantStartListViewModel.cs" />
@@ -541,6 +542,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\ClubLocalitiesDropDownList.cshtml" />
+    <Content Include="Views\Judge\JudgeListSettings.cshtml" />
     <None Include="Views\Shared\_SearchUser.cshtml" />
     <Content Include="App_Data\SJ_Base.mdf" />
     <Content Include="App_Data\SJ_Base_log.ldf">

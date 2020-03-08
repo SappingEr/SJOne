@@ -6,7 +6,7 @@ using System.Web;
 namespace SJOne.Models.AdminViewModels
 {
     public class UserListViewModel
-    {
+    {       
         public IEnumerable<User> Users { get; set; }
     }
 }

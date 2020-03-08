@@ -1,0 +1,114 @@
+﻿@using SJOne.Extensions
+@using SJOne.Models.Filters
+@model SJOne.Models.JudgeViewModels.JudgeListSettingsViewModel
+
+@{
+    ViewBag.Title = "Список судей";
+}
+
+<div class="jumbotron bg-info">
+    <h1>Список судей</h1>
+</div>
+
+
+<div id="raceJudges" class="col-md-6">
+    @if (Model.JudgesRace.Count() > 0)
+    {
+        foreach (var item in Model.JudgesRace)
+        {
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"> @item.Surname @item.Name</li>
+            </ul>
+        }
+
+    }
+    else
+    {
+        <p>Нет судей</p>
+    }
+</div>
+
+@Html.Partial("_SearchUser", new UserFilter())
+
+<div class="table-responsive-md">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    @Html.SortLink("Имя", "Name", "JudgeListSettings", "Judge", null)
+                </th>
+                <th>
+                    @Html.SortLink("Фамилия", "Surname", "JudgeListSettings", "Judge", null)
+                </th>
+                <th>
+                    Роли
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in @Model.Judges)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+
+                        @foreach (var role in item.Roles)
+                        {
+                            if (role.Name == "Judge")
+                            {
+                                <span class="badge badge-primary">Судья</span>
+                            }
+                            else if (role.Name == "JudgeAssist")
+                            {
+                                <span class="badge badge-secondary">П. Судьи</span>
+                            }
+
+                        }
+
+                    </td>
+                    <td>
+                        <button id="@item.Id" type="button" class="add btn btn-success">
+                            Добавить
+                            <span class="octicon octicon-plus"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.add', function () {
+                let judgeId = this.id;
+                let raceId = @Model.Id;
+                $.ajax({                    
+                     type: 'POST',
+                     url: '@Url.Action("AddJudgesToRace", "Judge")',
+                     data: { id: raceId, judgeId: judgeId },
+                      success: function () {                            
+                            location.reload();
+                      },
+                      error: function () {
+                            alert("The scores were not recorded");
+                      }
+                 });
+
+            });
+        });
+
+    </script>
+}
+

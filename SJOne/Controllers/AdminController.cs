@@ -22,9 +22,11 @@ namespace SJOne.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserList(UserListViewModel userModel, UserFilter userFilter, FetchOptions options)
+        public ActionResult UserList(UserFilter userFilter, FetchOptions options)
         {
-            var users = userRepository.Find(userFilter, options);            
+            var users = userRepository.Find(userFilter, options);
+
+            UserListViewModel userModel = new UserListViewModel();
 
             if (User.IsInRole("$Admin"))
             {

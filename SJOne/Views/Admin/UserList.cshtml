@@ -29,6 +29,9 @@
                     @Html.SortLink("Имя", "Name", "UserList", "Admin", null)
                 </th>
                 <th>
+                    @Html.SortLink("Фамилия", "Surname", "UserList", "Admin", null)
+                </th>
+                <th>
                     @Html.SortLink("Email", "Email", "UserList", "Admin", null)
                 </th>
                 <th>
@@ -47,56 +50,59 @@
         <tbody>
             @foreach (var item in Model.Users)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RegistrationDate)
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                </td>
 
-                    <td>
-                        @Html.ActionLink(item.Status.ToString(), "Status", "Admin", new { id = item.Id }, new { @class = "status", @data_target = "#statusModal" })
-                    </td>
-                    <td>
+                <td>
+                    @Html.ActionLink(item.Status.ToString(), "Status", "Admin", new { id = item.Id }, new { @class = "status", @data_target = "#statusModal" })
+                </td>
+                <td>
 
-                        @foreach (var role in item.Roles)
-                        {
-                            <div>@Html.DisplayFor(r => role.Name)</div>
-                        }
+                    @foreach (var role in item.Roles)
+                    {
+                        <div>@Html.DisplayFor(r => role.Name)</div>
+                    }
 
-                    </td>
-                    <td>
-                        <div class="dropdown dropleft">
-                            <button type="button" class="btn btn-dark dropdown-toggle btn-sm" data-toggle="dropdown">
-                                <span class="octicon octicon-gear"></span>
-                            </button>
-                            <div class="dropdown-menu">
+                </td>
+                <td>
+                    <div class="dropdown dropleft">
+                        <button type="button" class="btn btn-dark dropdown-toggle btn-sm" data-toggle="dropdown">
+                            <span class="octicon octicon-gear"></span>
+                        </button>
+                        <div class="dropdown-menu">
 
-                                <a class="dropdown-item" href="@Url.Action("UserRoles", "Admin", new { id = item.Id })">
-                                    <span class="octicon octicon-key"></span> Менеджер ролей
-                                </a>
-
-
-                                <a class="dropdown-item" href="@Url.Action("Edit", "Admin", new { id = item.Id })">
-                                    <span class="octicon octicon-pencil"></span> Изменить данные
-                                </a>
+                            <a class="dropdown-item" href="@Url.Action("UserRoles", "Admin", new { id = item.Id })">
+                                <span class="octicon octicon-key"></span> Менеджер ролей
+                            </a>
 
 
-                                <a class="dropdown-item" href="@Url.Action("DeleteUser", "Account", new { id = item.Id })">
-                                    <span class="octicon octicon-trashcan"></span> Удалить
-                                </a>
+                            <a class="dropdown-item" href="@Url.Action("Edit", "Admin", new { id = item.Id })">
+                                <span class="octicon octicon-pencil"></span> Изменить данные
+                            </a>
 
-                            </div>
+
+                            <a class="dropdown-item" href="@Url.Action("DeleteUser", "Account", new { id = item.Id })">
+                                <span class="octicon octicon-trashcan"></span> Удалить
+                            </a>
+
                         </div>
-                    </td>
-                </tr>
+                    </div>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
