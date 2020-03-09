@@ -1,6 +1,7 @@
 ﻿@model SJOne.Models.HandTimingViewModel
 
 
+
 @{
     ViewBag.Title = "HandTiming";
 }
@@ -41,12 +42,12 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col">
-                        <a href="@Url.Action("StopRace")" class="btn btn-danger" role="button">Остановить</a>
+                        <a href="@Url.Action("Start", "Home")" class="btn btn-danger btn-block" role="button">Остановить</a>
                     </div>
 
                     <div class="col">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Отмена </button>
-                    </div>                    
+                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Отмена </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,12 +112,31 @@
         $(document).on('click', '.btn-lg', function () {
             var buttonId = this.id;
             var judgeId = @Model.JudgeId;
-            var raceId = @Model.Id;           
+            var raceId = @Model.Id;
 
             if (buttonId === "extTiming") {
-                 alert(buttonId);
-            }
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { __RequestVerificationToken: token, raceId: raceId, judgeId: judgeId},
+                    url: '@Url.Action("AddExtTiming", "Judge")',
+                     success: function (response) {
 
+                         if (response.success) {
+                              $('#error').text("Ок");
+                              $('#extTiming').removeClass('btn-warning').addClass('btn-success');
+                              setTimeout(function changeButton() {
+                                  $('#' + buttonId).prop("disabled", false).removeClass('btn-success').addClass('btn-warning');
+                              }, 2000)
+                         }
+
+                         else
+                         {
+                             $('#error').text(response.responseText);
+                         }
+                     }
+                });
+            }
             else if (buttonId !== "") {
 
                  $.ajax({
@@ -133,12 +153,12 @@
                             url: '@Url.Action("HT_ButtonList")/' + raceId + '?judgeId=' + judgeId,
                                  success: function (data) {
 
-                                     $('#buttonList').html(data);                                     
-                                     $('#error').text("");
+                                     $('#buttonList').html(data);
+                                     $('#error').text("Ок");
                                      $('#' + buttonId).prop("disabled", true).removeClass('btn-primary').addClass('btn-danger');
                                      setTimeout(function changeButton() {
                                          $('#' + buttonId).prop("disabled", false).removeClass('btn-danger').addClass('btn-primary');
-                                     }, 15000)                             
+                                     }, 15000)
 
                                  }
                             });
@@ -148,7 +168,7 @@
                          {
                              $('#error').text(response.responseText);
                          }
-                     }                     
+                     }
                 });
             }
 

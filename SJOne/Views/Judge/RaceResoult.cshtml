@@ -1,0 +1,40 @@
+﻿@model SJOne.Models.JudgeViewModels.RaceResoultViewModel
+
+@{
+    ViewBag.Title = "RaceResoult";
+}
+
+<h2>RaceResoult</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.StartNumbers) {
+    <tr>
+        <td>
+            @item.Number 
+        </td>
+        <td>
+            @item.User.Name @item.User.Surname
+        </td>
+        <td>
+            @foreach (var i in item.HandTimingsNumber)
+            {
+                if (i.Lap == 6)
+                {
+                    @i.TotalTime.Value.ToString();
+                }
+            }            
+        </td>
+
+    </tr>
+}
+
+</table>
