@@ -234,10 +234,11 @@
     <Compile Include="Hubs\OnStartHub.cs" />
     <Compile Include="Models\AddSportClubViewModel.cs" />
     <Compile Include="Models\AdminViewModels\UserListViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\AthleteTimingsViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\JudgeListSettingsViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\JudgesListsViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\OnStartViewModel.cs" />
-    <Compile Include="Models\JudgeViewModels\RaceResoultViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\RaceResoultsViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\StartListViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\JudgeAssistantStartListViewModel.cs" />
     <Compile Include="Models\OnStartUser.cs" />
@@ -276,6 +277,7 @@
     <Compile Include="Models\UserViewModels\LocalityViewModel.cs" />
     <Compile Include="Models\UserViewModels\PhoneNumberViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\JudgeViewModels\StartNumbersListViewModel.cs" />
     <Content Include="App_Data\TestBase.mdf" />
     <Content Include="App_Data\TestBase_log.ldf">
       <DependentUpon>TestBase.mdf</DependentUpon>
@@ -545,8 +547,10 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\ClubLocalitiesDropDownList.cshtml" />
     <Content Include="Views\Judge\JudgeListSettings.cshtml" />
-    <Content Include="Views\Judge\RaceResoult.cshtml" />
+    <Content Include="Views\Judge\RaceResoults.cshtml" />
     <Content Include="Views\Judge\JudgesList.cshtml" />
+    <Content Include="Views\Judge\RaceStartNumbersList.cshtml" />
+    <Content Include="Views\Judge\ResultAthleteTimings.cshtml" />
     <None Include="Views\Shared\_SearchUser.cshtml" />
     <Content Include="App_Data\SJ_Base.mdf" />
     <Content Include="App_Data\SJ_Base_log.ldf">

@@ -1,0 +1,37 @@
+﻿@model SJOne.Models.JudgeViewModels.StartNumbersListViewModel
+
+@{
+    ViewBag.Title = "RaceStartNumbersList";
+}
+
+<h2>RaceStartNumbersList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th>Номер</th>
+            <th>Имя</th>
+            <th>Фамилия</th>           
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.StartNumbers)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("ResultAthleteTimings", "Judge", new { id = Model.Id, number = item.Number })" class="btn btn-primary btn-sm" role="button">@item.Number</a>                   
+                </td>
+                <td>
+                    @item.User.Name
+                </td>
+                <td>
+                    @item.User.Surname
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

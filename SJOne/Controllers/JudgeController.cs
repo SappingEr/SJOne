@@ -4,6 +4,7 @@ using SJOne.Models.Filters;
 using SJOne.Models.JudgeViewModels;
 using SJOne.Models.Repositories;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Web.Mvc;
 
 namespace SJOne.Controllers
 {
-    
+
     public class JudgeController : BaseController
     {
         private RaceRepository raceRepository;
@@ -137,13 +138,18 @@ namespace SJOne.Controllers
         [HttpGet]
         public ActionResult StartList(long id,
                                       long? ageGroupId,
-                                      UserFilter userFilter,                                      
-                                      StartListViewModel startListModel,
+                                      UserFilter userFilter,
                                       int setFirst = 0)
         {
             var race = raceRepository.Get(id);
             var mainJudge = race.MainJudgeRace;
-            int setMax = 50;
+            int setMax = 15;
+
+            StartListViewModel startListModel = new StartListViewModel();
+            FetchOptions options = new FetchOptions();
+            options.Start = setFirst;
+            options.Count = setMax;
+
             startListModel.Id = id;
 
             if (setFirst < 0)
@@ -170,7 +176,7 @@ namespace SJOne.Controllers
                 }
             }
 
-            startListModel.AllAthletesCount = race.StartNumbersRace.Where(u => u.User != null).Count();            
+            startListModel.AllAthletesCount = race.StartNumbersRace.Where(u => u.User != null).Count();
 
             var mainJudgeAthletesCount = mainJudge.StartNumbersJudge.Where(i => i.Race == race).Count();
 
@@ -186,10 +192,10 @@ namespace SJOne.Controllers
                     setFirst -= setMax;
                 }
 
-                //var athletes = userRepository.StartList(setFirst, setMax, race, mainJudge, userFilter);
-                var athletes = mainJudge.StartNumbersJudge.Where(i => i.Race == race).Select(u => u.User);
+                var athletes = userRepository.StartList(race, mainJudge, userFilter, options);
 
-                
+
+
                 if (!athletes.Any())
                 {
                     startListModel.Items = 0;
@@ -677,18 +683,203 @@ namespace SJOne.Controllers
 
 
         [HttpGet]
-        public ActionResult RaceResoult(long id)
+        public ActionResult RaceResoults(long id, Gender? gender)
         {
             var race = raceRepository.Get(id);
             if (race != null)
             {
-                RaceResoultViewModel resoultModel = new RaceResoultViewModel();
-                resoultModel.StartNumbers = race.StartNumbersRace.Select(h => h.HandTimingsNumber.Last()).OrderBy(l => l.TotalTime).Select(u => u.StartNumber).Where(z => z.User.Gender == Gender.Male);
+                RaceResoultsViewModel resoultModel = new RaceResoultsViewModel();
+                
+                var handTimings = race.StartNumbersRace.Select(h => h.HandTimingsNumber.LastOrDefault()).OrderBy(l => l.TotalTime);
 
+                switch (gender)
+                {
+                    case Gender.Male:
+                        resoultModel.HandTimings = handTimings.Where(u => u.StartNumber.User.Gender == Gender.Male);
+                        break;
+                    case Gender.Female:
+                        resoultModel.HandTimings = handTimings.Where(u => u.StartNumber.User.Gender == Gender.Female);
+                        break;
+                    default:
+                        resoultModel.HandTimings = handTimings;
+                        break;
+                }    
+                
                 return View(resoultModel);
             }
 
             return ViewBag();
+        }
+
+        [HttpGet]
+        public ActionResult RaceStartNumbersList(long id)
+        {
+            var race = raceRepository.Get(id);
+            if (race != null)
+            {
+                StartNumbersListViewModel startNumbersModel = new StartNumbersListViewModel();
+                startNumbersModel.Id = id;
+                startNumbersModel.StartNumbers = race.StartNumbersRace.Where(u => u.User != null);
+
+                return View(startNumbersModel);
+            }
+            return HttpNotFound("Старт не найден");
+        }
+
+        [HttpGet]
+        public ActionResult ResultAthleteTimings(long id, long number)
+        {
+            var race = raceRepository.Get(id);
+            if (race != null)
+            {
+
+                AthleteTimingsViewModel timingsModel = new AthleteTimingsViewModel();
+
+                var startNumber = race.StartNumbersRace.Where(n => n.Number == number).FirstOrDefault();
+
+                var handTimings = startNumber.HandTimingsNumber;
+
+                timingsModel.AthleteName = startNumber.User.Name + " " + startNumber.User.Surname;
+
+                timingsModel.JudgeName = startNumber.Judge.Name + " " + startNumber.Judge.Surname;
+
+                var maxTotalTimeVal = handTimings.Max(t => t.TotalTime).Value.TotalMilliseconds;
+
+                var lapCount = race.LapCount;
+
+                var factLapCount = handTimings.Count;
+
+                double averageLapTimeValue;
+
+                if (lapCount >= factLapCount)
+                {
+                    averageLapTimeValue = maxTotalTimeVal / lapCount;
+                }
+                else
+                {
+                    averageLapTimeValue = maxTotalTimeVal / factLapCount;
+                }
+
+                var minLapVal = averageLapTimeValue - 20000;
+
+                var maxLapVal = averageLapTimeValue + 20000;
+
+                List<HandTiming> errTimings = new List<HandTiming>();
+
+                int sortLap = 0;
+
+                foreach (var timing in handTimings)
+                {
+
+                    if (timing.LapTime != null)
+                    {
+                        var lapTime = timing.LapTime.Value.TotalMilliseconds;
+
+                        if (lapTime < minLapVal || lapTime > maxLapVal)
+                        {
+                            errTimings.Add(timing);
+                        }
+                    }
+                }
+
+                List<HandTiming> sortTimings = new List<HandTiming>();
+
+                if (errTimings.Count > 0)
+                {
+                    List<HandTiming> eXTimings = new List<HandTiming>();
+
+                    eXTimings = handTimings.Except(errTimings).ToList();
+
+                    var eXTimingsCount = eXTimings.Count;
+
+                    var totalExMaxLapVal = eXTimings.Max(t => t.TotalTime).Value.TotalMilliseconds;
+
+                    if (totalExMaxLapVal < maxTotalTimeVal)
+                    {
+                        if (lapCount >= factLapCount)
+                        {
+                            averageLapTimeValue = totalExMaxLapVal / lapCount;
+                        }
+                        else
+                        {
+                            averageLapTimeValue = totalExMaxLapVal / factLapCount;
+                        }
+                    }
+
+                    foreach (var timing in handTimings)
+                    {
+                        sortLap++;
+                        double currLap = timing.LapTime.Value.TotalMilliseconds;
+
+                        if (currLap / averageLapTimeValue >= 1.85)
+                        {
+                            double currTotal = timing.TotalTime.Value.TotalMilliseconds;
+                            var divider = (int)Math.Round(currLap / averageLapTimeValue);
+                            var splitTime = currLap / divider;
+
+                            TimeSpan lapTime = new TimeSpan(0, 0, 0, 0, (int)Math.Round(splitTime));
+
+                            List<double> splitsTotalTime = new List<double>();
+                            splitsTotalTime.Add(currTotal);
+
+                            for (int i = 0; i < divider - 1; i++)
+                            {
+                                splitsTotalTime.Add(splitsTotalTime.Last() - splitTime);
+                            }
+
+                            splitsTotalTime.Reverse();
+
+                            foreach (var split in splitsTotalTime)
+                            {
+
+                                TimeSpan totalTime = new TimeSpan(0, 0, 0, 0, (int)Math.Round(split));
+                                sortTimings.Add(new HandTiming { Lap = sortLap, LapTime = lapTime, TotalTime = totalTime });
+                                sortLap++;
+                            }
+                        }
+                        else if (averageLapTimeValue / currLap > 2)
+                        {
+                            sortLap--;
+                            sortTimings.Add(new HandTiming { LapTime = timing.LapTime, TotalTime = timing.TotalTime });
+                        }
+                        else
+                        {
+                            sortTimings.Add(new HandTiming { Lap = sortLap, LapTime = timing.LapTime, TotalTime = timing.TotalTime });
+                        }
+                    }
+                }
+
+                var roundAverage = (int)Math.Round(averageLapTimeValue);
+                var predictedTimeMillseconds = lapCount * roundAverage;
+
+                timingsModel.AverageTime = new TimeSpan(0, 0, 0, 0, roundAverage);
+                timingsModel.PredictedTime = new TimeSpan(0, 0, 0, 0, predictedTimeMillseconds);
+                timingsModel.LapCount = factLapCount;
+                timingsModel.HandTimings = handTimings;
+                timingsModel.SortTimings = sortTimings;
+                timingsModel.ErrorTimings = errTimings;
+
+                return View(timingsModel);
+            }
+            return HttpNotFound("Старт не найден");
+        }
+
+        [HttpGet]
+        public ActionResult DeleteHandTiming(long id)
+        {
+            var hT = handTimingRepository.Get(id);
+            long number = hT.StartNumber.Number;
+            long raceId = hT.StartNumber.Race.Id;
+            if (hT != null)
+            {
+                handTimingRepository.InvokeInTransaction(() =>
+                {
+                    handTimingRepository.Delete(hT);
+                });
+
+                return RedirectToAction("ResultAthleteTimings", "Judge", new { id = raceId, number });
+            }
+            return HttpNotFound("Тайминг не найден");
         }
     }
 }

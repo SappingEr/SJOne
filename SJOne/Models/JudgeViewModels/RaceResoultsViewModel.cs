@@ -5,8 +5,8 @@ using System.Web;
 
 namespace SJOne.Models.JudgeViewModels
 {
-    public class RaceResoultViewModel
+    public class RaceResoultsViewModel
     {
-        public IEnumerable<StartNumber> StartNumbers { get; set; }
+        public IEnumerable<HandTiming> HandTimings { get; set; }
     }
 }

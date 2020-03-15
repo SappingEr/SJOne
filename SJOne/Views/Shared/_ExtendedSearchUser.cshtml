@@ -1,6 +1,10 @@
 ﻿@model SJOne.Models.Filters.UserFilter
 
-<form method="get">
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
 
     <div class="row">
 
@@ -22,4 +26,4 @@
 
     </div>
 
-</form>
+}

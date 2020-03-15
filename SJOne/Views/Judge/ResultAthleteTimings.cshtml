@@ -1,0 +1,172 @@
+﻿@model SJOne.Models.JudgeViewModels.AthleteTimingsViewModel
+
+@{
+    ViewBag.Title = Model.AthleteName + "(результаты)";
+}
+
+<h2>@Model.AthleteName</h2>
+
+<hr />
+
+<h4>Судья: @Model.JudgeName</h4>
+
+<p>Фактическое количеств кругов: @Model.LapCount</p>
+
+<p>Среднее время круга: @Model.AverageTime</p>
+
+<p>Рвсчётное время: @Model.PredictedTime</p>
+
+<div>
+    <h4>Ошибки:</h4>
+    <table class="table table-sm table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    Круг
+                </th>
+                <th>
+                    Время круга
+                </th>
+                <th>
+                    Общее Время
+                </th>
+                <th>
+                    Временной штамп
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ErrorTimings)
+            {
+
+                <tr>
+                    <td>
+                        @item.Lap
+                    </td>
+                    <td>
+                        @if (item.LapTime != null)
+                        {
+                            @item.LapTime.Value.ToString()
+                        }
+
+                    </td>
+                    <td>
+                        @if (item.TotalTime != null)
+                        {
+                            @item.TotalTime.Value.ToString()
+                        }
+
+                    </td>
+                    <td>
+                        @item.TimeStamp
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>    
+</div>
+
+
+<div class="row">
+    <div class="col-7">
+        <h4>Временные отметки:</h4>
+        <table class="table table-sm table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Круг
+                    </th>
+                    <th>
+                        Время круга
+                    </th>
+                    <th>
+                        Общее Время
+                    </th>
+                    <th>
+                        Временной штамп
+                    </th>
+                    <th>
+                        Опции
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.HandTimings)
+                {
+
+                    <tr>
+                        <td>
+                            @item.Lap
+                        </td>
+                        <td>
+                            @if (item.LapTime != null)
+                            {
+                                @item.LapTime.Value.ToString()
+                            }
+
+                        </td>
+                        <td>
+                            @if (item.TotalTime != null)
+                            {
+                                @item.TotalTime.Value.ToString()
+                            }
+
+                        </td>
+                        <td>
+                            @item.TimeStamp
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DeleteHandTiming", "Judge", new { id = item.Id })" class="btn btn-danger btn-sm" role="button">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-5">
+        <h4>Автосортировка:</h4>
+        <table class="table table-sm table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Круг
+                    </th>
+                    <th>
+                        Время круга
+                    </th>
+                    <th>
+                        Общее Время
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.SortTimings)
+                {
+
+                    <tr>
+                        <td>
+                            @item.Lap
+                        </td>
+                        <td>
+                            @if (item.LapTime != null)
+                            {
+                                @item.LapTime.Value.ToString()
+                            }
+
+                        </td>
+                        <td>
+                            @if (item.TotalTime != null)
+                            {
+                                @item.TotalTime.Value.ToString()
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
