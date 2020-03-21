@@ -80,7 +80,7 @@ namespace SJOne.Models.Repositories
         public IEnumerable<User> StartList(Race race, User mainJudge, UserFilter filter, FetchOptions options)
         {
             var crit = session.CreateCriteria<User>()
-                .CreateAlias("StartNumbersUser", "sN")
+                .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
                 .Add(Restrictions.Eq("sN.Race", race))
                 .Add(Restrictions.Eq("sN.Judge", mainJudge));
                 
@@ -88,6 +88,19 @@ namespace SJOne.Models.Repositories
             SetupFetchOptions(crit, options);           
             return crit.List<User>();           
         }
+
+        public IEnumerable<User> ResoultsList(Race race, UserFilter filter, FetchOptions options)
+        {
+            var crit = session.CreateCriteria<User>()
+                .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
+                .Add(Restrictions.Eq("sN.Race", race));          
+
+            SetupFilter(filter, crit);
+            SetupFetchOptions(crit, options);
+            return crit.List<User>();
+        }
+
+
 
         public User GetCurrentUser(IPrincipal user = null)
         {

@@ -5,8 +5,10 @@ using System.Web;
 
 namespace SJOne.Models.JudgeViewModels
 {
-    public class RaceResoultsViewModel
+    public class RaceResultsViewModel
     {
-        public IEnumerable<HandTiming> HandTimings { get; set; }
+        public long Id { get; set; }
+
+        public IEnumerable<User> Athletes { get; set; }
     }
 }

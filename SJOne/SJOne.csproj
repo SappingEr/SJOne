@@ -238,7 +238,7 @@
     <Compile Include="Models\JudgeViewModels\JudgeListSettingsViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\JudgesListsViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\OnStartViewModel.cs" />
-    <Compile Include="Models\JudgeViewModels\RaceResoultsViewModel.cs" />
+    <Compile Include="Models\JudgeViewModels\RaceResultsViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\StartListViewModel.cs" />
     <Compile Include="Models\JudgeViewModels\JudgeAssistantStartListViewModel.cs" />
     <Compile Include="Models\OnStartUser.cs" />
@@ -547,7 +547,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\ClubLocalitiesDropDownList.cshtml" />
     <Content Include="Views\Judge\JudgeListSettings.cshtml" />
-    <Content Include="Views\Judge\RaceResoults.cshtml" />
+    <Content Include="Views\Judge\RaceResults.cshtml" />
     <Content Include="Views\Judge\JudgesList.cshtml" />
     <Content Include="Views\Judge\RaceStartNumbersList.cshtml" />
     <Content Include="Views\Judge\ResultAthleteTimings.cshtml" />

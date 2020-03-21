@@ -683,27 +683,19 @@ namespace SJOne.Controllers
 
 
         [HttpGet]
-        public ActionResult RaceResoults(long id, Gender? gender)
+        public ActionResult RaceResults(long id, UserFilter userFilter, FetchOptions options)
         {
             var race = raceRepository.Get(id);
             if (race != null)
             {
-                RaceResoultsViewModel resoultModel = new RaceResoultsViewModel();
-                
-                var handTimings = race.StartNumbersRace.Select(h => h.HandTimingsNumber.LastOrDefault()).OrderBy(l => l.TotalTime);
+                RaceResultsViewModel resoultModel = new RaceResultsViewModel();
 
-                switch (gender)
-                {
-                    case Gender.Male:
-                        resoultModel.HandTimings = handTimings.Where(u => u.StartNumber.User.Gender == Gender.Male);
-                        break;
-                    case Gender.Female:
-                        resoultModel.HandTimings = handTimings.Where(u => u.StartNumber.User.Gender == Gender.Female);
-                        break;
-                    default:
-                        resoultModel.HandTimings = handTimings;
-                        break;
-                }    
+                var athletets = userRepository.ResoultsList(race, userFilter, options);
+
+                
+                //var handTimings = race.StartNumbersRace.Select(h => h.HandTimingsNumber.LastOrDefault()).OrderBy(l => l.TotalTime);
+
+                
                 
                 return View(resoultModel);
             }
