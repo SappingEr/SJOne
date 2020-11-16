@@ -511,11 +511,8 @@ namespace SJOne.Controllers
                 }
 
                 ModelState.AddModelError("", "Произошла ошибка при смене пароля. Попробуйте ещё раз.");
-
                 return View(changeModel);
-
             }
-
             return View(changeModel);
         }
     }

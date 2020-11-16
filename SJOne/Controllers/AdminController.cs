@@ -25,7 +25,6 @@ namespace SJOne.Controllers
         public ActionResult UserList(UserFilter userFilter, FetchOptions options)
         {
             var users = userRepository.Find(userFilter, options);
-
             UserListViewModel userModel = new UserListViewModel();
 
             if (User.IsInRole("$Admin"))

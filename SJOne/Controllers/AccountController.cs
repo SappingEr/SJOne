@@ -1,9 +1,8 @@
-﻿using System.Web.Mvc;
-using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity.Owin;
 using SJOne.Models;
 using SJOne.Models.Repositories;
 using System;
-using Microsoft.AspNet.Identity;
+using System.Web.Mvc;
 
 namespace SJOne.Controllers
 {
@@ -46,18 +45,15 @@ namespace SJOne.Controllers
                     userRepository.InvokeInTransaction(() =>
                     {
                         user.RegistrationDate = DateTime.Now.Date;
-                        user.Status = Status.Active;                        
-                    });                    
-                    
+                        user.Status = Status.Active;
+                    });
+
                     SignInManager.SignIn(user, false, false);
                     return RedirectToAction("Gender", "User", new { user.Id });
                 }
                 else
                 {
-                    foreach (var error in result.Result.Errors)
-                    {
-                        ModelState.AddModelError("", "Логин занят, введите данные заново");
-                    }
+                    ModelState.AddModelError("", "Логин занят, введите данные заново");
                 }
             }
             return View(registerModel);
@@ -103,6 +99,6 @@ namespace SJOne.Controllers
         {
             SignInManager.SignOut();
             return RedirectToAction("Start", "Home");
-        }        
+        }
     }
 }

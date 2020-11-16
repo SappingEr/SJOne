@@ -103,3 +103,4 @@ C:\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csprojAssemblyReference.cache
 C:\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csproj.CopyComplete
 C:\SJOne\SJOne.Models\obj\Debug\SJOne.Models.dll
 C:\SJOne\SJOne.Models\obj\Debug\SJOne.Models.pdb
+C:\SJOne\SJOne.Models\obj\Debug\SJOne.Models.csproj.CoreCompileInputs.cache

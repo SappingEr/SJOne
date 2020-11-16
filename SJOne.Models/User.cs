@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.AspNet.Identity;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNet.Identity;
 using SJOne.Models.Repositories;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SJOne.Models
 {
@@ -26,15 +23,15 @@ namespace SJOne.Models
 
         public virtual byte[] Avatar { get; set; }
 
-        public virtual Gender Gender { get; set; }       
+        public virtual Gender Gender { get; set; }
 
         [FastSearch]
         public virtual string Name { get; set; }
 
         [FastSearch]
         public virtual string Surname { get; set; }
-        
-        public virtual Locality Locality { get; set; }       
+
+        public virtual Locality Locality { get; set; }
 
         public virtual SportClub SportClub { get; set; }
 

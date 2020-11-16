@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Security.Principal;
-using System.Web;
-using System;
-using SJOne.Models.Filters;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using NHibernate;
 using NHibernate.Criterion;
+using SJOne.Models.Filters;
+using System.Collections.Generic;
+using System.Security.Principal;
+using System.Web;
 
 namespace SJOne.Models.Repositories
 {
@@ -16,7 +15,6 @@ namespace SJOne.Models.Repositories
             base(session)
         {
         }
-
         public override void SetupFilter(UserFilter filter, ICriteria criteria)
         {
             base.SetupFilter(filter, criteria);
@@ -35,7 +33,7 @@ namespace SJOne.Models.Repositories
                 if (!string.IsNullOrEmpty(filter.Surname))
                 {
                     criteria.Add(Restrictions.Like("Surname", filter.Surname, MatchMode.Anywhere));
-                }               
+                }
 
                 if (!string.IsNullOrEmpty(filter.Email))
                 {
@@ -45,7 +43,7 @@ namespace SJOne.Models.Repositories
                 if (!string.IsNullOrEmpty(filter.Gender.ToString()))
                 {
                     criteria.Add(Restrictions.Eq("Gender", filter.Gender));
-                }               
+                }
 
                 if (!string.IsNullOrEmpty(filter.DOB.ToString()))
                 {
@@ -75,7 +73,7 @@ namespace SJOne.Models.Repositories
             SetupFilter(filter, crit);
             SetupFetchOptions(crit, options);
             return crit.List<User>();
-        }        
+        }
 
         public IEnumerable<User> StartList(Race race, User mainJudge, UserFilter filter, FetchOptions options)
         {
@@ -83,17 +81,17 @@ namespace SJOne.Models.Repositories
                 .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
                 .Add(Restrictions.Eq("sN.Race", race))
                 .Add(Restrictions.Eq("sN.Judge", mainJudge));
-                
+
             SetupFilter(filter, crit);
-            SetupFetchOptions(crit, options);           
-            return crit.List<User>();           
+            SetupFetchOptions(crit, options);
+            return crit.List<User>();
         }
 
         public IEnumerable<User> ResoultsList(Race race, UserFilter filter, FetchOptions options)
         {
             var crit = session.CreateCriteria<User>()
                 .CreateAlias("StartNumbersUser", "sN", NHibernate.SqlCommand.JoinType.LeftOuterJoin)
-                .Add(Restrictions.Eq("sN.Race", race));          
+                .Add(Restrictions.Eq("sN.Race", race));
 
             SetupFilter(filter, crit);
             SetupFetchOptions(crit, options);

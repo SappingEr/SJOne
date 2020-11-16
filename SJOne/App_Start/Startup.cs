@@ -1,29 +1,27 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using SJOne.App_Start;
-using SJOne.Controllers;
-using SJOne.Models;
-using SJOne.Models.Repositories;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using NHibernate;
 using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
 using Owin;
+using SJOne.App_Start;
+using SJOne.Auth;
+using SJOne.Controllers;
+using SJOne.Models;
+using SJOne.Models.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.AspNet.Identity;
-using SJOne.Auth;
 
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -41,7 +39,7 @@ namespace SJOne.App_Start
             var connectionString = ConfigurationManager.ConnectionStrings["SJ_Base"];
             if (connectionString == null)
             {
-                throw new Exception("Проверьте стоку соединения с базой данных");
+                throw new Exception("Проверьте строку соединения с базой данных");
             }
 
             var builder = new ContainerBuilder();
@@ -101,7 +99,7 @@ namespace SJOne.App_Start
             }
         }
 
-        public static void InitialData(ISessionFactory sessionFactory)
+        static void InitialData(ISessionFactory sessionFactory)
         {
             using ISession session = sessionFactory.OpenSession();
             var roleManager = new RoleManager(new RoleStore(session));
@@ -127,7 +125,7 @@ namespace SJOne.App_Start
                 roleManager.Create(role);
             }
 
-            
+
 
 
         }

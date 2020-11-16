@@ -383,3 +383,4 @@ C:\SJOne\SJOne\obj\Debug\SJOne.csprojAssemblyReference.cache
 C:\SJOne\SJOne\obj\Debug\SJOne.csproj.CopyComplete
 C:\SJOne\SJOne\obj\Debug\SJOne.dll
 C:\SJOne\SJOne\obj\Debug\SJOne.pdb
+C:\SJOne\SJOne\obj\Debug\SJOne.csproj.CoreCompileInputs.cache

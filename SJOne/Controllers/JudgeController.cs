@@ -12,7 +12,6 @@ using System.Web.Mvc;
 
 namespace SJOne.Controllers
 {
-
     public class JudgeController : BaseController
     {
         private RaceRepository raceRepository;
@@ -39,7 +38,7 @@ namespace SJOne.Controllers
         {
             var race = raceRepository.Get(id);
             if (race != null)
-            {
+            {                
                 JudgeListSettingsViewModel judgeListModel = new JudgeListSettingsViewModel();
 
                 judgeListModel.Id = id;
